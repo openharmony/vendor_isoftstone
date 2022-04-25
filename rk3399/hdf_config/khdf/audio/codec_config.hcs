@@ -1,0 +1,158 @@
+root {
+    platfrom {
+        template codec_controller {
+            match_attr = "";
+            serviceName = "";
+            codecDaiName = "";
+        }
+        controller_0x120c1030 :: codec_controller {
+            match_attr = "hdf_codec_driver";
+            serviceName = "codec_service_0";
+            codecDaiName = "codec_dai";
+        }
+        controller_0x120c1031 :: codec_controller {
+            match_attr = "hdf_codec_driver_ex";
+            serviceName = "codec_service_1";
+            codecDaiName = "codec_dai";
+            regConfig {
+                 /* reg: register address
+                    rreg: register address
+                    shift: shift bits
+                    rshift: rshift bits
+                    min: min value
+                    max: max value
+                    mask: mask of value
+                    invert: enum InvertVal 0-uninvert 1-invert
+                    value: value
+                */
+
+                /* reg, value */
+                resetSeqConfig = [
+                    0x00,    0x03
+                ];
+
+                /* reg, value */
+                initSeqConfig = [
+                    0x00,    0xC0, // es8316_reset
+                    0x01,    0x7F, // es8316_clkmgr_clksw
+                    0x02,    0x08, // es8316_clkmgr_clksel
+                    0x03,    0x20, // es8316_clkmgr_adcosr
+                    0x04,    0x11, // es8316_clkmgr_adcdiv1
+                    0x05,    0x00, // es8316_clkmgr_adcdiv2
+                    0x06,    0x11, // es8316_clkmgr_dacdiv1
+                    0x07,    0x00, // es8316_clkmgr_dacdiv2
+                    0x08,    0x00, // es8316_clkmgr_cpdiv
+                    0x09,    0x04, // es8316_serdata1
+                    0x0A,    0x0C, // es8316_serdata_adc
+                    0x0B,    0x0C, // es8316_serdata_dac
+                    0x0C,    0xFF, // es8316_sys_vmidsel
+                    0x0D,    0x00, // es8316_sys_pdn
+                    0x0E,    0x3F, // es8316_sys_lp1
+                    0x0F,    0x1F, // es8316_sys_lp2
+                    0x10,    0x11, // es8316_sys_vmidlow
+                    0x11,    0xFC, // es8316_sys_vsel
+                    0x12,    0x28, // es8316_sys_ref
+                    0x13,    0x00, // es8316_hpmix_sel
+                    0x14,    0x88, // es8316_hpmix_switch
+                    0x15,    0x00, // es8316_hpmix_pdn
+                    0x16,    0xBB, // es8316_hpmix_vol
+                    0x17,    0x66, // es8316_cphp_outen
+                    0x18,    0x00, // es8316_cphp_ical_vol
+                    0x19,    0x06, // es8316_cphp_pdn1
+                    0x1A,    0x22, // es8316_cphp_pdn2
+                    0x1B,    0x03, // es8316_cphp_ldoctl
+                    0x1C,    0x0F, // es8316_cal_type
+                    0x1D,    0x00, // es8316_cal_set
+                    0x1E,    0x90, // es8316_cal_hpliv
+                    0x1F,    0x90, // es8316_cal_hpriv
+                    0x20,    0x00, // es8316_cal_hplmv
+                    0x21,    0x00, // es8316_cal_hprmv
+                    0x22,    0x00, // es8316_adc_pdn_linsel
+                    0x23,    0x60, // es8316_adc_pgagain // mic gain
+                    0x24,    0x00, // es8316_adc_d2sepga
+                    0x25,    0x08, // es8316_adc_dmic
+                    0x26,    0x30, // es8316_adc_mute    // capture mute bit[5]
+                    0x27,    0x00, // es8316_adc_volume  // capture volume
+                    0x29,    0xCD, // es8316_adc_alc1
+                    0x2A,    0x08, // es8316_adc_alc2
+                    0x2B,    0xA0, // es8316_adc_alc3
+                    0x2C,    0x05, // es8316_adc_alc4
+                    0x2D,    0x06, // es8316_adc_alc5
+                    0x2E,    0x61, // es8316_adc_alc_ng
+                    0x2F,    0x00, // es8316_dac_pdn
+                    0x30,    0x30, // es8316_dac_set1 // output mute bit[5]
+                    0x31,    0x20, // es8316_dac_set2
+                    0x32,    0x00, // es8316_dac_set3
+                    0x33,    0x1A, // es8316_dac_voll // left output volume
+                    0x34,    0x1A, // es8316_dac_volr // right output volume
+                    0x35,    0x1F
+                ];
+
+                /* reg, rreg, shift, rshift, min, max, mask, invert, value */
+                ctrlParamsSeqConfig = [
+                    0x33,    0x34,    0,    0,    0x0,    0xC0,   0xFF,   1,    0x00, // output volume
+//                  0x27,    0x27,    0,    0,    0x0,    0xC0,   0xFF,   1,    0x00, // capture volume
+                    0x23,    0x23,    4,    4,    0x0,    0x0A,   0x0F,   0,    0x00, // capture volume(mic gain)
+                    0x30,    0x30,    5,    5,    0x0,    0x01,   0x01,   0,    0x00, // output mute
+                    0x26,    0x26,    5,    5,    0x0,    0x01,   0x01,   0,    0x00, // capture mute
+                    0x23,    0x23,    4,    4,    0x0,    0x0A,   0x0F,   0,    0x00, // mic left gain
+                    0x23,    0x23,    4,    4,    0x0,    0x0A,   0x0F,   0,    0x00, // mic right gain
+                    0x2F,    0x2F,    0,    0,    0x0,    0x11,   0x11,   0,    0x00, // output channel
+                    0x22,    0x22,    4,    4,    0x0,    0x03,   0x03,   0,    0x00  // capture channel
+                ];
+
+                /* reg, rreg, shift, rshift, min, max, mask, invert, value */
+                daiStartupSeqConfig = [
+                    0x22,    0x22,    0,    0,    0x0,    0xFF,   0xFF,    0,    0x00, // es8316_adc_pdn_linsel
+                    0x2F,    0x2F,    0,    0,    0x0,    0xFF,   0xFF,    0,    0x00, // es8316_dac_pdn
+                    0x26,    0x26,    0,    0,    0x0,    0xFF,   0xFF,    0,    0x10, // es8316_adc_mute(capture unmute)
+                    0x30,    0x30,    0,    0,    0x0,    0xFF,   0xFF,    0,    0x10  // es8316_dac_set1(output unmute)
+                ];
+
+                /* reg, rreg, shift, rshift, min, max, mask, invert, value 
+                   The top three are frequency, format and channel respectively, and the others are behind
+                */
+                daiParamsSeqConfig = [
+                    // playback input params (hal input)
+                    0x09,    0x09,    0,    0,    0x0,    0x0F,   0x0F,    0,    0x00, // i2s_frequency
+                    0x0B,    0x0B,    2,    2,    0x0,    0x04,   0x0F,    0,    0x00, // i2s_format
+                    0x2F,    0x2F,    0,    0,    0x0,    0x11,   0xFF,    0,    0x00, // i2s_channel
+                    // capture input params (hal input)
+                    0x09,    0x09,    0,    0,    0x0,    0x0F,   0x0F,    0,    0x00, // capture__frequency
+                    0x0A,    0x0A,    2,    2,    0x0,    0x04,   0x0F,    0,    0x00, // capture_format
+                    0x22,    0x22,    4,    4,    0x0,    0x03,   0x0F,    0,    0x00  // capture_channel
+                ];
+
+                /* reg, value */
+                getStatusSeqConfig = [
+                    0x4F,    0x0
+                ];
+
+                /*
+                    "Master Playback Volume",
+                    "Master Capture Volume",
+                    "Playback Mute",
+                    "Capture Mute",
+                    "Mic Left Gain",
+                    "Mic Right Gain",
+                    "External Codec Enable",
+                    "Internally Codec Enable",
+                    "Render Channel Mode",
+                    "Captrue Channel Mode"
+                */
+                /* array index, iface, enable */
+                controlsConfig = [
+                    0,  0,  1,
+                    1,  1,  1,
+                    2,  0,  1,
+                    3,  1,  1,
+                    4,  2,  1,
+                    5,  2,  1,
+                    8,  6,  1,
+                    9,  6,  1
+                ];
+           }
+        }
+
+    }
+}
