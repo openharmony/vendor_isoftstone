@@ -1,7 +1,7 @@
 {
   "product_name": "rk3399",
   "device_company": "rockchip",
-  "device_build_path": "device/board/isoftston/rk3399",
+  "device_build_path": "device/board/isoftstone/rk3399",
   "target_cpu": "arm",
   "type": "standard",
   "version": "3.0",
