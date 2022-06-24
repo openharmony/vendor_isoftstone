@@ -1,30 +1,36 @@
-- [vendor_isoftstone](#vendor_isoftstone)
-  - [介绍](#介绍)
-    - [软件架构](#软件架构)
-  - [贡献](#贡献)
-  - [相关仓](#相关仓)
 # vendor_isoftstone
 
-## 介绍
-该仓库托管Isoftstone产品：主要包含基于RK3399开发板的配置参数
-### 软件架构
-```
-.
-├── README.md                       # README文档
-└── rk3399                          # rk3399相关配置
-    ├── hals                        # hal层相关配置
-    └── hdf_config                  # hdf相关配置
-```
+#### Description
+{**When you're done, you can delete the content in this README and update the file with details for others getting started with your repository**}
+
+#### Software Architecture
+Software architecture description
+
+#### Installation
+
+1.  xxxx
+2.  xxxx
+3.  xxxx
+
+#### Instructions
+
+1.  xxxx
+2.  xxxx
+3.  xxxx
+
+#### Contribution
+
+1.  Fork the repository
+2.  Create Feat_xxx branch
+3.  Commit your code
+4.  Create Pull Request
 
 
-## 贡献
+#### Gitee Feature
 
-[如何参与](https://gitee.com/openharmony/docs/blob/HEAD/zh-cn/contribute/%E5%8F%82%E4%B8%8E%E8%B4%A1%E7%8C%AE.md)
-
-[Commit message规范](https://gitee.com/openharmony/device_qemu/wikis/Commit%20message%E8%A7%84%E8%8C%83?sort_id=4042860)
-
-## 相关仓
-
-* [device/board/isoftstone](https://gitee.com/openharmony-sig/device_board_isoftstone)
-
-
+1.  You can use Readme\_XXX.md to support different languages, such as Readme\_en.md, Readme\_zh.md
+2.  Gitee blog [blog.gitee.com](https://blog.gitee.com)
+3.  Explore open source project [https://gitee.com/explore](https://gitee.com/explore)
+4.  The most valuable open source project [GVP](https://gitee.com/gvp)
+5.  The manual of Gitee [https://gitee.com/help](https://gitee.com/help)
+6.  The most popular members  [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
