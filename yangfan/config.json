@@ -1,11 +1,11 @@
 {
-  "product_name": "rk3399",
+  "product_name": "yangfan",
   "device_company": "rockchip",
-  "device_build_path": "device/board/isoftstone/rk3399",
+  "device_build_path": "device/board/isoftstone/yangfan",
   "target_cpu": "arm",
   "type": "standard",
   "version": "3.0",
-  "board": "rk3399",
+  "board": "yangfan",
   "enable_ramdisk": false,
   "build_selinux": false,
   "subsystems": [
