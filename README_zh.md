@@ -11,7 +11,10 @@
 ```
 .
 ├── README.md                       # README文档
-└── rk3399                          # rk3399相关配置
+└── yangfan                         # 扬帆相关配置
+    ├── hals                        # hal层相关配置
+    └── hdf_config                  # hdf相关配置
+└── zhiyuan                         # 致远相关配置	
     ├── hals                        # hal层相关配置
     └── hdf_config                  # hdf相关配置
 ```
