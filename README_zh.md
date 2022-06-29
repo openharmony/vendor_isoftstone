@@ -11,7 +11,7 @@
 ## 目录
 
 ```
-vendor/isoftstone/    		       		# vendor_isoftstone 仓库路径
+vendor/isoftstone/    		       	# vendor_isoftstone 仓库路径
 ├── README.md                       # README文档
 └── yangfan                         # 扬帆相关配置
     ├── hals                        # hal层相关配置
@@ -25,7 +25,7 @@ vendor/isoftstone/    		       		# vendor_isoftstone 仓库路径
 
 扬帆使用参考 [使用教程](https://gitee.com/openharmony-sig/device_board_isoftstone/blob/master/yangfan/README_zh.md)
 
-致远使用参考 [使用教程](https://gitee.com/openharmony-sig/device_board_isoftstone/blob/master/致远/README_zh.md)
+致远使用参考 [使用教程](https://gitee.com/openharmony-sig/device_board_isoftstone/blob/master/zhiyuan/README_zh.md)
 
 
 ## 贡献
