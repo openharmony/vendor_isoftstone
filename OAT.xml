@@ -31,9 +31,13 @@
             </filefilter>
             <filefilter name="defaultPolicyFilter" desc="Filters for compatibility，license header policies">
                 <filteritem type="filepath" name="yangfan/bluetooth/BUILD.gn" desc=""/>
-            </filefilter>
+                <filteritem type="filepath" name="zhiyuan/hdf_config/khdf/hdf_test/.modules.order.cmd" desc=""/>
+                <filteritem type="filepath" name="zhiyuan/power_config/power_mode_config.xml" desc=""/>
+				</filefilter>
             <filefilter name="copyrightPolicyFilter" desc="Filters for copyright header policies">
                 <filteritem type="filepath" name="yangfan/bluetooth/BUILD.gn" desc=""/>
+                <filteritem type="filepath" name="zhiyuan/power_config/power_mode_config.xml" desc=""/>
+                <filteritem type="filepath" name="zhiyuan/hdf_config/khdf/hdf_test/.modules.order.cmd" desc=""/>				
             </filefilter>
             <filefilter name="binaryFileTypePolicyFilter" desc="Filters for binary file policies">
                 <filteritem type="filepath" name="yangfan/bluetooth/BCM4343A1.hcd" desc=""/>

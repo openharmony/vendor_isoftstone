@@ -1,11 +1,11 @@
 {
   "product_name": "t507_pines",
   "device_company": "allwinner",
-  "device_build_path": "device/soc/allwinner/build",
+  "device_build_path": "device/board/seed/t507_pines",
   "target_cpu": "arm",
   "type": "standard",
   "version": "3.0",
-  "board": "evb_oh1",
+  "board": "t507_pines",
   "enable_ramdisk": false,
   "build_selinux": false,
   "subsystems": [
