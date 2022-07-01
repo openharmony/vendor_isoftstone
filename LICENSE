@@ -1,3 +1,29 @@
+vendor/isoftstone/yangfan - Store the original code of yangfan board
+The bluetooth/src directory is licensed under Apache License, Version 2.0.
+The product.gni and  hals/audio/product.gni file are licensed under Apache License, Version 2.0.
+The hdf_config/khdf/Makefile file is is licensed under the terms of the GPL V2.
+
+vendor/isoftstone/zhiyuan - Store the original code of zhiyuan board
+The product.gni and  hals/audio/product.gni file are licensed under Apache License, Version 2.0
+The hdf_config/khdf/Makefile file is is licensed under the terms of the GPL V2.
+
+a) GNU General Public License version 2, (https://opensource.org/licenses/GPL-2.0)
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 2 of the
+License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public
+License along with this library; if not, write to the Free
+Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston,
+MA 02110-1301 USA
+
+b) The Apache License, Version 2.0, (https://www.apache.org/licenses/LICENSE-2.0)
                                  Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/

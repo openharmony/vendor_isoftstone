@@ -13,7 +13,7 @@
       "subsystem": "arkui",
       "components": [
         {
-          "component": "ace_engine_standard",
+          "component": "ace_engine",
           "features": []
         },
         {
@@ -48,11 +48,7 @@
           "features": []
         },
         {
-          "component": "dataability",
-          "features": []
-        },
-        {
-          "component": "preferences",
+          "component": "preference",
           "features": []
         },
         {
@@ -111,10 +107,6 @@
       "subsystem": "security",
       "components": [
         {
-          "component": "permission_standard",
-          "features": []
-        },
-        {
           "component": "appverify",
           "features": []
         },
@@ -127,7 +119,7 @@
           "features": []
         },
         {
-          "component": "deviceauth_standard",
+          "component": "device_auth",
           "features": []
         },
         {
@@ -283,7 +275,7 @@
       ]
     },
     {
-      "subsystem": "aafwk",
+      "subsystem": "ability",
       "components": [
         {
           "component": "ability_runtime",
@@ -294,11 +286,11 @@
           "features": []
         },
         {
-          "component": "idl",
+          "component": "idl_tool",
           "features": []
         },
         {
-          "component": "form_runtime",
+          "component": "form_fwk",
           "features": []
         },
         {
@@ -356,13 +348,13 @@
           "features": []
         },
         {
-          "component": "dsoftbus_standard",
+          "component": "dsoftbus",
           "features": [
-            "dsoftbus_standard_feature_conn_p2p = true",
-            "dsoftbus_standard_feature_disc_ble = true",
-            "dsoftbus_standard_feature_conn_br = true",
-            "dsoftbus_standard_feature_conn_ble = true",
-            "dsoftbus_standard_feature_trans_udp_stream = true"
+            "dsoftbus_feature_conn_p2p = true",
+            "dsoftbus_feature_disc_ble = true",
+            "dsoftbus_feature_conn_br = true",
+            "dsoftbus_feature_conn_ble = true",
+            "dsoftbus_feature_trans_udp_stream = true"
           ]
         },
         {
@@ -446,143 +438,189 @@
       "subsystem": "hdf",
       "components": [
         {
-          "component": "device_driver_framework",
+          "component": "hdf_core",
           "features": []
         },
         {
-          "component": "bluetooth_device_driver",
+          "component": "drivers_peripheral_bluetooth",
           "features": []
         },
         {
-          "component": "input_device_driver",
+          "component": "drivers_peripheral_input",
           "features": []
         },
         {
-          "component": "display_device_driver",
+          "component": "drivers_peripheral_display",
           "features": []
         },
         {
-          "component": "thermal_device_driver",
+          "component": "drivers_peripheral_thermal",
           "features": []
         },
         {
-          "component": "wlan_device_driver",
+          "component": "drivers_peripheral_wlan",
           "features": []
         },
         {
-          "component": "sensor_device_driver",
+          "component": "drivers_peripheral_sensor",
           "features": []
         },
         {
-          "component": "motion_device_driver",
+          "component": "drivers_peripheral_motion",
           "features": []
         },
         {
-          "component": "audio_device_driver",
+          "component": "drivers_peripheral_audio",
+          "features": [
+            "drivers_peripheral_audio_feature_mono_to_stereo = true"
+          ]
+        },
+        {
+          "component": "drivers_peripheral_usb",
           "features": []
         },
         {
-          "component": "usb_device_driver",
+          "component": "drivers_peripheral_camera",
           "features": []
         },
         {
-          "component": "camera_device_driver",
+          "component": "drivers_peripheral_light",
           "features": []
         },
         {
-          "component": "light_device_driver",
+          "component": "drivers_peripheral_vibrator",
           "features": []
         },
         {
-          "component": "vibrator_device_driver",
+          "component": "drivers_peripheral_codec",
           "features": []
         },
         {
-          "component": "codec_device_driver",
+          "component": "drivers_peripheral_power",
           "features": []
         },
         {
-          "component": "power_device_driver",
+          "component": "drivers_peripheral_battery",
           "features": []
         },
         {
-          "component": "battery_device_driver",
+          "component": "drivers_interface_sensor",
           "features": []
         },
         {
-          "component": "sensor_device_driver_interface",
+          "component": "drivers_interface_motion",
           "features": []
         },
         {
-          "component": "motion_device_driver_interface",
+          "component": "drivers_interface_light",
           "features": []
         },
         {
-          "component": "light_device_driver_interface",
+          "component": "drivers_interface_vibrator",
           "features": []
         },
         {
-          "component": "vibrator_device_driver_interface",
+          "component": "drivers_interface_power",
           "features": []
         },
         {
-          "component": "power_device_driver_interface",
+          "component": "drivers_interface_battery",
           "features": []
         },
         {
-          "component": "battery_device_driver_interface",
+          "component": "drivers_interface_thermal",
           "features": []
         },
         {
-          "component": "thermal_device_driver_interface",
+          "component": "drivers_peripheral_pin_auth",
           "features": []
         },
         {
-          "component": "pin_auth_device_driver",
+          "component": "drivers_interface_pin_auth",
           "features": []
         },
         {
-          "component": "pin_auth_device_driver_interface",
+          "component": "drivers_peripheral_face_auth",
           "features": []
         },
         {
-          "component": "face_auth_device_driver",
+          "component": "drivers_interface_face_auth",
           "features": []
         },
         {
-          "component": "face_auth_device_driver_interface",
+          "component": "drivers_peripheral_user_auth",
           "features": []
         },
         {
-          "component": "user_auth_device_driver",
+          "component": "drivers_interface_user_auth",
           "features": []
         },
         {
-          "component": "user_auth_device_driver_interface",
+          "component": "drivers_peripheral_fingerprint_auth",
           "features": []
         },
         {
-          "component": "fingerprint_auth_device_driver",
+          "component": "drivers_interface_fingerprint_auth",
           "features": []
         },
         {
-          "component": "fingerprint_auth_device_driver_interface",
+          "component": "drivers_interface_input",
           "features": []
         },
         {
-          "component": "input_device_driver_interface",
+          "component": "drivers_peripheral_memorytracker",
           "features": []
         },
         {
-          "component": "memorytracker_device_driver",
+          "component": "drivers_interface_memorytracker",
           "features": []
         },
         {
-          "component": "memorytracker_device_driver_interface",
+          "component": "drivers_interface_wlan",
           "features": []
         },
         {
-          "component": "wlan_device_driver_interface",
+          "component": "drivers_interface_location_agnss",
+          "features": []
+        },
+        {
+          "component": "drivers_interface_location_geofence",
+          "features": []
+        },
+        {
+          "component": "drivers_interface_location_gnss",
+          "features": []
+        },
+        {
+          "component": "drivers_peripheral_location_agnss",
+          "features": []
+        },
+        {
+          "component": "drivers_peripheral_location_geofence",
+          "features": []
+        },
+        {
+          "component": "drivers_peripheral_location_gnss",
+          "features": []
+        },
+        {
+          "component": "drivers_interface_usb",
+          "features": []
+        },
+        {
+          "component": "ril_device_driver_interface",
+          "features": []
+        },
+        {
+          "component": "drivers_peripheral_display_interface",
+          "features": []
+        },
+        {
+          "component": "drivers_peripheral_distributed_camera",
+          "features": []
+        },
+        {
+          "component": "drivers_interface_distributed_camera",
           "features": []
         }
       ]
@@ -674,7 +712,7 @@
           "features": []
         },
         {
-          "component": "user_auth",
+          "component": "user_auth_framework",
           "features": []
         },
         {
@@ -724,7 +762,7 @@
           "features": []
         },
         {
-          "component": "multimedia_audio_standard",
+          "component": "multimedia_audio_framework",
           "features": []
         },
         {
@@ -908,7 +946,7 @@
       "subsystem": "distributedhardware",
       "components": [
         {
-          "component": "device_manager_base",
+          "component": "device_manager",
           "features": []
         },
         {
