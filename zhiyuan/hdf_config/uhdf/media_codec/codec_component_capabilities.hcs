@@ -1,0 +1,135 @@
+root {
+    module = "master";
+    codec_config {
+        match_attr = "codec_component_capabilities";
+        use_openmax = true;
+        // capsMask: 0x01, Adaptive playback; 0x02, Secure playback; 0x04, Tunnel playback.
+        // allocateMask: 0x01, Input buffer allocated within the Codec module;
+        // allocateMask: 0x02, Input buffer allocated by an external user;
+        // allocateMask: 0x04, Output buffer allocated within the Codec module;
+        // allocateMask: 0x08, Output buffer allocated by an external user.
+
+        VideoHwEncoders {
+            /* node name explaination -- HDF_video_hw_enc_avc_aw：
+            **
+            **    OMX____________video__________________hw____________________enc____________avc_______seed
+            **     |               |                    |                      |              |        |
+            ** HDF or OMX    video or audio    hardware or software    encoder or decoder    mime    vendor
+            */
+            HDF_video_hw_enc_avc_aw {
+                role = 1;
+                type = 1;
+                name = "OMX.allwinner.video.encoder.avc";
+                supportProfiles = [1, 32768, 2, 32768, 8, 32768];
+                maxInst = 4;
+                isSoftwareCodec = false;
+                processModeMask = [];
+                capsMask = [0x01];
+                minBitRate = 1;
+                maxBitRate = 60000000;
+                minWidth = 176;
+                minHeight = 144;
+                maxWidth = 1920;
+                maxHeight = 1080;
+                widthAlignment = 16;
+                heightAlignment = 2;
+                minBlockCount = 0xFFFFFFFF;
+                maxBlockCount = 0xFFFFFFFF;
+                minBlocksPerSecond = 1;
+                maxBlocksPerSecond = 489600;
+                blockSizeWidth = 16;
+                blockSizeHeight = 16;
+                supportPixelFmts = [21, 20, 22, 23, 24, 25, 26, 27, 28, 15, 16, 19];
+            }
+        }
+        VideoHwDecoders {
+            HDF_video_hw_dec_mjpeg_aw {
+                role = 0;
+                type = 0;
+                name = "OMX.allwinner.video.decoder.mjpeg";
+                supportProfiles = [];
+                maxInst = 4;
+                isSoftwareCodec = false;
+                processModeMask = [];
+                capsMask = [0x01];
+                minBitRate = 1;
+                maxBitRate = 300000000;
+                minWidth = 32;
+                minHeight = 32;
+                maxWidth = 1920;
+                maxHeight = 1080;
+                widthAlignment = 2;
+                heightAlignment = 2;
+                minBlockCount = 0xFFFFFFFF;
+                maxBlockCount = 0xFFFFFFFF;
+                minBlocksPerSecond = 1;
+                maxBlocksPerSecond = 489600;
+                blockSizeWidth = 16;
+                blockSizeHeight = 16;
+                supportPixelFmts = [21, 19];
+            }
+            HDF_video_hw_dec_avc_aw {
+                role = 1;
+                type = 0;
+                name = "OMX.allwinner.video.decoder.avc";
+                supportProfiles = [1, 32768, 2, 32768, 8, 32768];
+                maxInst = 4;
+                isSoftwareCodec = false;
+                processModeMask = [];
+                capsMask = [0x01];
+                minBitRate = 1;
+                maxBitRate = 60000000;
+                minWidth = 64;
+                minHeight = 64;
+                maxWidth = 4096;
+                maxHeight = 2160;
+                widthAlignment = 2;
+                heightAlignment = 2;
+                minBlockCount = 0xFFFFFFFF;
+                maxBlockCount = 0xFFFFFFFF;
+                minBlocksPerSecond = 1;
+                maxBlocksPerSecond = 489600;
+                blockSizeWidth = 16;
+                blockSizeHeight = 16;
+                supportPixelFmts = [21, 19];
+            }
+            HDF_video_hw_dec_hevc_aw {
+                role = 2;
+                type = 0;
+                name = "OMX.allwinner.video.decoder.hevc";
+                supportProfiles = [1, 1, 1, 4, 1, 16, 1, 64, 1, 256, 1, 1024, 1, 4096, 1, 16384, 1, 65536, 2, 65536];
+                maxInst = 4;
+                isSoftwareCodec = false;
+                processModeMask = [];
+                capsMask = [0x01];
+                minBitRate = 1;
+                maxBitRate = 60000000;
+                minWidth = 176;
+                minHeight = 144;
+                maxWidth = 6144;
+                maxHeight = 3160;
+                widthAlignment = 2;
+                heightAlignment = 2;
+                minBlockCount = 0xFFFFFFFF;
+                maxBlockCount = 0xFFFFFFFF;
+                minBlocksPerSecond = 1;
+                maxBlocksPerSecond = 489600;
+                blockSizeWidth = 16;
+                blockSizeHeight = 16;
+                supportPixelFmts = [21, 19];
+            }
+        }
+        VideoSwEncoders {
+        }
+        VideoSwDecoders {
+        }
+        AudioHwEncoders {
+        }
+        AudioHwDecoders {
+        }
+        AudioSwEncoders {
+        }
+        AudioSwDecoders {
+        }
+    }
+}
