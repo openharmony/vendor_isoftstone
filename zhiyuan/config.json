@@ -1,7 +1,7 @@
 {
   "product_name": "t507_pines",
   "device_company": "allwinner",
-  "device_build_path": "device/board/seed/t507_pines",
+  "device_build_path": "device/board/isoftstone/zhiyuan",
   "target_cpu": "arm",
   "type": "standard",
   "version": "3.0",
