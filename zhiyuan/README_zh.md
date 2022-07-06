@@ -30,6 +30,6 @@ vendor/zhiyuan/
 
 ## 相关仓
 
-[device/soc/allwinner](https://gitee.com/openharmony-sig/device_soc_allwinner)
+[device/soc/allwinner](https://gitee.com/openharmony/device_soc_allwinner)
 
-[device/board/seed](https://gitee.com/openharmony-sig/device_board_seed)
+[device/board/isoftstone](https://gitee.com/openharmony/device_board_isoftstone)
