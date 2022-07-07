@@ -32,6 +32,9 @@
         bluetooth :: host {
             hostName = "blue_host";
             priority = 50;
+            uid = "root";
+            gid = "system";
+            caps = ["DAC_OVERRIDE", "DAC_READ_SEARCH"];
             bluetooth_device :: device {
                 device0 :: deviceNode {
                     policy = 2;
@@ -44,6 +47,9 @@
         audio_bluetooth :: host {
             hostName = "a2dp_host";
             priority = 50;
+            uid = "root";
+            gid = "system";
+            caps = ["DAC_OVERRIDE", "DAC_READ_SEARCH"];
             bluetooth_device :: device {
                 device0 :: deviceNode {
                     policy = 2;
