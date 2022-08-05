@@ -24,6 +24,7 @@
             <policy name="projectPolicy" desc="">
                 <policyitem type="copyright" name="Broadcom Corporation" path=".*" desc=""/>
                 <policyitem type="copyright" name="iSoftStone Device Co., Ltd." path=".*" desc=""/>        
+                <policyitem type="copyright" name="iSoftStone Information Technology (Group) Co.,Ltd." path=".*" desc=""/>  
 	        </policy>
         </policylist>
         <filefilterlist>
