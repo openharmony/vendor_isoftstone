@@ -1,0 +1,55 @@
+/*
+# Copyright (c) 2020-2030 iSoftStone Information Technology (Group) Co.,Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+*/
+
+{
+  "string": [
+    {
+      "name": "entry_desc",
+      "value": "description"
+    },
+    {
+      "name": "MainAbility_desc",
+      "value": "description"
+    },
+    {
+      "name": "MainAbility_label",
+      "value": "label"
+    },
+    {
+      "name": "airQuality",
+      "value": "空气质量"
+    },
+    {
+      "name": "switchCity",
+      "value": "切换城市"
+    },
+    {
+      "name": "seeMore",
+      "value": "查看更多天气>"
+    },
+    {
+      "name": "cityManagement",
+      "value": "城市管理"
+    },
+    {
+      "name": "SelectCity",
+      "value": "请选择所要切换的城市："
+    },
+    {
+      "name": "back",
+      "value": "返回"
+    }
+
+  ]
+}
