@@ -1,9 +1,9 @@
 root {
     wlan_config {
-        hi3881 :& chipList {
-            chipHi3881 :: chipInst {
-                match_attr = "hdf_wlan_chips_hi3881";
-                driverName = "hisi";
+        ap6275s :& chipList {
+            chipAp6275s :: chipInst {
+                match_attr = "hdf_wlan_chips_ap6275s";
+                driverName = "ap6275s";
                 bus {
                     vendorId = 0x0296;
                     deviceId = [0x5347];
