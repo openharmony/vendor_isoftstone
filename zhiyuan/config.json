@@ -61,9 +61,7 @@
         },
         {
           "component": "kv_store",
-          "features": [
-            "kv_store_build_lite"
-          ]
+          "features": []
         },
         {
           "component": "datamgr_service",
