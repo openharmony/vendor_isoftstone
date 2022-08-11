@@ -1,0 +1,54 @@
+/*
+# Copyright (c) 2020-2030 iSoftStone Information Technology (Group) Co.,Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+*/
+
+{
+  "app": {
+    "signingConfigs": [
+      {
+        "name": "default",
+        "material": {
+          "storePassword": "00000018D7761999D94C4C493704EDC0115FDE249E2BB7EE72048A52087114A47CBF11F277BF116E",
+          "certpath": "E:/05.openHarmonyHaps/signature/core/inputcore.cer",
+          "keyAlias": "inputcore",
+          "keyPassword": "00000018202E6CBE3F2F369E80596FA0B8E086933539392D6CCF68BD7EC074813802646771DC96BD",
+          "profile": "E:/05.openHarmonyHaps/signature/core/inputcore.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "E:/05.openHarmonyHaps/signature/core/inputcore.p12"
+        }
+      }
+    ],
+    "compileSdkVersion": 8,
+    "compatibleSdkVersion": 8,
+    "products": [
+      {
+        "name": "default",
+        "signingConfig": "default",
+      }
+    ]
+  },
+  "modules": [
+    {
+      "name": "entry",
+      "srcPath": "./entry",
+      "targets": [
+        {
+          "name": "default",
+          "applyToProducts": [
+            "default"
+          ]
+        }
+      ]
+    }
+  ]
+}
