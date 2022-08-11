@@ -1,0 +1,102 @@
+/*
+# Copyright (c) 2020-2030 iSoftStone Information Technology (Group) Co.,Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+*/
+
+<div class="container" onswipe = "touchMove">
+    <div>
+        <text class="titles">Test hap</text>
+    </div>
+    <div class="lists">
+        <list scrollpage="true" scrollbar="auto" updateeffect="true">
+            <block for="{{ (index, value) in infoList }}" tid="id">
+                <list-item >
+                    <text class="list_item">{{index}}.{{ value }}</text>
+                </list-item>
+            </block>
+        </list>
+    </div>
+
+<!--    <div class="input-item">-->
+<!--        <div class="color">-->
+<!--            <text class="input-title">input</text>-->
+<!--            <input id="input1" focusable="true" class="input-text" type="text" value="" placeholder="please input"></input>-->
+<!--        </div>-->
+<!--    </div>-->
+
+    <tabs class="tabs" onchange="tabChange">
+        <tab-bar class="tabBar">
+            <text class="tabBarItem">Pointer</text>
+            <text class="tabBarItem">Consumer</text>
+            <text class="tabBarItem">Monitor</text>
+            <text class="tabBarItem">Device</text>
+        </tab-bar>
+        <tab-content class="tabContent">
+            <div class="tabContentItem">
+                <div class="circleall">
+                    <button class="btn" @click="ShowPointer"> ShowPointer </button>
+                    <button class="btn" @click="isPointerCallback"> isPointerCallback </button>
+                </div>
+                <div class="circleall">
+                    <button class="btn" @click="HidePointer"> HidePointer </button>
+                    <button class="btn" @click="isPointerThen"> isPointer.Then </button>
+                </div>
+                <div class="circleall">
+                    <button class="btn" @click="onRunCmd"> runCmd </button>
+                </div>
+            </div>
+            <div class="tabContentItem" >
+                <div class="circleall">
+                    <button class="btn" @click="onClickConsumerOn"> Monitor-on </button>
+                    <button class="btn" @click="onClickConsumerOff"> Monitor-off </button>
+                </div>
+                <div class="circleall">
+                    <button class="btn" @click="onClickInjectKey"> Inject-A </button>
+                </div>
+            </div>
+            <div class="tabContentItem" >
+                <div class="circleall">
+                    <button class="btn" @click="touchMonitorOn"> Touch-on </button>
+                    <button class="btn" @click="touchMonitorOff"> Touch-off </button>
+                </div>
+                <div class="circleall">
+                    <button class="btn" @click="mouseMonitorOn"> Mouse-on </button>
+                    <button class="btn" @click="mouseMonitorOff"> Mouse-off </button>
+                </div>
+            </div>
+            <div class="tabContentItem" >
+                <div class="circleall">
+                    <button class="btn" @click="onClickDeviceIds"> GetDeviceIds </button>
+                    <button class="btn" @click="onClickGetDevice"> GetDevice </button>
+                </div>
+                <div class="circleall">
+                    <button class="btn" @click="onSupportKeys"> SupportKeys </button>
+                    <button class="btn" @click="onGetKeyboardType"> GetKeyboardType </button>
+                </div>
+                <div class="circleall">
+                    <button class="btn" @click="onInputDeviceOn"> On </button>
+                    <button class="btn" @click="onInputDeviceOff"> Off </button>
+                </div>
+                <div class="circleall">
+                    <button class="btn" @click="onInputDeviceOnMultithread"> OnMultithread </button>
+                </div>
+            </div>
+        </tab-content>
+    </tabs>
+    <div class="btn-group">
+        <div class="circleall">
+            <button class="btn" @click="onClickBack"> Back </button>
+            <button class="btn" @click="onClickClear"> Clear </button>
+        </div>
+    </div>
+</div>
+

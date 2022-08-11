@@ -1,0 +1,100 @@
+/*
+# Copyright (c) 2020-2030 iSoftStone Information Technology (Group) Co.,Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+*/
+
+{
+    "app": {
+        "bundleName": "com.example.inputcore",
+        "vendor": "example",
+        "apiVersion": {
+            "compatible": 8,
+            "target": 8,
+            "releaseType": "Beta1"
+        },
+        "version": {
+            "code": 1000000,
+            "name": "1.0.0"
+        }
+    },
+    "deviceConfig": {
+        "default": {
+            "debug": true
+        }
+    },
+    "module": {
+        "name": ".MyApplication",
+        "deviceType": [
+            "phone"
+        ],
+        "distro": {
+            "deliveryWithInstall": true,
+            "moduleName": "entry",
+            "moduleType": "entry",
+            "installationFree": false
+        },
+        "abilities": [
+            {
+                "name": "com.example.inputcore.MainAbility",
+                "description": "$string:description_mainability",
+                "icon": "$media:icon",
+                "label": "$string:entry_MainAbility",
+                "type": "page",
+                "launchType": "standard",
+                "orientation": "unspecified",
+                "visible": true,
+                "skills": [
+                    {
+                        "actions": [
+                            "action.system.home"
+                        ],
+                        "entities": [
+                            "entity.system.home"
+                        ]
+                    }
+                ],
+                "formsEnabled": false,
+                "srcPath": "MainAbility",
+                "srcLanguage": "js",
+                "homeAbility": true
+            }
+        ],
+        "js": [
+            {
+                "name": ".MainAbility",
+                "pages": [
+                    "pages/index/index",
+                    "pages/second/second"
+                ],
+                "window": {
+                    "designWidth": 720,
+                    "autoDesignWidth": false
+                }
+            }
+        ],
+        "reqPermissions": [
+            {
+                "name": "ohos.permission.INPUT_MONITORING",
+                "reason": "need permission",
+                "usedScene": {
+                    "ability": [
+                        ".MainAbility"
+                    ],
+                    "when": "always"
+                }
+            }
+        ],
+        "mainAbility": ".MainAbility",
+        "package": "com.example.inputcore",
+        "srcPath": ""
+    }
+}

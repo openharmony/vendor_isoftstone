@@ -1,0 +1,120 @@
+/*
+# Copyright (c) 2020-2030 iSoftStone Information Technology (Group) Co.,Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+*/
+
+{
+    "app" : 
+    {
+        "apiVersion" : 
+        {
+            "compatible" : 8,
+            "releaseType" : "Release",
+            "target" : 8
+        },
+        "bundleName" : "com.example.inputcore",
+        "vendor" : "example",
+        "version" : 
+        {
+            "code" : 1000000,
+            "name" : "1.0.0"
+        }
+    },
+    "deviceConfig" : 
+    {
+        "default" : 
+        {
+            "debug" : true
+        }
+    },
+    "module" : 
+    {
+        "abilities" : 
+        [
+            {
+                "description" : "$string:MainAbility_desc",
+                "descriptionId" : 16777216,
+                "formsEnabled" : false,
+                "icon" : "$media:icon",
+                "iconId" : 16777220,
+                "label" : "$string:MainAbility_label",
+                "labelId" : 16777217,
+                "launchType" : "standard",
+                "name" : ".MainAbility",
+                "orientation" : "unspecified",
+                "skills" : 
+                [
+                    {
+                        "actions" : 
+                        [
+                            "action.system.home"
+                        ],
+                        "entities" : 
+                        [
+                            "entity.system.home"
+                        ]
+                    }
+                ],
+                "srcLanguage" : "js",
+                "srcPath" : "MainAbility",
+                "type" : "page",
+                "visible" : true
+            }
+        ],
+        "deviceType" : 
+        [
+            "default",
+            "tablet"
+        ],
+        "distro" : 
+        {
+            "deliveryWithInstall" : true,
+            "installationFree" : false,
+            "moduleName" : "entry",
+            "moduleType" : "entry",
+            "virtualMachine" : "ark0.0.0.2"
+        },
+        "js" : 
+        [
+            {
+                "name" : ".MainAbility",
+                "pages" : 
+                [
+                    "pages/index/index"
+                ],
+                "window" : 
+                {
+                    "autoDesignWidth" : false,
+                    "designWidth" : 720
+                }
+            }
+        ],
+        "mainAbility" : ".MainAbility",
+        "name" : ".entry",
+        "package" : "com.example.entry",
+        "reqPermissions" : 
+        [
+            {
+                "name" : "ohos.permission.INPUT_MONITORING",
+                "reason" : "need permission",
+                "usedScene" : 
+                {
+                    "ability" : 
+                    [
+                        ".MainAbility"
+                    ],
+                    "when" : "always"
+                }
+            }
+        ]
+    }
+}
