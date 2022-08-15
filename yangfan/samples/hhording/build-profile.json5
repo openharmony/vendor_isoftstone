@@ -1,0 +1,54 @@
+/*
+# Copyright (c) 2020-2030 iSoftStone Information Technology (Group) Co.,Ltd.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+*/
+
+{
+  "app": {
+    "signingConfigs": [
+      {
+        "name": "default",
+        "material": {
+          "certpath": "C:\\Users\\jhgaoq\\.ohos\\config\\openharmony\\auto_ohos.cer",
+          "storePassword": "00000018A3CA71272D3C9BDF5A6DDB1C14183C0A0D8CBE7093E01457EE9890DD0B530DFC6FD4B470",
+          "keyAlias": "debugKey",
+          "keyPassword": "00000018E0C91FE30F50050E7F33F173C5B7B7F370E0266A4B453C2354EA507DFA00431D3557D61F",
+          "profile": "C:\\Users\\jhgaoq\\.ohos\\config\\openharmony\\auto_ohos_default_com.example.hhordering2.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "C:\\Users\\jhgaoq\\.ohos\\config\\openharmony\\auto_ohos.p12"
+        }
+      }
+    ],
+    "compileSdkVersion": 8,
+    "compatibleSdkVersion": 8,
+    "products": [
+      {
+        "name": "default",
+        "signingConfig": "default",
+      }
+    ]
+  },
+  "modules": [
+    {
+      "name": "entry",
+      "srcPath": "./entry",
+      "targets": [
+        {
+          "name": "default",
+          "applyToProducts": [
+            "default"
+          ]
+        }
+      ]
+    }
+  ]
+}
