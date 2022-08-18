@@ -1,0 +1,42 @@
+#!/bin/bash
+# SPDX-License-Identifier: GPL-2.0
+# Copyright (c) 2022 iSoftstone Rockchip Electronics Co., Ltd.
+
+set -e
+
+usage() {
+	cat >&2 << USAGE
+usage: $0 [-H] --dtb DTB
+
+optional arguments:
+  -H, --help            show this help message and exit
+  --dtb DTB             the dtb file name
+USAGE
+}
+
+function move_dtb_file() {
+	cd $SRC_DIR
+	mv $OBJ_FILE $PRC_FILE $OBJ_DIR
+	cd -
+}
+
+# Parse command-line arguments
+while [ $# -gt 0 ]; do
+	case $1 in
+		--mv)
+			SRC_DIR=$2
+			OBJ_DIR=$3
+			OBJ_FILE=$4
+			PRC_FILE=$5
+			move_dtb_file
+			shift 5
+			;;
+		-H | --help)
+			usage
+			exit 0
+			;;
+		*)
+			shift
+			;;
+		esac
+done
