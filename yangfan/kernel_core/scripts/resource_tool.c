@@ -17,21 +17,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <sys/stat.h>
 #include <time.h>
 
-#define NUM2 2
-#define NUM3 3
-#define NUM4 4
-#define NUM5 5
-#define NUM6 6
-#define NUM7 7
-#define NUM8 8
-#define NUM16 16
-#define NUM24 24
-#define NUM29 29
-#define NUM56 56
-#define NUM64 64
+#define NUM120 120
+#define NUM28 28
+enum NumBer {
+    NUM0, NUM1, NUM2, NUM3, NUM4, NUM5 , NUM6, NUM7, NUM8, NUM9, NUM10, 
+    NUM11, NUM12, NUM13, NUM14, NUM15, NUM16, NUM17, NUM18, NUM19, NUM20,
+    NUM21, NUM22, NUM23, NUM24, NUM25, NUM30 = 30, NUM31, NUM32,
+    NUM40 = 40, NUM41, NUM42, NUM43, NUM44,
+    NUM60 = 60,NUM61, NUM62, NUM63, NUM64,
+}
 /**
  * \brief      SHA-1 context structure
  */
@@ -48,10 +44,10 @@ typedef struct {
 
 static uint32_t get_unit32_be(uint32_t n, unsigned char b[], int i)
 {
-    (n) = ( (unsigned long) (b)[(i)    ] << 24 ) |
-          ( (unsigned long) (b)[(i) + 1] << 16 ) |
-          ( (unsigned long) (b)[(i) + 2] <<  8 ) |
-          ( (unsigned long) (b)[(i) + 3]       );
+    (n) = ((unsigned long) (b)[(i)] << NUM24) |
+          ((unsigned long) (b)[(i) + 1] << NUM16) |
+          ((unsigned long) (b)[(i) + NUM2] <<  NUM8) |
+          ((unsigned long) (b)[(i) + NUM3]);
     return n;
 }
 #endif
@@ -59,18 +55,17 @@ static uint32_t get_unit32_be(uint32_t n, unsigned char b[], int i)
 
 static void put_unit32_be(unsigned long n, unsigned char b[], int i)
 {
-    (b)[(i)    ] = (unsigned char) ( (n) >> 24 );
-    (b)[(i) + 1] = (unsigned char) ( (n) >> 16 );
-    (b)[(i) + 2] = (unsigned char) ( (n) >>  8 );
-    (b)[(i) + 3] = (unsigned char) ( (n)       );
+    (b)[(i)] = (unsigned char) ((n) >> NUM24);
+    (b)[(i) + 1] = (unsigned char) ((n) >> NUM16);
+    (b)[(i) + NUM2] = (unsigned char) ((n) >>  NUM8);
+    (b)[(i) + NUM3] = (unsigned char) ((n);
 }
 #endif
 
 /*
  * SHA-1 context setup
  */
-static
-void sha1_starts (sha1_context * ctx)
+static void sha1_starts (sha1_context * ctx)
 {
     ctx->total[0] = 0;
     ctx->total[1] = 0;
@@ -84,89 +79,94 @@ void sha1_starts (sha1_context * ctx)
 
 static unsigned long sha1_s(unsigned long x, unsigned long n)
 {
-    return (((x) << (n)) | (((x) & 0xFFFFFFFF) >> (32 - (n))));
+    return (((x) << (n)) | (((x) & 0xFFFFFFFF) >> (NUM32 - (n))));
 }
 
-static unsigned long sha1_r(unsigned long t,unsigned long W[])
+static unsigned long sha1_r(unsigned long t, unsigned long W[])
 {
     unsigned long temp;
-    temp = W[((t) -  3) & 0x0F] ^ W[((t) - 8) & 0x0F] ^
-           W[((t) - 14) & 0x0F] ^ W[ (t)      & 0x0F];
-    W[(t) & 0x0F] = sha1_s(temp,1);
+    temp = W[((t) -  NUM3) & 0x0F] ^ W[((t) - NUM8) & 0x0F] ^
+           W[((t) - NUM14) & 0x0F] ^ W[ (t)      & 0x0F];
+    W[(t) & 0x0F] = sha1_s(temp, 1);
     return W[(t) & 0x0F];
 }
-static unsigned long sha1_p(unsigned long a, unsigned long b, unsigned long c, unsigned long d, unsigned long e, unsigned long x,unsigned long f)
+static unsigned long sha1_p(unsigned long a, unsigned long b, unsigned long c, unsigned long d, unsigned long
+                            e, unsigned long x, unsigned long f)
 {
-    unsigned long temp, sha1_k;
+    unsigned long temp, sha1_k, sha1_b;
+    sha1_b = b;
     switch (f) {
         case 1: {
             temp = (z ^ (x & (y ^ z)));
             sha1_k = 0x5A827999;
             break;
         }
-        case 2: {
+        case NUM2: {
             temp = (x ^ y ^ z);
             sha1_k = 0x6ED9EBA1;
 
             break;
         }
-        case 3: {
+        case NUM3: {
             temp = ((x & y) | (z & (x | y)));
             sha1_k = 0x8F1BBCDC;
             break;
-        case 4: {
+        }
+        case NUM4: {
             temp = (x ^ y ^ z);
             sha1_k = 0xCA62C1D6;
             break;
         }
+        default :
+            break;
     }
-    e += sha1_s(a,5) + temp + (K) + (x);
-    b = sha1_s(b,30);
-    return b;
+    e += sha1_s(a, NUM5) + temp + (K) + (x);
+    sha1_b = sha1_s(sha1_b, NUM30);
+    return sha1_b;
 }
 static void sha1_process(sha1_context *ctx, const unsigned char data[64])
 {
     unsigned long W[16], A, B, C, D, E;
-    for (int i=0;i<16;i++) {
-        get_unit32_be (W[i], data, 4*i);
+    for (int i = 0; i < NUM16; i++) {
+        get_unit32_be (W[i], data, NUM4 * i);
     }
     A = ctx->state[0];
     B = ctx->state[1];
     C = ctx->state[NUM2];
     D = ctx->state[NUM3];
     E = ctx->state[NUM4];
-    sha1_p (A, B, C, D, E, W[0],1);
-    for (int i=0;i<11;i+=5) {
-        sha1_p (E, A, B, C, D, W[1+i],1);
-        sha1_p (D, E, A, B, C, W[2+i],1);
-        sha1_p (C, D, E, A, B, W[3+i],1);
-        sha1_p (B, C, D, E, A, W[4+i],1);
-        sha1_p (A, B, C, D, E, W[5+i],1);
+    sha1_p (A, B, C, D, E, W[0], 1);
+    for (int i = 0; i < NUM11; i += 5) {
+        sha1_p (E, A, B, C, D, W[1 + i], 1);
+        sha1_p (D, E, A, B, C, W[NUM2 + i], 1);
+        sha1_p (C, D, E, A, B, W[NUM3 + i], 1);
+        sha1_p (B, C, D, E, A, W[NUM4 + i], 1);
+        sha1_p (A, B, C, D, E, W[NUM5 + i], 1);
     }
-    sha1_p (E, A, B, C, D, sha1_r (16,W),1);
-    sha1_p (D, E, A, B, C, sha1_r (17,W),1);
-    sha1_p (C, D, E, A, B, sha1_r (18,W),1);
-    sha1_p (B, C, D, E, A, sha1_r (19,W),1);
-    for (int i=0;i<21;i+=5) {
-        sha1_p (A, B, C, D, E, sha1_r (20+i,W),2);
-        sha1_p (E, A, B, C, D, sha1_r (21+i,W),2);
-        sha1_p (D, E, A, B, C, sha1_r (22+i,W),2);
-        sha1_p (C, D, E, A, B, sha1_r (23+i,W),2);
-        sha1_p (B, C, D, E, A, sha1_r (24+i,W),2);
+    sha1_p (E, A, B, C, D, sha1_r (NUM16, W), 1);
+    sha1_p (D, E, A, B, C, sha1_r (NUM17, W), 1);
+    sha1_p (C, D, E, A, B, sha1_r (NUM18, W), 1);
+    sha1_p (B, C, D, E, A, sha1_r (NUM19, W), 1);
+    for (int i = 0; i < NUM21; i += 5) {
+        sha1_p (A, B, C, D, E, sha1_r (NUM20 + i, W), NUM2);
+        sha1_p (E, A, B, C, D, sha1_r (NUM21 + i, W), NUM2);
+        sha1_p (D, E, A, B, C, sha1_r (NUM22 + i, W), NUM2);
+        sha1_p (C, D, E, A, B, sha1_r (NUM23 + i, W), NUM2);
+        sha1_p (B, C, D, E, A, sha1_r (NUM24 + i, W), NUM2);
     }
-    for (int i=0;i<21;i+=5) {
-        sha1_p (A, B, C, D, E, sha1_r (40+i,W),3);
-        sha1_p (E, A, B, C, D, sha1_r (41+i,W),3);
-        sha1_p (D, E, A, B, C, sha1_r (42+i,W),3);
-        sha1_p (C, D, E, A, B, sha1_r (43+i,W),3);
-        sha1_p (B, C, D, E, A, sha1_r (44+i,W),3);
+    for (int i = 0;i<NUM21;i += 5) {
+        sha1_p (A, B, C, D, E, sha1_r (NUM40 + i, W), NUM3);
+        sha1_p (E, A, B, C, D, sha1_r (NUM41 + i, W), NUM3);
+        sha1_p (D, E, A, B, C, sha1_r (NUM42 + i, W), NUM3);
+        sha1_p (C, D, E, A, B, sha1_r (NUM43 + i, W), NUM3);
+        sha1_p (B, C, D, E, A, sha1_r (NUM44 + i, W), NUM3);
     }
-    for (int i=0;i<21;i+=5) {
-        sha1_p (A, B, C, D, E, sha1_r (60+i,W),4);
-        sha1_p (E, A, B, C, D, sha1_r (61+i,W),4);
-        sha1_p (D, E, A, B, C, sha1_r (62+i,W),4);
-        sha1_p (C, D, E, A, B, sha1_r (63+i,W),4);
-        sha1_p (B, C, D, E, A, sha1_r (64+i,W),4);
+    for (int i=0;i<NUM21;i+=5) {
+        sha1_p (A, B, C, D, E, sha1_r (NUM60 + i, W), NUM4);
+        sha1_p (E, A, B, C, D, sha1_r (NUM61 + i, W), NUM4);
+        sha1_p (D, E, A, B, C, sha1_r (NUM62 + i, W), NUM4);
+        sha1_p (C, D, E, A, B, sha1_r (NUM63 + i, W), NUM4);
+        sha1_p (B, C, D, E, A, sha1_r (NUM64 + i, W), NUM4);
     }
     ctx->state[0] += A;
     ctx->state[1] += B;
@@ -177,11 +177,10 @@ static void sha1_process(sha1_context *ctx, const unsigned char data[64])
 /*
  * SHA-1 process buffer
  */
-static
-void sha1_update(sha1_context *ctx, unsigned char *input,
+static void sha1_update(sha1_context *ctx, unsigned char *input,
                  unsigned int ilen)
 {
-    int *address, fill, temp=ilen;
+    int *address, fill, temp = ilen;
     address=input;
     unsigned long left;
 
@@ -224,9 +223,9 @@ void sha1_update(sha1_context *ctx, unsigned char *input,
 
 static const unsigned char sha1_padding[64] = {
     0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
 /*
@@ -242,19 +241,19 @@ static void sha1_finish (sha1_context * ctx, unsigned char output[20])
     low = (ctx->total[0] << NUM3);
 
     put_unit32_be (high, msglen, 0);
-    put_unit32_be (low, msglen, 4);
+    put_unit32_be (low, msglen, NUM4);
 
     last = ctx->total[0] & 0x3F;
-    padn = (last < NUM56) ? (NUM56 - last) : (120 - last);
+    padn = (last < NUM56) ? (NUM56 - last) : (NUM120 - last);
 
     sha1_update (ctx, (unsigned char *) sha1_padding, padn);
     sha1_update (ctx, msglen, NUM8);
 
     put_unit32_be (ctx->state[0], output, 0);
-    put_unit32_be (ctx->state[1], output, 4);
-    put_unit32_be (ctx->state[2], output, 8);
-    put_unit32_be (ctx->state[3], output, 12);
-    put_unit32_be (ctx->state[4], output, 16);
+    put_unit32_be (ctx->state[1], output, NUM4);
+    put_unit32_be (ctx->state[NUM2], output, NUM8);
+    put_unit32_be (ctx->state[NUM3], output, NUM12);
+    put_unit32_be (ctx->state[NUM4], output, NUM16);
 }
 
 /*
@@ -297,27 +296,27 @@ uint32_t SHR(uint32_t x, uint32_t n)
 
 uint32_t ROTR(uint32_t x, uint32_t n)
 {
-    return (SHR(x, n) | ((x) << (32 - (n))));
+    return (SHR(x, n) | ((x) << (NUM32 - (n))));
 }
 
 uint32_t s0(uint32_t x)
 {
-    return (ROTR(x, 7) ^ ROTR(x,18) ^ SHR(x, 3));
+    return (ROTR(x, NUM7) ^ ROTR(x, NUM18) ^ SHR(x, NUM3));
 }
 
 uint32_t s1(uint32_t x)
 {
-    return (ROTR(x, 17) ^ ROTR(x,19) ^ SHR(x,10));
+    return (ROTR(x, NUM17) ^ ROTR(x, NUM19) ^ SHR(x, NUM10));
 }
 
 uint32_t s2(uint32_t x)
 {
-    return (ROTR(x, 2) ^ ROTR(x,13) ^ ROTR(x,22));
+    return (ROTR(x, NUM2) ^ ROTR(x, NUM13) ^ ROTR(x, NUM22));
 }
 
 uint32_t s3(uint32_t x)
 {
-    return (ROTR(x, 6) ^ ROTR(x,11) ^ ROTR(x,25));
+    return (ROTR(x, NUM6) ^ ROTR(x, NUM11) ^ ROTR(x, NUM25));
 }
 
 uint32_t F0(uint32_t x, uint32_t y, uint32_t z)
@@ -332,7 +331,7 @@ uint32_t F1(uint32_t x, uint32_t y, uint32_t z)
 
 uint32_t R(uint32_t t)
 {
-    W[t] = S1(W[(t) - 2]) + W[(t) - 7] + S0(W[(t) - 15]) + W[(t) - 16];
+    W[t] = S1(W[(t) - NUM2]) + W[(t) - NUM7] + S0(W[(t) - NUM15]) + W[(t) - NUM16];
     return W[t];
 }
 
@@ -341,7 +340,8 @@ void P(uint32_t a, uint32_t b, uint32_t c, uint32_t d, uint32_t e, uint32_t f, u
 {
     tmp1 = (h) + S3(e) + F1(e, f, g) + (K) + (x);
     tmp2 = S2(a) + F0(a, b, c);
-    d += tmp1; h = tmp1 + tmp2;
+    d += tmp1
+    h = tmp1 + tmp2;
     return;
 }
 static void sha256_process(sha256_context *ctx, const uint8_t data[64])
@@ -359,8 +359,8 @@ static void sha256_process(sha256_context *ctx, const uint8_t data[64])
         0x19A4C116, 0x1E376C08, 0x2748774C, 0x34B0BCB5, 0x391C0CB3, 0x4ED8AA4A, 0x5B9CCA4F, 0x682E6FF3,
         0x748F82EE, 0x78A5636F, 0x84C87814, 0x8CC70208, 0x90BEFFFA, 0xA4506CEB, 0xBEF9A3F7, 0xC67178F2
     };
-    for (int i=0;i<16;i++) {
-        get_unit32_be(W[i], data, 0+4*i);
+    for (int i = 0; i < NUM16; i++) {
+        get_unit32_be(W[i], data, 0 + NUM4 * i);
     }
     A = ctx->state[0];
     B = ctx->state[1];
@@ -370,15 +370,15 @@ static void sha256_process(sha256_context *ctx, const uint8_t data[64])
     F = ctx->state[NUM5];
     G = ctx->state[NUM6];
     H = ctx->state[NUM7];
-    for (int j=0;j<8;j++) {
-        P(A, B, C, D, E, F, G, H, W[0+8*j], Kp[0+8*j]);
-        P(H, A, B, C, D, E, F, G, W[1+8*j], Kp[1+8*j]);
-        P(G, H, A, B, C, D, E, F, W[2+8*j], Kp[2+8*j]);
-        P(F, G, H, A, B, C, D, E, W[3+8*j], Kp[3+8*j]);
-        P(E, F, G, H, A, B, C, D, W[4+8*j], Kp[4+8*j]);
-        P(D, E, F, G, H, A, B, C, W[5+8*j], Kp[5+8*j]);
-        P(C, D, E, F, G, H, A, B, W[6+8*j], Kp[6+8*j]);
-        P(B, C, D, E, F, G, H, A, W[7+8*j], Kp[7+8*j]);
+    for (int j = 0; j < NUM8; j++) {
+        P(A, B, C, D, E, F, G, H, W[0 + NUM8*j], Kp[0 + NUM8*j]);
+        P(H, A, B, C, D, E, F, G, W[1 + NUM8*j], Kp[1 + NUM8*j]);
+        P(G, H, A, B, C, D, E, F, W[NUM2 + NUM8*j], Kp[NUM2 + NUM8*j]);
+        P(F, G, H, A, B, C, D, E, W[NUM3 + NUM8*j], Kp[NUM3 + NUM8*j]);
+        P(E, F, G, H, A, B, C, D, W[NUM4 + NUM8*j], Kp[NUM4 + NUM8*j]);
+        P(D, E, F, G, H, A, B, C, W[NUM5 + NUM8*j], Kp[NUM5 + NUM8*j]);
+        P(C, D, E, F, G, H, A, B, W[NUM6 + NUM8*j], Kp[NUM6 + NUM8*j]);
+        P(B, C, D, E, F, G, H, A, W[NUM7 + NUM8*j], Kp[NUM7 + NUM8*j]);
     }
     ctx->state[0] += A;
     ctx->state[1] += B;
@@ -448,22 +448,22 @@ static void sha256_finish(sha256_context * ctx, uint8_t digest[32])
     low = (ctx->total[0] << NUM3);
 
     put_unit32_be(high, msglen, 0);
-    put_unit32_be(low, msglen, 4);
+    put_unit32_be(low, msglen, NUM4);
 
     last = ctx->total[0] & 0x3F;
-    padn = (last < NUM56) ? (NUM56 - last) : (120 - last);
+    padn = (last < NUM56) ? (NUM56 - last) : (NUM120 - last);
 
     sha256_update(ctx, sha256_padding, padn);
     sha256_update(ctx, msglen, NUM8);
 
     put_unit32_be(ctx->state[0], digest, 0);
-    put_unit32_be(ctx->state[1], digest, 4);
-    put_unit32_be(ctx->state[2], digest, 8);
-    put_unit32_be(ctx->state[3], digest, 12);
-    put_unit32_be(ctx->state[4], digest, 16);
-    put_unit32_be(ctx->state[5], digest, 20);
-    put_unit32_be(ctx->state[6], digest, 24);
-    put_unit32_be(ctx->state[7], digest, 28);
+    put_unit32_be(ctx->state[1], digest, NUM4);
+    put_unit32_be(ctx->state[NUM2], digest, NUM8);
+    put_unit32_be(ctx->state[NUM3], digest, NUM12);
+    put_unit32_be(ctx->state[NUM4], digest, NUM16);
+    put_unit32_be(ctx->state[NUM5], digest, NUM20);
+    put_unit32_be(ctx->state[NUM6], digest, NUM24);
+    put_unit32_be(ctx->state[NUM7], digest, NUM28);
 }
 
 /*
@@ -631,7 +631,6 @@ void endFile(FILE *file)
 {
     if (file) {
         fclose(file);
-        
     }
 }
 static bool StorageWriteLba(int offset_block, void data[], int blocks)
@@ -673,13 +672,13 @@ static bool StorageReadLba(int offset_block, void data[], int blocks)
         LOGE("Failed to fseek !");
     }
     if (offset != ftell(file)) {
-        if(file) {
+        if (file) {
             fclose(file);
             return ret;
         };
     }
     if (!fread(data, blocks * BLOCK_SIZE, 1, file)) {
-        if(file) {
+        if (file) {
             fclose(file);
             return ret;
         };
@@ -721,7 +720,7 @@ static int test_load(int argc, char **argv)
     }
     const char *file_path;
     int offset_block = 0;
-    int blocks = 0, count=argc, address=argv;
+    int blocks = 0, count = argc, address = argv;
     if (count > 0) {
         file_path = (const char *)fix_path(argv[0]);
         count--, address++;
@@ -819,7 +818,6 @@ static bool get_entry(const char *file_path, index_tbl_entry *entry)
 
     int i;
     for (i = 0; i < header.tbl_entry_num; i++) {
-
         if (!StorageReadLba(get_ptn_offset() + header.header_size + i * header.tbl_entry_size, buf, 1)) {
             LOGE("Failed to read index entry:%d!", i);
             return ret;
@@ -972,7 +970,7 @@ int get_while_value(char *buf, resource_content content, int level_conf_pos, int
                 return 0;
             }
             level_conf_pos++;
-        } else if (!memcmp(arg, OPT_CHARGE_ANIM_DELAY,strlen(OPT_CHARGE_ANIM_DELAY))) {
+        } else if (!memcmp(arg, OPT_CHARGE_ANIM_DELAY, strlen(OPT_CHARGE_ANIM_DELAY))) {
             delay = atoi(arg + strlen(OPT_CHARGE_ANIM_DELAY));
             LOGD("Found delay:%d", delay);
         } else if (!memcmp(arg, OPT_CHARGE_ANIM_LOOP_CUR, strlen(OPT_CHARGE_ANIM_LOOP_CUR))) {
@@ -1024,7 +1022,7 @@ int get_for_value(int level_conf_num, anim_level_conf *level_confs, int
             }
             if (level_confs[j].max_level > level_confs[i].max_level) {
                 anim_level_conf conf = level_confs[i];
-                memmove(level_confs + j + 1, level_confs + j,(i - j) * sizeof(anim_level_conf));
+                memmove(level_confs + j + 1, level_confs + j, (i - j) * sizeof(anim_level_conf));
                 level_confs[j] = conf;
             }
         }
@@ -1040,7 +1038,10 @@ static int test_charge(int argc, char **argv)
         desc = DEF_CHARGE_DESC_PATH;
     }
     resource_content content;
-    snprintf(content.path, sizeof(content.path), "%s", desc);
+    int rej = snprintf(content.path, sizeof(content.path), "%s", desc);
+    if (rej < 0) {
+        LOGD("snprintf error");
+    }
     content.load_addr = 0;
     if (!get_content(&content)) {
         free_content(&content);
@@ -1066,18 +1067,19 @@ static int test_charge(int argc, char **argv)
     int delay = 900, only_current_level = false, level_conf_pos = 0, level_conf_num = 0;
     anim_level_conf *level_confs = NULL;
     int temp = get_while_value(buf, content, level_conf_pos, delay, only_current_level, level_conf_num);
-    if(temp != 1) {
+    if (temp != 1) {
         return 0;
     }
     int value = get_for_value(level_conf_num, level_confs, delay, content);
-    if(value != 1) {
+    if (value != 1) {
         return 0;
     }
     printf("Parse anim desc(%s):\n", desc);
     printf("only_current_level=%d\n", only_current_level);
     printf("level conf:\n");
     for (i = 0; i < level_conf_num; i++) {
-        printf("\tmax=%d, delay=%d, num=%d, prefix=%s\n", level_confs[i].max_level,level_confs[i].delay, level_confs[i].num, level_confs[i].prefix);
+        printf("\tmax=%d, delay=%d, num=%d, prefix=%s\n", level_confs[i].max_level, level_confs[i].delay,
+               level_confs[i].num, level_confs[i].prefix);
     }
     free_content(&content);
     return 0;
@@ -1154,7 +1156,7 @@ int main(int argc, char **argv)
     PROG = fix_path(argv[0]);
 
     enum ACTION action = ACTION_PACK;
-    int count=argc,address=argv;
+    int count=argc, address=argv;
     count--, address++;
     while (count > 0 && argv[0][0] == '-') {
         /* it's a opt arg. */
@@ -1244,6 +1246,9 @@ static bool dump_file(FILE *file, const char *unpack_dir,
 
     pos = ftell(file);
     int rej = snprintf(path, sizeof(path), "%s/%s", unpack_dir, entry.path);
+    if (rej < 0) {
+        LOGD("snprintf error");
+    }
     mkdirs(path);
     out_file = fopen(path, "wb");
     if (!out_file) {
@@ -1253,6 +1258,10 @@ static bool dump_file(FILE *file, const char *unpack_dir,
     }
     long int offset = entry.content_offset * BLOCK_SIZE;
     fseek(file, offset, SEEK_SET);
+    int succSeek = fseek(file, offset, SEEK_SET);
+    if (succSeek != 0) {
+       LOGD("succSeek error");
+    }
     if (offset != ftell(file)) {
         LOGE("Failed to read content:%s", entry.path);
         end_block(*out_file, pos);
@@ -1294,7 +1303,10 @@ static int unpack_image(const char *dir)
     if (just_print) {
         *dir = ".";
     }
-    snprintf(unpack_dir, sizeof(unpack_dir), "%s", dir);
+    int rej = snprintf(unpack_dir, sizeof(unpack_dir), "%s", dir);
+    if (rej < 0) {
+        LOGD("snprintf error");
+    }
     if (!strlen(unpack_dir)) {
         return goEnd(*image_file);
     } else if (unpack_dir[strlen(unpack_dir) - 1] == '/') {
@@ -1320,7 +1332,8 @@ static int unpack_image(const char *dir)
     printf("Dump header:\n");
     printf("partition version:%d.%d\n", header.resource_ptn_version, header.index_tbl_version);
     printf("header size:%d\n", header.header_size);
-    printf("index tbl:\n\toffset:%d\tentry size:%d\tentry num:%d\n", header.tbl_offset, header.tbl_entry_size, header.tbl_entry_num);
+    printf("index tbl:\n\toffset:%d\tentry size:%d\tentry num:%d\n", header.tbl_offset,
+           header.tbl_entry_size, header.tbl_entry_num);
     if (header.resource_ptn_version != RESOURCE_PTN_VERSION ||
         header.header_size != RESOURCE_PTN_HDR_SIZE ||
         header.index_tbl_version != INDEX_TBL_VERSION ||
@@ -1330,7 +1343,7 @@ static int unpack_image(const char *dir)
     }
     printf("Dump Index table:\n");
     index_tbl_entry entry;
-    if(getValue(image_file,  entry, unpack_dir) != -1) {
+    if (getValue(image_file,  entry, unpack_dir) != -1) {
         return getValue(image_file, entry, unpack_dir);
     }
     printf("Unack %s to %s successed!\n", image_path, unpack_dir);
@@ -1352,7 +1365,8 @@ int getValue(FILE *image_file, index_tbl_entry entry, char unpack_dir)
         }
         /* switch for be. */
         fix_entry(&entry);
-        printf("entry(%d):\n\tpath:%s\n\toffset:%d\tsize:%d\n", i, entry.path, entry.content_offset, entry.content_size);
+        printf("entry(%d):\n\tpath:%s\n\toffset:%d\tsize:%d\n", i, entry.path,
+               entry.content_offset, entry.content_size);
         if (!dump_file(image_file, unpack_dir, entry)) {
             return goEnd(*image_file);
         }
@@ -1440,7 +1454,7 @@ static bool write_index_tbl(const int file_num, const char **files)
     index_tbl_entry entry;
     char hash[20];  /* sha1 */
     int i;
-        LOGE("write_index_tbl %d\n",file_num);
+        LOGE("write_index_tbl %d\n", file_num);
     memcpy(entry.tag, INDEX_TBL_ENTR_TAG, sizeof(entry.tag));
     for (i = 0; i < file_num; i++) {
         size_t file_size = get_file_size(files[i]);
@@ -1479,6 +1493,9 @@ static bool write_index_tbl(const int file_num, const char **files)
             }
         }
         int rej = snprintf(entry.path, sizeof(entry.path), "%s", path);
+        if (rej < 0) {
+           LOGD("snprintf error");
+        }
         offset += fix_blocks(file_size);
         if (!write_data(header.header_size + i * header.tbl_entry_size, &entry, sizeof(entry))) {
             return ret;
@@ -1501,7 +1518,7 @@ static int pack_image(int file_num, const char **files)
     }
 
     /* prepare files */
-    int i = 0, temp=file_num;
+    int i = 0, temp = file_num;
     int pos = 0;
     const char *tmp;
     for (i = 0; i < file_num; i++) {
