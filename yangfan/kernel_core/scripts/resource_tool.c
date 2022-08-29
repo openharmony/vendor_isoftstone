@@ -1100,7 +1100,7 @@ static int test_charge(int argc, char **argv)
     if (value != 1) {
         return 0;
     }
-    printf("Parse anim desc(%s):\n only_current_level=%d\n level conf:\n"", desc, only_current_level);
+    printf("Parse anim desc(%s):\n only_current_level=%d\n level conf:\n", desc, only_current_level);
     for (int i = 0; i < level_conf_num; i++) {
         printf("\tmax=%d, delay=%d, num=%d, prefix=%s\n", level_confs[i].max_level, level_confs[i].delay,
                level_confs[i].num, level_confs[i].prefix);
@@ -1287,7 +1287,7 @@ static bool dump_file(FILE *file, const char *unpack_dir, index_tbl_entry entry)
         LOGE("Failed to fseek !");
     }
     if (fseek(file, offset, SEEK_SET) != 0) {
-       LOGD("succSeek error");
+        LOGD("succSeek error");
     }
     if (offset != ftell(file)) {
         LOGE("Failed to read content:%s", entry.path);
@@ -1517,7 +1517,7 @@ static bool write_index_tbl(const int file_num, const char **files)
         }
         int rej = snprintf(entry.path, sizeof(entry.path), "%s", path);
         if (rej < 0) {
-           LOGD("snprintf error");
+            LOGD("snprintf error");
         }
         offset += fix_blocks(file_size);
         if (!write_data(header.header_size + i * header.tbl_entry_size, &entry, sizeof(entry))) {
