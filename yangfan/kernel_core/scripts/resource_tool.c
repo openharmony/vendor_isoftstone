@@ -22,7 +22,7 @@
 #define NUM120 120
 #define NUM28 28
 enum NumBer {
-    NUM0, NUM1, NUM2, NUM3, NUM4, NUM5, NUM6, NUM7, NUM8, NUM9, NUM10, 
+    NUM0, NUM1, NUM2, NUM3, NUM4, NUM5, NUM6, NUM7, NUM8, NUM9, NUM10,
     NUM11, NUM12, NUM13, NUM14, NUM15, NUM16, NUM17, NUM18, NUM19, NUM20,
     NUM21, NUM22, NUM23, NUM24, NUM25, NUM30 = 30, NUM31, NUM32,
     NUM40 = 40, NUM41, NUM42, NUM43, NUM44,
@@ -51,6 +51,7 @@ static uint32_t get_unit32_be(uint32_t n, unsigned char b[], int i)
     return n;
 }
 #endif
+
 #ifndef put_unit32_be
 
 static void put_unit32_be(unsigned long n, unsigned char b[], int i)
@@ -96,30 +97,30 @@ static unsigned long sha1_p(unsigned long *p, unsigned long x, unsigned long f)
     a = p;
     switch (f) {
         case 1: {
-            temp = (a[3] ^ (a[1] & (a[2] ^ a[3])));
+            temp = (a[NUM3] ^ (a[1] & (a[NUM2] ^ a[NUM3])));
             sha1_k = 0x5A827999;
             break;
         }
         case NUM2: {
-            temp = (a[1] ^ a[2] ^ a[3]);
+            temp = (a[1] ^ a[NUM2] ^ a[NUM3]);
             sha1_k = 0x6ED9EBA1;
 
             break;
         }
         case NUM3: {
-            temp = ((a[1] & a[2]) | (a[3] & (a[1] | a[2])));
+            temp = ((a[1] & a[NUM2]) | (a[NUM3] & (a[1] | a[NUM2])));
             sha1_k = 0x8F1BBCDC;
             break;
         }
         case NUM4: {
-            temp = (a[1] ^ a[2] ^ a[3]);
+            temp = (a[1] ^ a[NUM2] ^ a[NUM3]);
             sha1_k = 0xCA62C1D6;
             break;
         }
         default :
             break;
     }
-    a[4] += sha1_s(a[0], NUM5) + temp + (sha1_k) + (x);
+    a[NUM4] += sha1_s(a[0], NUM5) + temp + (sha1_k) + (x);
     a[1] = sha1_s(a[1], NUM30);
     return a[1];
 }
@@ -128,9 +129,9 @@ static unsigned long *sha1_a(unsigned long a, unsigned long b, unsigned long c, 
     unsigned long P[5];
     P[0] = a;
     P[1] = b;
-    P[2] = c;
-    p[3] = d;
-    p[4] = e;
+    P[NUM2] = c;
+    p[NUM3] = d;
+    p[NUM4] = e;
     return P;
 }
 static void sha1_process(sha1_context *ctx, const unsigned char data[64])
@@ -190,7 +191,7 @@ static void sha1_update(sha1_context *ctx, unsigned char *input,
                         unsigned int ilen)
 {
     int fill, temp = ilen;
-    unsigned char *address=input;
+    unsigned char *address = input;
     unsigned long left;
 
     if (ilen <= 0) {
@@ -344,30 +345,30 @@ static uint32_t *sha256_a(uint32_t a, uint32_t b, uint32_t c, uint32_t d, uint32
     unsigned long P[5];
     P[0] = a;
     P[1] = b;
-    P[2] = c;
-    p[3] = d;
-    p[4] = e;
+    P[NUM2] = c;
+    p[NUM3] = d;
+    p[NUM4] = e;
     return P;
 }
-static uint32_t *sha256_b(uint32_t f, uint32_t g, uint32_t h,uint32_t temp1, uint32_t temp2)
+static uint32_t *sha256_b(uint32_t f, uint32_t g, uint32_t h, uint32_t temp1, uint32_t temp2)
 {
     unsigned long P[5];
     P[0] = f;
     P[1] = g;
-    P[2] = h;
-	p[3] = temp1;
-	p[4] = temp2;
+    P[NUM2] = h;
+    p[NUM3] = temp1;
+    p[NUM4] = temp2;
     return P;
 }
 void P(uint32_t *a, uint32_t *b, uint32_t x, uint32_t K)
 {
-	uint32_t *q, *w;
-	q = a;
-	w = b;
-    w[3] = (w[2]) + S3(q[4]) + F1(q[4], w[0], w[1]) + (K) + (x);
-    w[4] = S2(q[0]) + F0(q[0], q[1], q[2]);
-    q[3] += w[3]
-    w[2] = w[3] + w[4];
+    uint32_t *q, *w;
+    q = a;
+    w = b;
+    w[NUM3] = (w[NUM2]) + S3(q[NUM4]) + F1(q[NUM4], w[0], w[1]) + (K) + (x);
+    w[NUM4] = S2(q[0]) + F0(q[0], q[1], q[NUM2]);
+    q[NUM3] += w[NUM3]
+    w[NUM2] = w[NUM3] + w[NUM4];
     return;
 }
 static void sha256_process(sha256_context *ctx, const uint8_t data[64])
@@ -952,7 +953,8 @@ static bool parse_level_conf(const char *arg, anim_level_conf *level_conf)
     }
     buf = strstr(arg, OPT_CHARGE_ANIM_LEVEL_PFX);
     if (buf) {
-        int rej = snprintf(level_conf->prefix, sizeof(level_conf->prefix), "%s",buf + strlen(OPT_CHARGE_ANIM_LEVEL_PFX));
+        int rej = snprintf(level_conf->prefix, sizeof(level_conf->prefix), "%s",
+                           buf + strlen(OPT_CHARGE_ANIM_LEVEL_PFX));
         if (rej < 0) {
             LOGD("snprintf error");
         }
@@ -978,7 +980,7 @@ int get_while_value(resource_content content, anim_level_conf *level_confs)
         const char *arg = buf;
         buf += (strlen(buf) + 1);
         LOGD("parse arg:%s", arg);
-        if (!memcmp(arg, OPT_CHARGE_ANIM_LEVEL_CONF, strlen(OPT_CHARGE_ANIM_LEVEL_CONF))) {
+        if ((!memcmp(arg, OPT_CHARGE_ANIM_LEVEL_CONF, strlen(OPT_CHARGE_ANIM_LEVEL_CONF)))&&(level_conf_pos++)) {
             if (!level_confs) {
                 LOGE("Found level conf before levels!");
                 free_content(&content);
@@ -994,7 +996,6 @@ int get_while_value(resource_content content, anim_level_conf *level_confs)
                 free_content(&content);
                 return 0;
             }
-            level_conf_pos++;
         } else if (!memcmp(arg, OPT_CHARGE_ANIM_DELAY, strlen(OPT_CHARGE_ANIM_DELAY))) {
             delay = atoi(arg + strlen(OPT_CHARGE_ANIM_DELAY));
             LOGD("Found delay:%d", delay);
@@ -1021,8 +1022,8 @@ int get_while_value(resource_content content, anim_level_conf *level_confs)
     }
     return 1;
 }
-int get_for_value(int level_conf_num, anim_level_conf *level_confs, int
-                  delay, resource_content content, int level_conf_pos)
+int get_for_value(int level_conf_num, anim_level_conf *level_confs, int delay,
+                  resource_content content, int level_conf_pos)
 {
     if (level_conf_pos != level_conf_num || !level_conf_num) {
         LOGE("Something wrong with level confs!");
@@ -1100,7 +1101,7 @@ static int test_charge(int argc, char **argv)
         return 0;
     }
     printf("Parse anim desc(%s):\n only_current_level=%d\n level conf:\n"", desc, only_current_level);
-    for (i = 0; i < level_conf_num; i++) {
+    for (int i = 0; i < level_conf_num; i++) {
         printf("\tmax=%d, delay=%d, num=%d, prefix=%s\n", level_confs[i].max_level, level_confs[i].delay,
                level_confs[i].num, level_confs[i].prefix);
     }
@@ -1204,13 +1205,11 @@ int main(int argc, char **argv)
         } else if (!strcmp(OPT_TEST_CHARGE, arg)) {
             action = ACTION_TEST_CHARGE;
         } else if (!memcmp(OPT_IMAGE, arg, strlen(OPT_IMAGE))) {
-            int rej = snprintf(image_path, sizeof(image_path), "%s", arg + strlen(OPT_IMAGE));
-            if (rej < 0) {
+            if (snprintf(image_path, sizeof(image_path), "%s", arg + strlen(OPT_IMAGE)) < 0) {
                 LOGD("snprintf error");
             }
         } else if (!memcmp(OPT_ROOT, arg, strlen(OPT_ROOT))) {
-            int rej = snprintf(root_path, sizeof(root_path), "%s", arg + strlen(OPT_ROOT));
-            if (rej < 0) {
+            if (snprintf(root_path, sizeof(root_path), "%s", arg + strlen(OPT_ROOT)) < 0) {
                 LOGD("snprintf error");
             }
         } else {
@@ -1220,9 +1219,11 @@ int main(int argc, char **argv)
         }
     }
     if (!image_path[0]) {
-        int rej = snprintf(image_path, sizeof(image_path), "%s", DEFAULT_IMAGE_PATH);
+        if (snprintf(image_path, sizeof(image_path), "%s", DEFAULT_IMAGE_PATH) < 0) {
+            LOGD("snprintf error");
+        }
     }
-    **argv=address;
+    **argv = address;
     return action_switch(action, argv);
     /* not reach here. */
 }
@@ -1261,21 +1262,17 @@ void end_block(FILE *out_file, long int pos)
         }
     }
 }
-static bool dump_file(FILE *file, const char *unpack_dir,
-                      index_tbl_entry entry)
+static bool dump_file(FILE *file, const char *unpack_dir, index_tbl_entry entry)
 {
     LOGD("try to dump entry:%s", entry.path);
     bool ret = false;
     FILE *out_file = NULL;
-    long int pos = 0;
     char path[MAX_INDEX_ENTRY_PATH_LEN * 2 + 1];
     if (just_print) {
         ret = true;
     }
-
-    pos = ftell(file);
-    int rej = snprintf(path, sizeof(path), "%s/%s", unpack_dir, entry.path);
-    if (rej < 0) {
+    long int pos = ftell(file);
+    if (snprintf(path, sizeof(path), "%s/%s", unpack_dir, entry.path) < 0) {
         LOGD("snprintf error");
     }
     mkdirs(path);
@@ -1286,12 +1283,10 @@ static bool dump_file(FILE *file, const char *unpack_dir,
         return ret;
     }
     long int offset = entry.content_offset * BLOCK_SIZE;
-    int rej = fseek(file, offset, SEEK_SET);
-    if (rej != 0) {
+    if (fseek(file, offset, SEEK_SET) != 0) {
         LOGE("Failed to fseek !");
     }
-    int succSeek = fseek(file, offset, SEEK_SET);
-    if (succSeek != 0) {
+    if (fseek(file, offset, SEEK_SET) != 0) {
        LOGD("succSeek error");
     }
     if (offset != ftell(file)) {
@@ -1300,10 +1295,9 @@ static bool dump_file(FILE *file, const char *unpack_dir,
         return ret;
     }
     char buf[BLOCK_SIZE];
-    int n;
     int len = entry.content_size;
     while (len > 0) {
-        n = len > BLOCK_SIZE ? BLOCK_SIZE : len;
+        int n = len > BLOCK_SIZE ? BLOCK_SIZE : len;
         if (!fread(buf, n, 1, file)) {
             LOGE("Failed to read content:%s", entry.path);
             end_block(*out_file, pos);
