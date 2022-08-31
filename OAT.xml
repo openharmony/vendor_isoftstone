@@ -25,6 +25,7 @@
                 <policyitem type="copyright" name="Broadcom Corporation" path=".*" desc=""/>
                 <policyitem type="copyright" name="iSoftStone Device Co., Ltd." path=".*" desc=""/>        
                 <policyitem type="copyright" name="iSoftStone Information Technology (Group) Co.,Ltd." path=".*" desc=""/>  
+                <policyitem type="copyright" name="iFuzhou Rockchip Electronics Co., Ltd." path=".*" desc=""/>  
 	        </policy>
         </policylist>
         <filefilterlist>

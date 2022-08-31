@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2008-2015 Fuzhou Rockchip Electronics Co., Ltd
+ * (C) Copyright 2008-2015 Fuzhou Rockchip Electronics Co., Ltd.
  */
 
 #include <memory.h>
