@@ -25,11 +25,15 @@
                 <policyitem type="copyright" name="Broadcom Corporation" path=".*" desc=""/>
                 <policyitem type="copyright" name="iSoftStone Device Co., Ltd." path=".*" desc=""/>        
                 <policyitem type="copyright" name="iSoftStone Information Technology (Group) Co.,Ltd." path=".*" desc=""/>  
-                <policyitem type="copyright" name="Fuzhou Rockchip Electronics Co., Ltd." path=".*" desc=""/>  
+                <policyitem type="copyright" name="Fuzhou Rockchip Electronics Co., Ltd." path=".*" desc=""/>
+                <policyitem type="copyright" name="ROCKCHIP CORPORATION. CO., Ltd." path=".*" desc=""/>
+                <policyitem type="copyright" name="Rockchip Electronics Co., Ltd." path=".*" desc=""/>
+                <policyitem type="copyright" name="Google, Inc." path=".*" desc=""/>
 	        </policy>
         </policylist>
         <filefilterlist>
             <filefilter name="defaultFilter" desc="Files not to check">
+                <filteritem type="filepath" name="yangfan/kernel_core/.*" desc="kernel_core"/>
             </filefilter>
             <filefilter name="defaultPolicyFilter" desc="Filters for compatibility，license header policies">
                 <filteritem type="filepath" name="yangfan/bluetooth/BUILD.gn" desc=""/>
