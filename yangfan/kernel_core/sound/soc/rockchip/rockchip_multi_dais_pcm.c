@@ -7,13 +7,13 @@
  *
  */
 
+#include <linux/module.h>
+#include <linux/dmaengine.h>
+#include <linux/dma-mapping.h>
 #include <sound/dmaengine_pcm.h>
 #include <sound/pcm.h>
 #include <sound/pcm_params.h>
 #include <sound/soc.h>
-#include <linux/module.h>
-#include <linux/dmaengine.h>
-#include <linux/dma-mapping.h>
 
 #include "rockchip_multi_dais.h"
 
@@ -403,7 +403,8 @@ static int dmaengine_mpcm_hw_params(struct snd_pcm_substream *substream,
 
     for (i = 0; i < num; i++) {
         memset(&slave_config, 0, sizeof(slave_config));
-        ret = snd_hwparams_to_dma_slave_config(substream, params, &slave_config);
+		ret = snd_hwparams_to_dma_slave_config(substream, params,
+						       &slave_config);
         if (ret) {
             return ret;
         }
@@ -413,7 +414,9 @@ static int dmaengine_mpcm_hw_params(struct snd_pcm_substream *substream,
             continue;
         }
 
-        snd_dmaengine_mpcm_set_config_from_dai_data(substream, dma_data, &slave_config);
+		snd_dmaengine_mpcm_set_config_from_dai_data(substream,
+							    dma_data,
+							    &slave_config);
 
         /* refine params for interlace access */
         sz = snd_pcm_format_size(format, maps[i]);
@@ -743,4 +746,4 @@ void snd_dmaengine_mpcm_unregister(struct device *dev)
 }
 EXPORT_SYMBOL_GPL(snd_dmaengine_mpcm_unregister);
 
-void MODULE_LICENSE("GPL");
+MODULE_LICENSE("GPL");

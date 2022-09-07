@@ -6,12 +6,13 @@
  * Author: Sugar Zhang <sugar.zhang@rock-chips.com>
  *
  */
-#include <sound/pcm_params.h>
-#include <sound/soc.h>
+
 #include <linux/module.h>
 #include <linux/mfd/syscon.h>
 #include <linux/of_device.h>
 #include <linux/pm_runtime.h>
+#include <sound/pcm_params.h>
+#include <sound/soc.h>
 
 #include "rockchip_multi_dais.h"
 
