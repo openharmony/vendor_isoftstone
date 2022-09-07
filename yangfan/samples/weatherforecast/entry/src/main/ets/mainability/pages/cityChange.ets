@@ -1,0 +1,284 @@
+import router from '@ohos.router';
+import {CityInfo,LocationInfo} from '../model/weatherData'
+import http from '@ohos.net.http'
+import prompt from '@system.prompt';
+@Component
+@Entry
+struct cityChange {
+  @State select: number = 1
+  private city: string[] = ['西安', '上海', '北京', '江苏', '浙江', '']
+  private locationInfo: LocationInfo = new LocationInfo()
+  private locationId: string = ""
+  private locationName: string = ""
+
+  aboutToAppear() {
+  }
+
+  build() {
+    Column() {
+      Flex({ justifyContent: FlexAlign.Start, alignItems: ItemAlign.Center }) {
+        Image($rawfile('backee.webp'))
+          .width(20)
+          .height(20)
+          .margin({ top: 2.5, left: 15, right: 5 })
+        Text($r('app.string.back'))
+          .fontSize(20)
+          .fontWeight(FontWeight.Bold)
+          .margin({ left: 5 })
+          .fontColor(Color.White)
+          .onClick(() => {
+            router.push({
+              url: "pages/index"
+            })
+          })
+      }
+      .height('7%')
+
+      Divider()
+        .color(Color.Gray)
+        .opacity(0.6)
+        .margin({ bottom: 20 })
+      Text($r('app.string.SelectCity'))
+        .fontSize(25)
+        .fontColor(Color.White)
+        .margin({ top: 20 })
+          //      Flex({ direction: FlexDirection.Column, alignItems: ItemAlign.Center,
+          //        justifyContent: FlexAlign.Center }) {
+          //        Button("选择城市").onClick(() => {
+          //          TextPickerDialog.show({
+          //            range: this.city,
+          //            selected: this.select,
+          //            onAccept: (value: TextPickerResult) => {
+          //              console.info("TextPickerDialog:onAccept()" + JSON.stringify(value))
+          //              this.select = value.index
+          //              let url = 'https://geoapi.qweather.com/v2/city/lookup?key=07a00515d20a413cb14abe0e9f58a6ab&location=' + value.value
+          //              let httpRequest2 = http.createHttp()
+          //              this.locationName = value.value
+          //              httpRequest2.request(encodeURI(url)).then(data => {
+          //                if (data.responseCode == 200) {
+          //                  //解析数据
+          //                  var cityinfo: CityInfo = JSON.parse(data.result.toString())
+          //                  if (cityinfo.code == 200) {
+          //                    this.locationId = cityinfo.location[0].id
+          //                    this.locationName = cityinfo.location[0].name
+          //                  } else {
+          //                    //接口异常，弹出提示
+          //                    prompt.showToast({ message: cityinfo.code.toString(), duration: 1000 })
+          //                  }
+          //                } else {
+          //                  //请求失败，弹出提示
+          //                  prompt.showToast({ message: '网络异常', duration: 1000 })
+          //                }
+          //                router.push({
+          //                  url: 'pages/index',
+          //                  params: {
+          //                    locationId: this.locationId,
+          //                    locationName: this.locationName
+          //                  }
+          //                })
+          //              })
+          //            },
+          //            onCancel: () => {
+          //              console.info("TextPickerDialog:onCancel()")
+          //            },
+          //            onChange: (value: TextPickerResult) => {
+          //              console.info("TextPickerDialog:onChange()" + JSON.stringify(value))
+          //            }
+          //          })
+          //        })
+          //          .backgroundColor('#ed011228')
+          //      }
+        .margin({ top: 30 })
+      Text("西安")
+        .fontSize(30)
+        .backgroundColor('#559bd9')
+        .borderRadius(10)
+        .width('80%')
+        .height(50)
+        .padding({ left: 10 })
+        .margin({ top: 30 })
+        .fontColor(Color.White)
+        .textAlign(TextAlign.Center)
+        .onClick(() => {
+          this.locationName = "西安"
+          this.getRequestId()
+        })
+      Text("北京")
+        .fontSize(30)
+        .backgroundColor('#559bd9')
+        .borderRadius(10)
+        .width('80%')
+        .fontColor(Color.White)
+        .height(50)
+        .padding({ left: 10 })
+        .margin({ top: 10 })
+        .textAlign(TextAlign.Center)
+        .onClick(() => {
+          this.locationName = "北京"
+          this.getRequestId()
+        })
+      Text("上海")
+        .fontSize(30)
+        .backgroundColor('#559bd9')
+        .borderRadius(10)
+        .width('80%')
+        .height(50)
+        .padding({ left: 10 })
+        .fontColor(Color.White)
+        .margin({ top: 10 })
+        .textAlign(TextAlign.Center)
+        .textAlign(TextAlign.Center)
+        .onClick(() => {
+          this.locationName = "上海"
+          this.getRequestId()
+        })
+      Text("广州")
+        .fontSize(30)
+        .backgroundColor('#559bd9')
+        .borderRadius(10)
+        .width('80%')
+        .height(50)
+        .fontColor(Color.White)
+        .padding({ left: 10 })
+        .margin({ top: 10 })
+        .textAlign(TextAlign.Center)
+        .textAlign(TextAlign.Center)
+        .onClick(() => {
+          this.locationName = "广州"
+          this.getRequestId()
+        })
+      Text("杭州")
+        .fontSize(30)
+        .backgroundColor('#559bd9')
+        .borderRadius(10)
+        .width('80%')
+        .height(50)
+        .padding({ left: 10 })
+        .fontColor(Color.White)
+        .margin({ top: 10 })
+        .textAlign(TextAlign.Center)
+        .textAlign(TextAlign.Center)
+        .onClick(() => {
+          this.locationName = "杭州"
+          this.getRequestId()
+        })
+    }
+    .width('100%')
+    .height('100%')
+    .backgroundImage($r('app.media.background'))
+    .backgroundImageSize(ImageSize.Cover)
+  }
+
+  getRequestId() {
+    let url = 'https://geoapi.qweather.com/v2/city/lookup?key=07a00515d20a413cb14abe0e9f58a6ab&location=' + this.locationName
+    let httpRequest2 = http.createHttp()
+    httpRequest2.request(encodeURI(url)).then(data => {
+      if (data.responseCode == 200) {
+        //解析数据
+        var cityinfo: CityInfo = JSON.parse(data.result.toString())
+        if (cityinfo.code == 200) {
+          this.locationId = cityinfo.location[0].id
+          this.locationName = cityinfo.location[0].name
+        } else {
+          //接口异常，弹出提示
+          prompt.showToast({ message: cityinfo.code.toString(), duration: 1000 })
+        }
+      } else {
+        //请求失败，弹出提示
+        prompt.showToast({ message: '网络异常', duration: 1000 })
+      }
+      router.push({
+        url: 'pages/index',
+        params: {
+          locationId: this.locationId,
+          locationName: this.locationName
+        }
+      })
+    })
+  }
+}
+
+//@Entry
+//@Component
+//struct cityChange {
+//  @State select: number = 1
+//  private city: string[] = ['西安', '上海', '北京', '江苏', '浙江']
+//  private locationInfo: LocationInfo = new LocationInfo()
+//  private locationId: string = ""
+//  private locationName: string = ""
+
+//  build() {
+//    Column() {
+//      Flex({ justifyContent: FlexAlign.Start, alignItems: ItemAlign.Center }) {
+//        Image($rawfile('backee.webp'))
+//          .width(20)
+//          .height(20)
+//          .margin({ top: 2.5, left: 15, right: 5 })
+//        Text($r('app.string.back'))
+//          .fontSize(20)
+//          .fontWeight(FontWeight.Bold)
+//          .margin({ left: 5 })
+//          .fontColor(Color.White)
+//          .onClick(() => {
+//            router.push({
+//              url: "pages/index"
+//            })
+//          })
+//        }
+//        .height('7%')
+//      Divider()
+//        .color(Color.Gray)
+//        .opacity(0.6)
+//        .margin({ bottom: 20 })
+//      Text($r('app.string.SelectCity'))
+//        .fontSize(25)
+//        .fontColor(Color.White)
+//        .margin({ top: 10 })
+//      Flex({ direction: FlexDirection.Column, alignItems: ItemAlign.Center,
+//        justifyContent: FlexAlign.Center }) {
+//        Button("选择城市").onClick(() => {
+//          TextPickerDialog.show({
+//            range: this.city,
+//            selected: this.select,
+//            onAccept: (value: TextPickerResult) => {
+//              console.info("TextPickerDialog:onAccept()" + JSON.stringify(value))
+//              this.select = value.index
+//              let url = 'https://geoapi.qweather.com/v2/city/lookup?key=07a00515d20a413cb14abe0e9f58a6ab&location=' + value.value
+//              let httpRequest2 = http.createHttp()
+//              this.locationName = value.value
+//              httpRequest2.request(encodeURI(url)).then(data => {
+//                if (data.responseCode == 200) {
+//                  //解析数据
+//                  var cityinfo: CityInfo = JSON.parse(data.result.toString())
+//                  if (cityinfo.code == 200) {
+//                    this.locationId = cityinfo.location[0].id
+//                    this.locationName = cityinfo.location[0].name
+//                  } else {
+//                    //接口异常，弹出提示
+//                    prompt.showToast({ message: cityinfo.code.toString(), duration: 1000 })
+//                  }
+//                } else {
+//                  //请求失败，弹出提示
+//                  prompt.showToast({ message: '网络异常', duration: 1000 })
+//                }
+//                router.push({
+//                  url: 'pages/index',
+//                  params: {
+//                    locationId: this.locationId,
+//                    locationName: this.locationName
+//                  }
+//                })
+//              })
+//            },
+//            onCancel: () => {
+//              console.info("TextPickerDialog:onCancel()")
+//            },
+//            onChange: (value: TextPickerResult) => {
+//              console.info("TextPickerDialog:onChange()" + JSON.stringify(value))
+//            }
+//          })
+//        })
+//          .backgroundColor('#ff80a3ff')
+//      }
+//    }
+//  }

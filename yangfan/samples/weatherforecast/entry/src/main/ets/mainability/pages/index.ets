@@ -1,29 +1,12 @@
-/*
- * Copyright (c) 2021 iSoftStone Device Co., Ltd.
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
- 
 import http from '@ohos.net.http'
 import prompt from '@system.prompt';
-import { CurrentWeather, DailyForecast, HourlyForecast, AirQuality, NowQuality, NowData, HourlyData, DailyData,
-  WeatherWarning, WarningData } from '../model/whetherDataDetail'
+//import router from '@ohos.router';
 import router from '@system.router';
-import { AirDisplay } from '../xComponent/AirDisplay'
-import { WhetherGrid } from '../xComponent/WhetherGrid'
-import { WhetherList } from '../xComponent/WhetherList'
-
-let self
-
+import { CurrentWeather, DailyForecast, HourlyForecast, AirQuality, NowQuality, NowData, HourlyData, DailyData,
+  WeatherWarning, WarningData } from '../model/weatherData'
+import {weatherGrid} from '../componments/weatherGrid'
+import {weatherList} from '../componments/weatherList'
+import {airQuality}  from '../componments/airQuality'
 @Entry
 @Component
 struct Index {
@@ -33,7 +16,7 @@ struct Index {
   @State private nowQuality: NowQuality = new NowQuality()
   @State private warningData: WarningData[] = []
   @State private locationName: string = ""
-  @State private loactionId: string = ""
+  @State private locationId: string = ""
   @State nowWeatherUrl: string = 'https://devapi.qweather.com/v7/weather/now?key=07a00515d20a413cb14abe0e9f58a6ab&location='
   @State hourlyWeatherUrl: string = 'https://devapi.qweather.com/v7/weather/24h?key=07a00515d20a413cb14abe0e9f58a6ab&location='
   @State dailyWeatherUrl: string = 'https://devapi.qweather.com/v7/weather/7d?key=07a00515d20a413cb14abe0e9f58a6ab&location='
@@ -41,37 +24,46 @@ struct Index {
   @State warningWeatherUrl: string = 'https://devapi.qweather.com/v7/warning/now?key=07a00515d20a413cb14abe0e9f58a6ab&location='
   scroller: Scroller = new Scroller()
   aboutToAppear() {
-    self = this
     console.log('index start')
     if (router.getParams() != null) {
-      this.loactionId = router.getParams().locationId.toString()
+      this.locationId = router.getParams().locationId.toString()
       this.locationName = router.getParams().locationName.toString()
     }
+    let self = this
+    this.nowData.temp='26'
+    this.dailyData[0]={fxDate:"2022-09-05",sunrise:"06:20",sunset:"19:06",moonrise:"15:24",moonset:"01:03",moonPhase:"盈凸月",moonPhaseIcon:"803",tempMax:"29",tempMin:"16",iconDay:"100",textDay:"晴",iconNight:"150",textNight:"晴",wind360Day:"225",windDirDay:"西南风",windScaleDay:"1-2",windSpeedDay:"3",wind360Night:"180",windDirNight:"南风",windScaleNight:"1-2",windSpeedNight:"3",humidity:"33",precip:"0.0",pressure:"962",vis:"25",cloud:"25",uvIndex:"7",dew: '',today:'', months:0,day:0}
+    this.nowData.text="多云"
+    this.nowQuality={"pubTime":"2022-09-06T10:00+08:00","aqi":63,"level":2,"category":"良","primary":"PM10","pm10":76,"pm2p5":19,"no2":43,"so2":8,"co":0.6,"o3":6}
+//    this.warningData=[]
     if (this.locationName === "") { //if语句。当locationName为空时，用西安的值；当不为空时，用传过来的参数locationName;现在拿不到传过来的参数
       this.locationName = "西安"
-      this.nowWeatherUrl = this.nowWeatherUrl + 101110101
-      this.hourlyWeatherUrl = this.hourlyWeatherUrl + 101110101
-      this.dailyWeatherUrl = this.dailyWeatherUrl + 101110101
-      this.qualityWeatherUrl = this.qualityWeatherUrl + 101110101
-      this.warningWeatherUrl = this.warningWeatherUrl + 101110101
+      this.nowWeatherUrl = this.nowWeatherUrl + '101110101'
+      this.hourlyWeatherUrl = this.hourlyWeatherUrl + '101110101'
+      this.dailyWeatherUrl = this.dailyWeatherUrl + '101110101'
+      this.qualityWeatherUrl = this.qualityWeatherUrl + '101110101'
+      this.warningWeatherUrl = this.warningWeatherUrl + '101110101'
     } else {
-      this.nowWeatherUrl = this.nowWeatherUrl + this.loactionId
-      this.hourlyWeatherUrl = this.hourlyWeatherUrl + this.loactionId
-      this.dailyWeatherUrl = this.dailyWeatherUrl + this.loactionId
-      this.qualityWeatherUrl = this.qualityWeatherUrl + this.loactionId
-      this.warningWeatherUrl = this.warningWeatherUrl + this.loactionId
+      console.log('123')
+      this.nowWeatherUrl = this.nowWeatherUrl + this.locationId
+      this.hourlyWeatherUrl = this.hourlyWeatherUrl + this.locationId
+      this.dailyWeatherUrl = this.dailyWeatherUrl + this.locationId
+      this.qualityWeatherUrl = this.qualityWeatherUrl + this.locationId
+      this.warningWeatherUrl = this.warningWeatherUrl + this.locationId
     }
-    //拿数据赋给此组件成员变量
-    this.getRequestCurrent()
-    this.getRequestDaily()
-    this.getRequestHourly()
-    this.getRequestQuality()
+
+    this.getRequestNowData()
+    this.getRequestHourlyData()
+    this.getRequestDailyData()
+    this.getRequestAirQuality()
     this.getRequestWarning()
+
   }
   build() {
     Stack({ alignContent: Alignment.TopStart }) {
       Scroll(this.scroller) {
+        //沿垂直方向布局的容器
         Column() {
+          //
           Flex({ justifyContent: FlexAlign.End }) {
             Text("切换城市")
               .margin({ right: 15, top: 10 })
@@ -80,21 +72,22 @@ struct Index {
           }
           .onClick(() => {
             router.push({
-              uri: 'pages/cityManagement'
+              uri: 'pages/cityChange'
             })
           })
+
           Flex({ justifyContent: FlexAlign.Center }) {
             Text(this.locationName)
-              .fontSize(35)
+              .fontSize(30)
               .margin({ top: 30 })
               .fontColor(Color.White)
               .onClick(() => {
                 router.push({
-                  uri: 'pages/cityManagement'
+                  uri: "pages/cityChange"
                 })
               })
           }
-          Text(this.nowData.temp + "℃")
+          Text(this.nowData.temp+ '℃')
             .fontSize(60)
             .fontColor(Color.White)
           Text(this.dailyData[0].tempMin + " / " + this.dailyData[0].tempMax + "℃")
@@ -104,7 +97,6 @@ struct Index {
             .fontSize(20)
             .fontColor(Color.White)
             .margin({ top: 6, bottom: 15 })
-          //判断是否有预警信息，有则显示预警界面部分
           if (this.warningData.length != 0) {
             //粗略预警
             Button({ type: ButtonType.Capsule }) {
@@ -144,8 +136,9 @@ struct Index {
             .backgroundColor('#5296d3')
             .margin({ top: 30 })
           }
-          WhetherGrid({ hourlyData: $hourlyData })
-          WhetherList({ dailyData: $dailyData })
+          weatherGrid({hourlyData:$hourlyData})
+          weatherList({dailyData:$dailyData})
+
           Button({ type: ButtonType.Capsule }) {
             Flex({ justifyContent: FlexAlign.Center, alignItems: ItemAlign.Center }) {
               Image($rawfile('calendar.webp'))
@@ -160,8 +153,7 @@ struct Index {
           .width('92%')
           .backgroundColor('#5296d3')
           .margin({ top: 10, left: 15, right: 15 })
-          AirDisplay({ nowQuality: $nowQuality })
-          //lifeindexdisplay({lifeIndex: this.lifeIndex}) //生活指数
+          airQuality({nowQuality:$nowQuality})
         }
         .width('100%')
         .backgroundImage($rawfile("background.jpg"))
@@ -171,16 +163,17 @@ struct Index {
       //      .scrollBar(BarState.On)
       .scrollBarColor(Color.Gray).scrollBarWidth(30)
     }
+    .width('100%')
   }
-  //实时数据传输
-  getRequestCurrent() {
-    self = this
+  getRequestNowData() {
+    let self = this
     console.log('getRequest start ====')
     let httpRequest = http.createHttp()
     httpRequest.request(self.nowWeatherUrl, (err, data) => {
       if (!err) {
         if (data.responseCode == 200) {
           var currentWeather: CurrentWeather = JSON.parse(data.result.toString())
+          console.log('cW:',currentWeather)
           if (currentWeather.code == 200) {
             self.nowData = currentWeather.now;
           } else {
@@ -197,435 +190,138 @@ struct Index {
         prompt.showToast({ message: err.message , duration: 1000})
         console.log(`network request error, error:${JSON.stringify(err)}`)
       }
-    }
-    )
+    })
   }
-  //逐小时预报数据传输
-  getRequestHourly() {
+  //获得每小时的天气数据
+  getRequestHourlyData(){
+    let httpRequest=http.createHttp()
+    httpRequest.request(this.hourlyWeatherUrl,(err,data)=>{
+      if (!err) {
+        if (data.responseCode == 200) {
+          //解析数据
+          var getHourlyData:HourlyForecast = JSON.parse(data.result.toString())
+          if (getHourlyData.code == 200) {
+            this.hourlyData = getHourlyData.hourly
+          } else {
+            //接口异常
+            prompt.showToast({message:getHourlyData.code.toString(),duration:1000})
+          }
+          //http请求失败
+        } else {
+          prompt.showToast({message:'network anomaly',duration:1000})
+          console.log('network request error ='+ JSON.stringify(data.responseCode))
+        }
+      } else{
+        prompt.showToast({message:err.message,duration:1000})
+        console.log('network request error ='+ JSON.stringify(err))
+      }
+    })
+  }
+  //获得每天天气情况数据
+  getRequestDailyData(){
     let httpRequest = http.createHttp()
-    httpRequest.request(this.hourlyWeatherUrl, (err, data) => {
+    httpRequest.request(this.dailyWeatherUrl,(err,data) => {
       if (!err) {
         if (data.responseCode == 200) {
-          //解析数据
-          var hourlyForecast: HourlyForecast = JSON.parse(data.result.toString())
-          if (hourlyForecast.code == 200) {
-            this.hourlyData = hourlyForecast.hourly
+          var getDailyData : DailyForecast = JSON.parse(data.result.toString())
+          if (getDailyData.code == 200) {
+            this.dailyData = getDailyData.daily
+            for(var i = 0; i < 7; i++) {
+              if (i == 0) {
+                this.dailyData[0].today = "今天"
+              }
+              if (i == 1) {
+                this.dailyData[1].today = "明天"
+              }
+              var dateArray = this.dailyData[i].fxDate.split("-")
+              var date = new Date(parseInt(dateArray[0]), parseInt(dateArray[1]) - 1, parseInt(dateArray[2]))
+              this.dailyData[i].today = "周" + "日一二三四五六".charAt(date.getDay())
+              this.dailyData[i].months = date.getMonth() + 1
+              this.dailyData[i].day = date.getDate()
+            }
           } else {
-            //接口异常，弹出提示
-            prompt.showToast({ message: hourlyForecast.code.toString() , duration: 1000})
+            //接口异常
+            prompt.showToast({message:getDailyData.code.toString(),duration:1000})
           }
         } else {
-          //请求失败，弹出提示
-          prompt.showToast({ message: '网络异常' , duration: 1000})
-          console.log('network data error ==' + JSON.stringify(data.responseCode))
+          prompt.showToast({message:'network anomaly',duration:1000})
+          console.log('network request error ='+ JSON.stringify(data.responseCode))
         }
       } else {
-        //请求失败，弹出提示
-        prompt.showToast({ message: err.message , duration: 1000})
-        console.log('network request error ==' + JSON.stringify(err))
+        prompt.showToast({message:err.message,duration:1000})
+        console.log('network request error ='+ JSON.stringify(err))
       }
-    }
-    )
+    })
   }
-  //逐天预报数据传输
-  getRequestDaily() {
-    let httpRequest = http.createHttp() //创建一个传输请求
-    httpRequest.request(this.dailyWeatherUrl, (err, data) => { //传url和回调函数，其中err是错误信息，data是传过来的数据
-      if (!err) {
-        if (data.responseCode == 200) {
-          //解析数据
-          var dailyForecast: DailyForecast = JSON.parse(data.result.toString()) //将拿过来的json数据转换成对象
-          if (dailyForecast.code == 200) {
-            this.dailyData = dailyForecast.daily //把拿过来的数据需要用的部分的值赋给自定义的变量
-            this.dailyData[0].weeke = "今天"
-            this.dailyData[1].weeke = "明天"
-            var dateArray = this.dailyData[0].fxDate.split("-")
-            var date = new Date(parseInt(dateArray[0]), parseInt(dateArray[1]) - 1, parseInt(dateArray[2]))
-            this.dailyData[0].monthe = date.getMonth() + 1
-            this.dailyData[0].daye = date.getDate()
-            dateArray = this.dailyData[1].fxDate.split("-")
-            date = new Date(parseInt(dateArray[0]), parseInt(dateArray[1]) - 1, parseInt(dateArray[2]))
-            this.dailyData[1].monthe = date.getMonth() + 1
-            this.dailyData[1].daye = date.getDate()
-            dateArray = this.dailyData[2].fxDate.split("-")
-            date = new Date(parseInt(dateArray[0]), parseInt(dateArray[1]) - 1, parseInt(dateArray[2]))
-            this.dailyData[2].weeke = "周" + "日一二三四五六".charAt(date.getDay())
-            this.dailyData[2].monthe = date.getMonth() + 1
-            this.dailyData[2].daye = date.getDate()
-            dateArray = this.dailyData[3].fxDate.split("-")
-            date = new Date(parseInt(dateArray[0]), parseInt(dateArray[1]) - 1, parseInt(dateArray[2]))
-            this.dailyData[3].weeke = "周" + "日一二三四五六".charAt(date.getDay())
-            this.dailyData[3].monthe = date.getMonth() + 1
-            this.dailyData[3].daye = date.getDate()
-            dateArray = this.dailyData[4].fxDate.split("-")
-            date = new Date(parseInt(dateArray[0]), parseInt(dateArray[1]) - 1, parseInt(dateArray[2]))
-            this.dailyData[4].weeke = "周" + "日一二三四五六".charAt(date.getDay())
-            this.dailyData[4].monthe = date.getMonth() + 1
-            this.dailyData[4].daye = date.getDate()
-            dateArray = this.dailyData[5].fxDate.split("-")
-            date = new Date(parseInt(dateArray[0]), parseInt(dateArray[1]) - 1, parseInt(dateArray[2]))
-            this.dailyData[5].weeke = "周" + "日一二三四五六".charAt(date.getDay())
-            this.dailyData[5].monthe = date.getMonth() + 1
-            this.dailyData[5].daye = date.getDate()
-            dateArray = this.dailyData[6].fxDate.split("-")
-            date = new Date(parseInt(dateArray[0]), parseInt(dateArray[1]) - 1, parseInt(dateArray[2]))
-            this.dailyData[6].weeke = "周" + "日一二三四五六".charAt(date.getDay())
-            this.dailyData[6].monthe = date.getMonth() + 1
-            this.dailyData[6].daye = date.getDate()
-          } else {
-            //接口异常，弹出提示
-            prompt.showToast({ message: dailyForecast.code.toString(), duration: 1000 })
-          }
-        } else {
-          //请求失败，弹出提示
-          prompt.showToast({ message: '网络异常' , duration: 1000})
-          console.log('network data error ==' + JSON.stringify(data.responseCode))
-        }
-      } else {
-        //请求失败，弹出提示
-        prompt.showToast({ message: err.message , duration: 1000})
-        console.log('network request error ==' + JSON.stringify(err))
-      }
-    }
-    )
-  }
-  //空气质量数据传输
-  getRequestQuality() {
-    console.log('getRequest start ====')
+  //获得空气质量数据
+  getRequestAirQuality() {
     let httpRequest = http.createHttp()
     httpRequest.request(this.qualityWeatherUrl, (err, data) => {
       if (!err) {
         if (data.responseCode == 200) {
-          //解析数据
-          var airQulity: AirQuality = JSON.parse(data.result.toString())
-          if (airQulity.code == 200) {
-            this.nowQuality = airQulity.now;
+          var getAirData : AirQuality = JSON.parse(data.result.toString())
+          if (getAirData.code == 200) {
+            this.nowQuality = getAirData.now
           } else {
-            //接口异常，弹出提示
-            prompt.showToast({ message: airQulity.code.toString() , duration: 1000})
+            //接口异常
+            prompt.showToast({message:getAirData.code.toString(),duration:1000})
           }
         } else {
-          //请求失败，弹出提示
-          prompt.showToast({ message: '网络异常' , duration: 1000})
-          console.log('network data error ==' + JSON.stringify(data.responseCode))
+          prompt.showToast({message:'network anomaly',duration:1000})
+          console.log('network request error ='+ JSON.stringify(data.responseCode))
         }
       } else {
-        //请求失败，弹出提示
-        prompt.showToast({ message: err.message , duration: 1000})
-        console.log('network request error ==' + JSON.stringify(err))
+        prompt.showToast({message:err.message,duration:1000})
+        console.log('network request error ='+ JSON.stringify(err))
       }
-    }
-    )
+    })
   }
-  //警报信息传输
+  // 获得预警信息数据
   getRequestWarning() {
-    console.log('getRequest start ====')
     let httpRequest = http.createHttp()
     httpRequest.request(this.warningWeatherUrl, (err, data) => {
       if (!err) {
         if (data.responseCode == 200) {
-          //解析数据
-          var weatherWarning: WeatherWarning = JSON.parse(data.result.toString())
-          console.log('WeatherWarning ==' + JSON.stringify(weatherWarning))
-          if (weatherWarning.code == 200) {
-            this.warningData = weatherWarning.warning;
-          } else {
-            //接口异常，弹出提示
-            prompt.showToast({ message: weatherWarning.code.toString() , duration: 1000})
+          var getWearingData :WeatherWarning = JSON.parse(data.result.toString())
+          if (getWearingData.code == 200) {
+            this.warningData = getWearingData.warning
+          }else {
+            //接口异常
+            prompt.showToast({message:getWearingData.code.toString(),duration:1000})
           }
         } else {
-          //请求失败，弹出提示
-          prompt.showToast({ message: '网络异常' , duration: 1000})
-          console.log('network data error ==' + JSON.stringify(data.responseCode))
+          prompt.showToast({message:'network anomaly',duration:1000})
+          console.log('network request error ='+ JSON.stringify(data.responseCode))
         }
       } else {
-        //请求失败，弹出提示
-        prompt.showToast({ message: err.message , duration: 1000})
-        console.log('network request error ==' + JSON.stringify(err))
+        prompt.showToast({message:err.message,duration:1000})
+        console.log('network request error ='+ JSON.stringify(err))
       }
-    }
-    )
+    })
   }
 }
 
-//生活指数
-/*@Component
-struct lifeindexdisplay{
-  private lifeIndex
-
-  build(){
-    Column(){
-      Flex(){
-        Text('生活指数')
-          .fontSize(20)
-          .fontColor(Color.White)
-          .width('50%')
-        //          .padding({left:20})
-
-        Text('更多 >')
-          .fontSize(20)
-          .fontColor(Color.White)
-          .width('50%')
-          .textAlign(TextAlign.End)
-        //          .padding({right:20})
-        //       .flexGrow(1)
-      }
-      .width('92%')
-      Grid(){
-        GridItem(){
-          Column(){
-            Image($r('app.media.life'))
-              .width(50)
-              .height(50)
-              .margin({bottom:10})
-            Text('湿度')
-              .fontSize(20)
-              .fontColor(Color.White)
-            Text(this.lifeIndex.humidity.toString() + '％')
-              .fontSize(20)
-              .fontColor(Color.White)
-          }
-
-        }
-        GridItem(){
-          Column(){
-            Image($r('app.media.life'))
-              .width(50)
-              .height(50)
-              .margin({bottom:10})
-            Text('体感温度')
-              .fontSize(20)
-              .fontColor(Color.White)
-            Text(this.lifeIndex.sentemp.toString() + '℃')
-              .fontSize(20)
-              .fontColor(Color.White)
-          }
-
-        }
-        GridItem(){
-          Column(){
-            Image($r('app.media.life'))
-              .width(50)
-              .height(50)
-              .margin({bottom:10})
-            Text('风力')
-              .fontSize(20)
-              .fontColor(Color.White)
-            Text(this.lifeIndex.windpower.toString())
-              .fontSize(20)
-              .fontColor(Color.White)
-          }
-
-        }
-        GridItem(){
-          Column(){
-            Image($r('app.media.life'))
-              .width(50)
-              .height(50)
-              .margin({bottom:10})
-            Text('风向')
-              .fontSize(20)
-              .fontColor(Color.White)
-            Text(this.lifeIndex.winddirection.toString())
-              .fontSize(20)
-              .fontColor(Color.White)
-          }
-
-        }
-        GridItem(){
-          Column(){
-            Image($r('app.media.life'))
-              .width(50)
-              .height(50)
-              .margin({bottom:10})
-            Text('穿衣')
-              .fontSize(20)
-              .fontColor(Color.White)
-            Text(this.lifeIndex.dressing.toString())
-              .fontSize(20)
-              .fontColor(Color.White)
-          }
-
-        }
-        GridItem(){
-          Column(){
-            Image($r('app.media.life'))
-              .width(50)
-              .height(50)
-              .margin({bottom:10})
-            Text('运动')
-              .fontSize(20)
-              .fontColor(Color.White)
-            Text(this.lifeIndex.motion.toString())
-              .fontSize(20)
-              .fontColor(Color.White)
-          }
-
-        }
-        GridItem(){
-          Column(){
-            Image($r('app.media.life'))
-              .width(50)
-              .height(50)
-              .margin({bottom:10})
-            Text('感冒')
-              .fontSize(20)
-              .fontColor(Color.White)
-            Text(this.lifeIndex.cold.toString())
-              .fontSize(20)
-              .fontColor(Color.White)
-          }
-
-        }
-        GridItem(){
-          Column(){
-            Image($r('app.media.life'))
-              .width(50)
-              .height(50)
-              .margin({bottom:10})
-            Text('紫外线')
-              .fontSize(20)
-              .fontColor(Color.White)
-            Text(this.lifeIndex.uv.toString())
-              .fontSize(20)
-              .fontColor(Color.White)
-          }
-
-        }
-        GridItem(){
-          Column(){
-            Image($r('app.media.life'))
-              .width(50)
-              .height(50)
-              .margin({bottom:10})
-            Text('洗车')
-              .fontSize(20)
-              .fontColor(Color.White)
-            Text(this.lifeIndex.carwash.toString())
-              .fontSize(20)
-              .fontColor(Color.White)
-          }
-
-        }
-        GridItem(){
-          Column(){
-            Image($r('app.media.life'))
-              .width(50)
-              .height(50)
-              .margin({bottom:10})
-            Text('钓鱼')
-              .fontSize(20)
-              .fontColor(Color.White)
-            Text(this.lifeIndex.gofishing.toString())
-              .fontSize(20)
-              .fontColor(Color.White)
-          }
-
-        }
-        GridItem(){
-          Column(){
-            Image($r('app.media.life'))
-              .width(50)
-              .height(50)
-              .margin({bottom:10})
-            Text('过敏')
-              .fontSize(20)
-              .fontColor(Color.White)
-            Text(this.lifeIndex.allergy.toString())
-              .fontSize(20)
-              .fontColor(Color.White)
-          }
-
-        }
-        GridItem(){
-          Column(){
-            Image($r('app.media.life'))
-              .width(50)
-              .height(50)
-              .margin({bottom:10})
-            Text('路况')
-              .fontSize(20)
-              .fontColor(Color.White)
-            Text(this.lifeIndex.pavementcon.toString())
-              .fontSize(20)
-              .fontColor(Color.White)
-          }
-
-        }
-        GridItem(){
-          Column(){
-            Image($r('app.media.life'))
-              .width(50)
-              .height(50)
-              .margin({bottom:10})
-            Text('防晒')
-              .fontSize(20)
-              .fontColor(Color.White)
-            Text(this.lifeIndex.sunscreen.toString())
-              .fontSize(20)
-              .fontColor(Color.White)
-          }
-
-        }
-        GridItem(){
-          Column(){
-            Image($r('app.media.life'))
-              .width(50)
-              .height(50)
-              .margin({bottom:10})
-            Text('晾晒')
-              .fontSize(20)
-              .fontColor(Color.White)
-            Text(this.lifeIndex.airing.toString())
-              .fontSize(20)
-              .fontColor(Color.White)
-          }
-
-        }
-        GridItem(){
-          Column(){
-            Image($r('app.media.life'))
-              .width(50)
-              .height(50)
-              .margin({bottom:10})
-            Text('晨练')
-              .fontSize(20)
-              .fontColor(Color.White)
-            Text(this.lifeIndex.morningexer.toString())
-              .fontSize(20)
-              .fontColor(Color.White)
-          }
-
-        }
-        GridItem(){
-          Column(){
-            Image($r('app.media.life'))
-              .width(50)
-              .height(50)
-              .margin({bottom:10})
-            Text('交通')
-              .fontSize(20)
-              .fontColor(Color.White)
-            Text(this.lifeIndex.traffic.toString() )
-              .fontSize(20)
-              .fontColor(Color.White)
-          }
-
-        }
-      }
-      .rowsTemplate('1fr 1fr 1fr 1fr ')
-      .columnsTemplate('1fr 1fr 1fr 1fr ')
-      //      .columnsGap(0)
-      //      .rowsGap(0)
-      .width('92%')
-      .backgroundColor('#5296d3')
-      .margin({top: 10})
-      .height(4 * 192 - 8)
 
 
 
-    }
-    .margin({top:10})
 
-  }
-}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
