@@ -19,15 +19,14 @@
  *
  */
 
+#include <linux/module.h>
+#include <linux/platform_device.h>
+#include <linux/slab.h>
 #include <sound/core.h>
 #include <sound/pcm.h>
 #include <sound/pcm_params.h>
 #include <sound/soc.h>
 #include <sound/soc-dapm.h>
-#include <linux/module.h>
-#include <linux/platform_device.h>
-#include <linux/slab.h>
-
 
 #include "rockchip_i2s.h"
 
@@ -68,7 +67,8 @@ static int rk_hdmi_dp_hw_params(struct snd_pcm_substream *substream,
             return -EINVAL;
     }
 
-    ret = snd_soc_dai_set_sysclk(cpu_dai, 0, mclk, SND_SOC_CLOCK_OUT);
+	ret = snd_soc_dai_set_sysclk(cpu_dai, 0, mclk,
+				     SND_SOC_CLOCK_OUT);
 
     if (ret && ret != -ENOTSUPP) {
         dev_err(cpu_dai->dev, "Can't set cpu clock %d\n", ret);

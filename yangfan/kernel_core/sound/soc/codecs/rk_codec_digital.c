@@ -21,7 +21,8 @@
 #include <sound/pcm_params.h>
 #include <sound/dmaengine_pcm.h>
 #include <sound/tlv.h>
-#include "rockchip/numdata.h"
+
+#include "numdata.h"
 #include "rk_codec_digital.h"
 
 #define RK3568_GRF_SOC_CON2 (0x0508)
@@ -422,7 +423,8 @@ static int rk_codec_digital_set_clk_sync(struct rk_codec_digital_priv *rcd,
     return 0;
 }
 
-static int rk_codec_digital_set_clk(struct rk_codec_digital_priv *rcd, struct snd_pcm_substream *substream,
+static int rk_codec_digital_set_clk(struct rk_codec_digital_priv *rcd,
+				    struct snd_pcm_substream *substream,
                                     unsigned int samplerate)
 {
     unsigned int mclk, sclk, bclk;
@@ -473,7 +475,8 @@ static int rk_codec_digital_set_clk(struct rk_codec_digital_priv *rcd, struct sn
     return 0;
 }
 
-static int rk_codec_digital_set_dai_fmt(struct snd_soc_dai *dai, unsigned int fmt)
+static int rk_codec_digital_set_dai_fmt(struct snd_soc_dai *dai,
+					unsigned int fmt)
 {
     struct rk_codec_digital_priv *rcd =
         snd_soc_component_get_drvdata(dai->component);
@@ -1000,7 +1003,8 @@ static int rk_codec_digital_platform_probe(struct platform_device *pdev)
     rcd->grf = syscon_regmap_lookup_by_phandle(np, "rockchip,grf");
     rcd->pwmout = of_property_read_bool(np, "rockchip,pwm-output-mode");
     rcd->sync = of_property_read_bool(np, "rockchip,clk-sync-mode");
-    if (of_property_read_u32(np, "rockchip,pa-ctl-delay-ms", &rcd->pa_ctl_delay_ms)) {
+	if (of_property_read_u32(np, "rockchip,pa-ctl-delay-ms",
+                     &rcd->pa_ctl_delay_ms)) {
         rcd->pa_ctl_delay_ms = 0;
     }
 
@@ -1063,7 +1067,8 @@ static int rk_codec_digital_platform_probe(struct platform_device *pdev)
                            ACDCDIG_DACPWM_CTRL_PWM_MODE_0);
     }
 
-    rcd->pa_ctl = devm_gpiod_get_optional(&pdev->dev, "pa-ctl", GPIOD_OUT_LOW);
+	rcd->pa_ctl = devm_gpiod_get_optional(&pdev->dev, "pa-ctl",
+					       GPIOD_OUT_LOW);
 
     if (!rcd->pa_ctl) {
         dev_info(&pdev->dev, "no need pa-ctl gpio\n");
@@ -1073,7 +1078,8 @@ static int rk_codec_digital_platform_probe(struct platform_device *pdev)
         goto err_suspend;
     }
 
-    ret = devm_snd_soc_register_component(&pdev->dev, &soc_codec_dev_rcd, rcd_dai, ARRAY_SIZE(rcd_dai));
+    ret = devm_snd_soc_register_component(&pdev->dev, &soc_codec_dev_rcd,
+					      rcd_dai, ARRAY_SIZE(rcd_dai));
 
     if (ret) {
         goto err_suspend;
@@ -1108,7 +1114,8 @@ static int rk_codec_digital_platform_remove(struct platform_device *pdev)
 }
 
 static const struct dev_pm_ops rcd_pm = {
-    SET_RUNTIME_PM_OPS(rk_codec_digital_runtime_suspend, rk_codec_digital_runtime_resume, NULL)
+	SET_RUNTIME_PM_OPS(rk_codec_digital_runtime_suspend,
+		rk_codec_digital_runtime_resume, NULL)
 };
 
 static struct platform_driver rk_codec_digital_driver = {

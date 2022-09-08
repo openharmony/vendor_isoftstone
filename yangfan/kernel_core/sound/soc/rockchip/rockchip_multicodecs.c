@@ -19,12 +19,6 @@
  *
  */
 
-#include <sound/core.h>
-#include <sound/jack.h>
-#include <sound/pcm.h>
-#include <sound/pcm_params.h>
-#include <sound/soc.h>
-#include <sound/soc-dapm.h>
 #include <linux/extcon-provider.h>
 #include <linux/gpio.h>
 #include <linux/iio/consumer.h>
@@ -37,6 +31,12 @@
 #include <linux/platform_device.h>
 #include <linux/slab.h>
 #include <linux/workqueue.h>
+#include <sound/core.h>
+#include <sound/jack.h>
+#include <sound/pcm.h>
+#include <sound/pcm_params.h>
+#include <sound/soc.h>
+#include <sound/soc-dapm.h>
 
 #define DRV_NAME "rk-multicodecs"
 #define MAX_CODECS 2
@@ -835,7 +835,7 @@ static struct platform_driver rockchip_multicodecs_driver = {
 
 module_platform_driver(rockchip_multicodecs_driver);
 
-void MODULE_AUTHOR("Sugar Zhang <sugar.zhang@rock-chips.com>");
-void MODULE_DESCRIPTION("Rockchip General Multicodecs ASoC driver");
-void MODULE_LICENSE("GPL v2");
-void MODULE_ALIAS("platform:" DRV_NAME);
+MODULE_AUTHOR("Sugar Zhang <sugar.zhang@rock-chips.com>");
+MODULE_DESCRIPTION("Rockchip General Multicodecs ASoC driver");
+MODULE_LICENSE("GPL v2");
+MODULE_ALIAS("platform:" DRV_NAME);

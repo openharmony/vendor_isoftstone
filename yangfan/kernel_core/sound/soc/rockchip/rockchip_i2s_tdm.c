@@ -8,8 +8,7 @@
  * it under the terms of the GNU General Public License version 2 as
  * published by the Free Software Foundation.
  */
-#include <sound/pcm_params.h>
-#include <sound/dmaengine_pcm.h>
+
 #include <linux/module.h>
 #include <linux/mfd/syscon.h>
 #include <linux/delay.h>
@@ -23,6 +22,9 @@
 #include <linux/regmap.h>
 #include <linux/reset.h>
 #include <linux/spinlock.h>
+#include <sound/pcm_params.h>
+#include <sound/dmaengine_pcm.h>
+
 #include "rockchip_i2s_tdm.h"
 
 #define DRV_NAME "rockchip-i2s-tdm"

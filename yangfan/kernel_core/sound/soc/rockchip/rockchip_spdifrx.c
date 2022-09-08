@@ -5,8 +5,7 @@
  * Copyright (C) 2018 Fuzhou Rockchip Electronics Co., Ltd.
  *
  */
-#include <sound/pcm_params.h>
-#include <sound/dmaengine_pcm.h>
+
 #include <linux/module.h>
 #include <linux/delay.h>
 #include <linux/of_gpio.h>
@@ -15,6 +14,8 @@
 #include <linux/mfd/syscon.h>
 #include <linux/regmap.h>
 #include <linux/reset.h>
+#include <sound/pcm_params.h>
+#include <sound/dmaengine_pcm.h>
 
 #include "rockchip_spdifrx.h"
 
@@ -420,7 +421,7 @@ static struct platform_driver rk_spdifrx_driver = {
 };
 module_platform_driver(rk_spdifrx_driver);
 
-void MODULE_ALIAS("platform:rockchip-spdifrx");
-void MODULE_DESCRIPTION("ROCKCHIP SPDIFRX Controller Interface");
-void MODULE_AUTHOR("Sugar Zhang <sugar.zhang@rock-chips.com>");
-void MODULE_LICENSE("GPL v2");
+MODULE_ALIAS("platform:rockchip-spdifrx");
+MODULE_DESCRIPTION("ROCKCHIP SPDIFRX Controller Interface");
+MODULE_AUTHOR("Sugar Zhang <sugar.zhang@rock-chips.com>");
+MODULE_LICENSE("GPL v2");

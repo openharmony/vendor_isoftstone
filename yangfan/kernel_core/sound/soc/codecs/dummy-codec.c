@@ -19,7 +19,8 @@ struct dummy_codec_priv {
     struct clk *mclk;
 };
 
-static int dummy_codec_startup(struct snd_pcm_substream *substream, struct snd_soc_dai *dai)
+static int dummy_codec_startup(struct snd_pcm_substream *substream,
+			       struct snd_soc_dai *dai)
 {
     struct dummy_codec_priv *dcp = snd_soc_component_get_drvdata(dai->component);
 
@@ -29,7 +30,8 @@ static int dummy_codec_startup(struct snd_pcm_substream *substream, struct snd_s
     return 0;
 }
 
-static void dummy_codec_shutdown(struct snd_pcm_substream *substream, struct snd_soc_dai *dai)
+static void dummy_codec_shutdown(struct snd_pcm_substream *substream,
+				 struct snd_soc_dai *dai)
 {
     struct dummy_codec_priv *dcp = snd_soc_component_get_drvdata(dai->component);
 
@@ -90,7 +92,8 @@ static int rockchip_dummy_codec_probe(struct platform_device *pdev)
             return -EINVAL;
         }
     }
-    return devm_snd_soc_register_component(&pdev->dev, &soc_dummy_codec, &dummy_dai, 1);
+	return devm_snd_soc_register_component(&pdev->dev, &soc_dummy_codec,
+					       &dummy_dai, 1);
 }
 
 static const struct of_device_id rockchip_dummy_codec_of_match[] = {

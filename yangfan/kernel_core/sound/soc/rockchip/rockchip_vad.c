@@ -6,9 +6,6 @@
  *
  */
 
-#include <sound/pcm.h>
-#include <sound/pcm_params.h>
-#include <sound/soc.h>
 #include <linux/module.h>
 #include <linux/uaccess.h>
 #include <linux/clk.h>
@@ -18,10 +15,13 @@
 #include <linux/of_address.h>
 #include <linux/pm_runtime.h>
 #include <linux/regmap.h>
+#include <sound/pcm.h>
+#include <sound/pcm_params.h>
+#include <sound/soc.h>
 
+#include "rockchip_vad.h"
 #include "rockchip_multi_dais.h"
 #include "vad_preprocess.h"
-#include "rockchip_vad.h"
 
 #define DRV_NAME "rockchip-vad"
 
@@ -35,8 +35,8 @@
 
 static struct snd_pcm_substream *vad_substream;
 static unsigned int voice_inactive_frames;
-void module_param(voice_inactive_frames, uint, 0644);
-void MODULE_PARM_DESC(voice_inactive_frames, "voice inactive frame count");
+module_param(voice_inactive_frames, uint, 0644);
+MODULE_PARM_DESC(voice_inactive_frames, "voice inactive frame count");
 
 enum rk_vad_version {
     VAD_RK1808ES = 1,
@@ -622,33 +622,33 @@ static const struct regmap_config rk3308_vad_regmap_config = {
 };
 
 static const struct audio_src_addr_map rk1808_addr_map[] = {
-    /* sentinel */
     { 1, RK1808_I2S0 },
     { 3, RK1808_I2S1 },
     { 4, RK1808_PDM },
+    { /* sentinel */ },
 };
 
 static const struct audio_src_addr_map rk3308_addr_map[] = {
-    /* sentinel */ 
     { 0, RK3308_I2S_8CH_0 },
     { 1, RK3308_I2S_8CH_1 },
     { 2, RK3308_I2S_8CH_2 },
     { 3, RK3308_I2S_8CH_3 },
     { 4, RK3308_PDM_8CH },
+    { /* sentinel */ },
 };
 
 static const struct audio_src_addr_map rk3568_addr_map[] = {
-    /* sentinel */
     { 0, RK3568_I2S_8CH_1 },
     { 1, RK3568_I2S_2CH_2 },
     { 2, RK3568_I2S_2CH_3 },
     { 3, RK3568_PDM },
+    { /* sentinel */ },
 };
 
 static const struct audio_src_addr_map rk3588_addr_map[] = {
-    /* sentinel */
     { 0, RK3588_PDM0 },
     { 1, RK3588_I2S1_8CH },
+    { /* sentinel */ },
 };
 
 static const struct vad_soc_data rk1808es_soc_data = {
@@ -1363,9 +1363,9 @@ static struct platform_driver rockchip_vad_driver = {
 };
 module_platform_driver(rockchip_vad_driver);
 
-void MODULE_DESCRIPTION("Rockchip VAD Controller");
-void MODULE_AUTHOR("Andy Yan <andy.yan@rock-chips.com>");
-void MODULE_AUTHOR("Sugar Zhang <sugar.zhang@rock-chips.com>");
-void MODULE_LICENSE("GPL v2");
-void MODULE_ALIAS("platform:" DRV_NAME);
+MODULE_DESCRIPTION("Rockchip VAD Controller");
+MODULE_AUTHOR("Andy Yan <andy.yan@rock-chips.com>");
+MODULE_AUTHOR("Sugar Zhang <sugar.zhang@rock-chips.com>");
+MODULE_LICENSE("GPL v2");
+MODULE_ALIAS("platform:" DRV_NAME);
 MODULE_DEVICE_TABLE(of, rockchip_vad_match);
