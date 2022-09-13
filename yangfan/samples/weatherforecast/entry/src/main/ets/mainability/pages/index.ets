@@ -15,9 +15,8 @@
 
 
 import http from '@ohos.net.http'
-import prompt from '@system.prompt';
-//import router from '@ohos.router';
-import router from '@system.router';
+import prompt from '@system.prompt'
+import router from '@system.router'
 import { CurrentWeather, DailyForecast, HourlyForecast, AirQuality, NowQuality, NowData, HourlyData, DailyData,
   WeatherWarning, WarningData } from '../model/weatherData'
 import {weatherGrid} from '../componments/weatherGrid'
