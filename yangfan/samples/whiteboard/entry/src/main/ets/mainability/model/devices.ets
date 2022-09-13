@@ -20,18 +20,18 @@ export class DevicesManager {
 
   createDevicesManager(createCall) {
     if (typeof (this.#dmInstance) == 'undefined') {
-      Logger.log('deviceManager.createDeviceManager begin');
+      Logger.log('deviceManager.createDeviceManager begin')
       let self = this
-      deviceManager.createDeviceManager("com.example.drawingboard", (err, manager) => {
+      deviceManager.createDeviceManager('com.example.drawingboard', (err, manager) => {
         if (err) {
-          Logger.info("createDeviceManager err:" + JSON.stringify(err))
-          return;
+          Logger.info('createDeviceManager err:' + JSON.stringify(err))
+          return
         }
-        Logger.info("createDeviceManager success")
+        Logger.info('createDeviceManager success')
         self.#dmInstance = manager
         createCall(self)
       })
-      Logger.log('deviceManager.createDeviceManager end');
+      Logger.log('deviceManager.createDeviceManager end')
     } else {
       createCall(this)
     }
@@ -94,7 +94,7 @@ export class DevicesManager {
 
   stopDeviceDiscovery() {
     Logger.info('stopDeviceDiscovery ' + this.subscribeId)
-    this.#dmInstance.stopDeviceDiscovery(this.subscribeId);
+    this.#dmInstance.stopDeviceDiscovery(this.subscribeId)
     this.#dmInstance.off('deviceStateChange')
     this.#dmInstance.off('deviceFound')
     this.#dmInstance.off('discoverFail')
