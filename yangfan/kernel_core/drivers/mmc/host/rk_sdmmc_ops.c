@@ -145,7 +145,7 @@ int rk_emmc_transfer(u8 *buffer, unsigned addr, unsigned blksz, int write)
 
     struct scatterlist sg;
 
-    if(!this_card) {
+    if (!this_card) {
         return -EIO;
     }
 
