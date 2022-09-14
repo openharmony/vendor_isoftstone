@@ -11,20 +11,19 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 */
-
 {
   "app": {
     "signingConfigs": [
       {
         "name": "default",
         "material": {
-          "certpath": "C:\\Users\\stgaod\\.ohos\\config\\openharmony\\auto_ohos.cer",
-          "storePassword": "00000018AD4C7C7BD14445D71C493BA4E8E33F88CDF86066ED395114FA574213FBB4757BBF421C27",
+          "certpath": "C:\\Users\\xwyangaf\\.ohos\\config\\openharmony\\auto_ohos.cer",
+          "storePassword": "00000018A034B55F0C487D4EDEEC8B02B60517B1B1F87277B3D3FF586253A29813FAE8D05E09ED8D",
           "keyAlias": "debugKey",
-          "keyPassword": "000000186BE582E4034D841FF5C0A614223C42ABFF7EEA7E008BC5868BCDF43E02BA826CACFBE09C",
-          "profile": "C:\\Users\\stgaod\\.ohos\\config\\openharmony\\auto_ohos_default_com.example.weatherforecast.p7b",
+          "keyPassword": "000000185956B65D34C07ED638FDAA15EDEC4E0F261E9F8599CC4330BC419FFF4E1AA79C6FEEA793",
+          "profile": "C:\\Users\\xwyangaf\\.ohos\\config\\openharmony\\auto_ohos_default_com.example.weatherforecast.p7b",
           "signAlg": "SHA256withECDSA",
-          "storeFile": "C:\\Users\\stgaod\\.ohos\\config\\openharmony\\auto_ohos.p12"
+          "storeFile": "C:\\Users\\xwyangaf\\.ohos\\config\\openharmony\\auto_ohos.p12"
         }
       }
     ],
