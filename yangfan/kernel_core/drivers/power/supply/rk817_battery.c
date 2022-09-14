@@ -3085,7 +3085,7 @@ static time64_t rk817_get_rtc_sec(void)
 	struct rtc_time tm;
 	struct rtc_device *rtc = rtc_class_open(CONFIG_RTC_HCTOSYS_DEVICE);
 
-	err = rtc_read_time(rtc, &tm);
+    err = rtc_read_time(rtc, &tm);
 	if (err) {
 		dev_err(rtc->dev.parent, "read hardware clk failed\n");
 		return 0;
