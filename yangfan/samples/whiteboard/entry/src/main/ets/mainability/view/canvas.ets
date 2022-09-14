@@ -13,13 +13,13 @@
 */
 
 import LayerInfo from '../model/layer'
-import {Layer} from '../view/layer'
+import { Layer } from '../view/layer'
 import Logger from '../Logger'
 
 @Component
 export struct BCanvas {
   @State layers: Array<LayerInfo> = new Array()
-//  del_layers: Array<LayerInfo> = new Array()
+  //  del_layers: Array<LayerInfo> = new Array()
   @State showSet: boolean = false
   @State width: number = 1
   @State color: string = '#000000'
@@ -45,7 +45,7 @@ export struct BCanvas {
         }
         switch (env.type) {
           case TouchType.Down:
-//            this.del_layers = new Array()
+          //            this.del_layers = new Array()
             var layer = new LayerInfo(this.width, this.color)
             layer.commands = `M${vp2px(env.x)} ${vp2px(env.y)} L${vp2px(env.x)} ${vp2px(env.y)}`
             this.layers.push(layer)
@@ -61,10 +61,30 @@ export struct BCanvas {
             break
         }
       })
+      .onMouse(event => {
+        if (this.showSet || event.button != MouseButton.Left) {
+          return
+        }
+        switch (event.action) {
+          case MouseAction.Press:
+          //            this.del_layers = new Array()
+            var layer = new LayerInfo(this.width, this.color)
+            layer.commands = `M${vp2px(event.x)} ${vp2px(event.y)} L${vp2px(event.x)} ${vp2px(event.y)}`
+            this.layers.push(layer)
+            break
+          case MouseAction.Move:
+            this.layers[this.layers.length-1].commands += ` ${vp2px(event.x)} ${vp2px(event.y)}`
+            break
+          case MouseAction.Release:
+            Logger.info('Layer LayerInfo:' + this.layers[this.layers.length-1].commands)
+            this.update()
+            break
+          default:
+            break
+        }
+      })
     }
     .width('100%')
     .height('100%')
-
-
   }
 }
