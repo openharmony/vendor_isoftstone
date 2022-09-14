@@ -12,30 +12,11 @@
 # See the License for the specific language governing permissions and
 */
 
-const MAIN_TAG = 'li_gao '
-
-/**
- * 日志工具
- */
-export class Logger {
-  tag = MAIN_TAG
-
-  constructor(tag) {
-    this.tag += tag + ' '
-  }
-
-  log(msg: string) {
-    console.log(this.tag + msg)
-  }
-
-  info(msg) {
-    console.info(this.tag + msg)
-  }
-
-  error(msg) {
-    console.error(this.tag + msg)
-  }
+{
+  "color": [
+    {
+      "name": "black",
+      "value": "#000000"
+    }
+  ]
 }
-
-export default new Logger('')
-
