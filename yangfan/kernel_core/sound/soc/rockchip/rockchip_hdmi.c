@@ -176,7 +176,7 @@ static int rk_hdmi_probe(struct platform_device *pdev)
     rk_data->dai.platforms = platforms;
     rk_data->dai.num_cpus = 1;
     rk_data->dai.num_platforms = 1;
-	rk_data->dai.dai_fmt = SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_NB_NF |
+    rk_data->dai.dai_fmt = SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_NB_NF |
 			       SND_SOC_DAIFMT_CBS_CFS;
     /* Parse the card name from DT */
     ret = snd_soc_of_parse_card_name(&rk_data->card, "rockchip,card-name");
@@ -206,7 +206,7 @@ static int rk_hdmi_probe(struct platform_device *pdev)
         return -ENODEV;
     }
 
-	codecs = devm_kcalloc(&pdev->dev, idx,
+    codecs = devm_kcalloc(&pdev->dev, idx,
 			      sizeof(*codecs), GFP_KERNEL);
     rk_data->dai.codecs = codecs;
     rk_data->dai.num_codecs = idx;
@@ -220,7 +220,7 @@ static int rk_hdmi_probe(struct platform_device *pdev)
             continue;
         }
 
-		ret = of_parse_phandle_with_fixed_args(np, "rockchip,codec",
+        ret = of_parse_phandle_with_fixed_args(np, "rockchip,codec",
 						       0, i, &args);
         if (ret) {
             of_node_put(codec_np);
