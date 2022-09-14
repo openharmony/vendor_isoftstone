@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 */
 
-import router from '@ohos.router';
+import router from '@ohos.router'
 
 @Entry
 @Component

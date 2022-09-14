@@ -16,7 +16,7 @@ import router from '@ohos.router'
 import { TabList } from '../common/xcomponent/TabList'
 import { FoodListDialog } from '../common/xcomponent/FoodListDialog'
 import windowUtils from '../common/utils/WindowUtils'
-import app from '@system.app';
+import app from '@system.app'
 
 @Entry
 @Component
