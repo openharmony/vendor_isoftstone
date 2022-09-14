@@ -60,8 +60,8 @@ static int rockchip_audio_pwm_hw_params(struct snd_pcm_substream *substream,
 					struct snd_soc_dai *dai)
 {
 	struct rk_audio_pwm_dev *apwm = to_info(dai);
-	unsigned long rate;
-	int ret;
+	unsigned long rate = 0;
+	int ret = 0;
 
 	rate = params_rate(params) << apwm->sample_width_bits;
 	if (apwm->interpolat_points) {
