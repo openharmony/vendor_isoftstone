@@ -162,9 +162,10 @@ static int op(bt_opcode_t opcode, void *param)
                 for (idx = 0; idx < HCI_MAX_CHANNEL; idx++)
                     (*fd_array)[idx] = fd;
 
+                // retval contains numbers of open fd of HCI channels
                 retval = 1;
             }
-            /* retval contains numbers of open fd of HCI channels */
+            
             break;
         }
         case BT_OP_HCI_CHANNEL_CLOSE: // BT_VND_OP_USERIAL_CLOSE
