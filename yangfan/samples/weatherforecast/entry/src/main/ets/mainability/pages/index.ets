@@ -27,7 +27,7 @@ import {airQuality}  from '../componments/airQuality'
 @Component
 struct Index {
   @State private nowData: NowData = new NowData()
-  @State private hourlyData: HourlyData[] = []
+  @State hourlyData: HourlyData[] = []
   @State private dailyData: DailyData[] = []
   @State private nowQuality: NowQuality = new NowQuality()
   @State private warningData: WarningData[] = []
@@ -40,17 +40,17 @@ struct Index {
   @State warningWeatherUrl: string = 'https://devapi.qweather.com/v7/warning/now?key=07a00515d20a413cb14abe0e9f58a6ab&location='
   scroller: Scroller = new Scroller()
   aboutToAppear() {
-    console.log('index start')
+    console.log('start operate')
     if (router.getParams() != null) {
       this.locationId = router.getParams().locationId.toString()
       this.locationName = router.getParams().locationName.toString()
     }
     let self = this
-    this.nowData.temp='26'
-    this.dailyData[0]={fxDate:"2022-09-05",sunrise:"06:20",sunset:"19:06",moonrise:"15:24",moonset:"01:03",moonPhase:"盈凸月",moonPhaseIcon:"803",tempMax:"29",tempMin:"16",iconDay:"100",textDay:"晴",iconNight:"150",textNight:"晴",wind360Day:"225",windDirDay:"西南风",windScaleDay:"1-2",windSpeedDay:"3",wind360Night:"180",windDirNight:"南风",windScaleNight:"1-2",windSpeedNight:"3",humidity:"33",precip:"0.0",pressure:"962",vis:"25",cloud:"25",uvIndex:"7",dew: '',today:'', months:0,day:0}
+    this.nowData.temp='36'
+    this.dailyData[0]={fxDate:"2022-09-14",sunrise:"06:20",sunset:"18:36",moonrise:"15:24",moonset:"01:03",moonPhase:"盈凸月",moonPhaseIcon:"803",tempMax:"29",tempMin:"16",iconDay:"100",textDay:"晴",iconNight:"150",textNight:"晴",wind360Day:"225",windDirDay:"西南风",windScaleDay:"1-2",windSpeedDay:"3",wind360Night:"180",windDirNight:"南风",windScaleNight:"1-2",windSpeedNight:"3",humidity:"33",precip:"0.0",pressure:"962",vis:"25",cloud:"25",uvIndex:"7",dew: '',today:'', months:0,day:0}
     this.nowData.text="多云"
     this.nowQuality={"pubTime":"2022-09-06T10:00+08:00","aqi":63,"level":2,"category":"良","primary":"PM10","pm10":76,"pm2p5":19,"no2":43,"so2":8,"co":0.6,"o3":6}
-//    this.warningData=[]
+    //    this.warningData=[]
     if (this.locationName === "") { //if语句。当locationName为空时，用西安的值；当不为空时，用传过来的参数locationName;现在拿不到传过来的参数
       this.locationName = "西安"
       this.nowWeatherUrl = this.nowWeatherUrl + '101110101'
@@ -316,28 +316,3 @@ struct Index {
     })
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
