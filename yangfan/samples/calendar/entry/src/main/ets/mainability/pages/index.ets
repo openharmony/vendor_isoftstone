@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 */
 
-import PreferenceUtil from './PreferenceUtil'
+import StorageUtil from '../config/StorageUtil'
 import LayoutConstant from '../config/LayoutConstant'
 
 @Entry
@@ -112,7 +112,7 @@ struct calendar {
             this.thisyear = this.year
             this.thismonth = this.month
             this.datastr = this.year + '.' + this.month + '.' + this.day
-            PreferenceUtil.getStorageValue(this.datastr, '', data => {
+            StorageUtil.getValueSync(this.datastr, '', data => {
               this.remark = data
               if (this.remark == '') {
                 this.visibility = Visibility.None
@@ -162,7 +162,7 @@ struct calendar {
           .margin({ top: 10 })
           .backgroundColor('#9f9f9f')
           .onClick(() => {
-            PreferenceUtil.setStorageValue(this.datastr, this.defaultValue)
+            StorageUtil.setValue(this.datastr, this.defaultValue)
             this.defaultValue = ' '
             this.show = false
           })
