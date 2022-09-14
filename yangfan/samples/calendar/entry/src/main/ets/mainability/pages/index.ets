@@ -19,7 +19,7 @@ import LayoutConstant from '../config/LayoutConstant'
 @Component
 struct calendar {
   private date = new Date()
-  @State private thisitem: number = -1
+  @State private thisItem: number = -1
   @State remark: string = ''
   @State month: number = this.date.getMonth() + 1
   private days1: Array<number>
@@ -80,7 +80,7 @@ struct calendar {
         })
         ForEach(this.days1, (item: number) => {
           GridItem() {
-            if (this.thisitem === item && this.thismonth === this.month && this.thisyear === this.year) {
+            if (this.thisItem === item && this.thismonth === this.month && this.thisyear === this.year) {
               Text((item + 1).toString())
                 .fontSize(20)
                 .width(30)
@@ -108,7 +108,7 @@ struct calendar {
           }.onClick(() => {
             this.day = new Date(this.year, this.month - 1, item + 1).getDate()
             this.show = !this.show
-            this.thisitem = item
+            this.thisItem = item
             this.thisyear = this.year
             this.thismonth = this.month
             this.datastr = this.year + '.' + this.month + '.' + this.day
