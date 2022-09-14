@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 */
 
-import display from '@ohos.display';
+import display from '@ohos.display'
 
 class DisplayUtils{
 
