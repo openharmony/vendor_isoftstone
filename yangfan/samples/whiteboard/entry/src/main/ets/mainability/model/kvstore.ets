@@ -36,11 +36,11 @@ class KvStoreModel {
         userType: 0
       }
     };
-    let self = this;
+    let self = this
     Logger.info('createKVManager begin')
     distributedData.createKVManager(config).then((manager) => {
       Logger.info('createKVManager success, kvManager=' + JSON.stringify(manager))
-      self.kvManager = manager;
+      self.kvManager = manager
       let options = {
         createIfMissing: true,
         encrypt: false,
@@ -84,10 +84,10 @@ class KvStoreModel {
             let value = entries[i].value.value
             Logger.info('Entries receive ' + msg + '=' + value)
             callback(value)
-            return;
+            return
           }
         }
-      });
+      })
       Logger.info('kvStore.on(dataChange) end')
     })
   }
