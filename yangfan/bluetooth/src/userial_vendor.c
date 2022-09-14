@@ -199,7 +199,6 @@ int userial_vendor_open(tUSERIAL_CFG *p_cfg)
     uint16_t parity;
     uint8_t stop_bits;
     vnd_userial.fd = -1;
-
     if (!userial_to_tcio_baud(p_cfg->baud, &baud)) {
         return -1;
     }
@@ -224,14 +223,13 @@ int userial_vendor_open(tUSERIAL_CFG *p_cfg)
         stop_bits = 0;
     else if (p_cfg->fmt & USERIAL_STOPBITS_2)
         stop_bits = CSTOPB;
-    
+ 
     HILOGI("userial vendor open: opening %s", vnd_userial.port_name);
 
     if ((vnd_userial.fd = open(vnd_userial.port_name, O_RDWR)) == -1) {
         return -1;
     }
     tcflush(vnd_userial.fd, TCIOFLUSH);
-
     tcgetattr(vnd_userial.fd, &vnd_userial.termios);
     cfmakeraw(&vnd_userial.termios);
     vnd_userial.termios.c_cflag |= (CRTSCTS | stop_bits);
