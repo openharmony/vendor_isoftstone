@@ -271,7 +271,7 @@ static int rockchip_gpio_set_config(struct gpio_chip *gc, unsigned int offset,
 		 * still return -ENOTSUPP as before, to make sure the caller
 		 * of gpiod_set_debounce won't change its behaviour.
 		 */
-		rockchip_gpio_set_debounce(gc, offset, debounce);
+        rockchip_gpio_set_debounce(gc, offset, debounce);
 		ret = -ENOTSUPP;
 		break;
 	default:
