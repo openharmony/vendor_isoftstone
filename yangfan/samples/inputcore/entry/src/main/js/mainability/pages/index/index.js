@@ -13,7 +13,6 @@
 */
 
 // @ts-nocheck
-import router from '@system.router'
 import brightness from '@system.brightness';
 import app from '@system.app';
 import inputDevice from '@ohos.multimodalInput.inputDevice';
