@@ -701,9 +701,9 @@ static int rk817_bat_field_read(struct rk817_battery_device *battery,
 	int ret;
 
 	ret = regmap_field_read(battery->rmap_fields[field_id], &val);
-	if (ret < 0)
-		return ret;
-
+	if (ret < 0) {
+        return ret;
+    }
 	return val;
 }
 
