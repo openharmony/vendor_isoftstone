@@ -27,7 +27,7 @@ struct calendar {
   private year: number = this.date.getFullYear()
   private day: number
   private week: number
-  private thisyear
+  private thisYear
   private thismonth
   private days: number
   private blank: Array<string>
@@ -79,7 +79,7 @@ struct calendar {
         })
         ForEach(this.days1, (item: number) => {
           GridItem() {
-            if (this.thisItem === item && this.thismonth === this.month && this.thisyear === this.year) {
+            if (this.thisItem === item && this.thismonth === this.month && this.thisYear === this.year) {
               Text((item + 1).toString())
                 .fontSize(20)
                 .width(30)
@@ -108,7 +108,7 @@ struct calendar {
             this.day = new Date(this.year, this.month - 1, item + 1).getDate()
             this.show = !this.show
             this.thisItem = item
-            this.thisyear = this.year
+            this.thisYear = this.year
             this.thismonth = this.month
             this.datastr = this.year + '.' + this.month + '.' + this.day
             StorageUtil.getValueSync(this.datastr, '', data => {
