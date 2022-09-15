@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 */
 
-import prompt from '@ohos.prompt';
+import prompt from '@ohos.prompt'
 
 @CustomDialog
 export struct FoodListDialog {
