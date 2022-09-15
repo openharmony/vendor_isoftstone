@@ -957,9 +957,8 @@ static void hw_sco_i2spcm_proc_int_param(void)
 
         if ((ret = bt_vendor_cbacks->xmit_cb(HCI_VSC_WRITE_PCM_DATA_FORMAT_PARAM, p_buf)) == FALSE) {
             bt_vendor_cbacks->dealloc(p_buf);
-        } else {
+        } else
             return;
-        }
     }
     status = BTC_OP_RESULT_FAIL;
     
