@@ -1248,7 +1248,7 @@ static void hw_sco_i2spcm_config_from_command(void *p_mem, uint16_t codec)
 
     if (command_success) {
         hw_sco_i2spcm_config(codec);
-    } 
+    }
 }
 
 /*******************************************************************************
