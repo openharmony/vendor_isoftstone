@@ -32,7 +32,7 @@ struct calendar {
   private days: number
   private blank: Array<string>
   private show: boolean = false
-  private datastr: string = ''
+  private dataStr: string = ''
   private visibility: Visibility = Visibility.None
   private defaultValue: string = ''
   private aaa: Array<string> = ['日', '一', '二', '三', '四', '五', '六']
@@ -110,8 +110,8 @@ struct calendar {
             this.thisItem = item
             this.thisyear = this.year
             this.thismonth = this.month
-            this.datastr = this.year + '.' + this.month + '.' + this.day
-            StorageUtil.getValueSync(this.datastr, '', data => {
+            this.dataStr = this.year + '.' + this.month + '.' + this.day
+            StorageUtil.getValueSync(this.dataStr, '', data => {
               this.remark = data
               if (this.remark == '') {
                 this.visibility = Visibility.None
@@ -161,7 +161,7 @@ struct calendar {
           .margin({ top: 10 })
           .backgroundColor('#9f9f9f')
           .onClick(() => {
-            StorageUtil.setValue(this.datastr, this.defaultValue)
+            StorageUtil.setValue(this.dataStr, this.defaultValue)
             this.defaultValue = ' '
             this.show = false
           })
