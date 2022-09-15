@@ -35,19 +35,19 @@ export struct FoodListDialog {
             Column({ space: 10 }) {
               Text(item.foodName)
               .width('90%')
-              .fontSize('18px')
+              .fontSize($r('app.float.distance_18'))
               .fontFamily('HarmonyOS_Sans_SC')
               .textAlign(TextAlign.Start)
               Row({ space: '5' }) {
                 Text('￥' + String(Number(item.price) * item.orderNumber))
-                .fontSize('17px')
+                .fontSize($r('app.float.distance_17'))
                 .fontColor('#f0494d')
                 .fontFamily('HarmonyOS_Sans_SC')
                 .textAlign(TextAlign.Start)
                 Blank()
                 Image($r('app.media.reduce'))
-                .width('34px')
-                .height('34px')
+                .width($r('app.float.distance_34'))
+                .height($r('app.float.distance_34'))
                 .objectFit(ImageFit.None)
                 .onClick(() => {
                   this.total--
@@ -66,13 +66,13 @@ export struct FoodListDialog {
                   }
                 })
                 Text(String(item.orderNumber))
-                .width('51px')
-                .fontSize('17px')
+                .width($r('app.float.distance_51'))
+                .fontSize($r('app.float.distance_17'))
                 .textAlign(TextAlign.Center)
                 .fontFamily('HarmonyOS_Sans_SC')
                 Image($r('app.media.add'))
-                .width('34px')
-                .height('34px')
+                .width($r('app.float.distance_34'))
+                .height($r('app.float.distance_34'))
                 .objectFit(ImageFit.None)
                 .onClick(() => {
                   this.total++
@@ -94,10 +94,10 @@ export struct FoodListDialog {
       Row() {
         Row() {
           Text('总数   ')
-          .fontSize('17px')
+          .fontSize($r('app.float.distance_17'))
           .fontFamily('HarmonyOS_Sans_SC')
           Text(this.total.toString())
-          .fontSize('17px')
+          .fontSize($r('app.float.distance_17'))
           .fontFamily('HarmonyOS_Sans_SC')
         }
         .width('45%')
@@ -107,10 +107,10 @@ export struct FoodListDialog {
         Blank()
         Column() {
           Text('合计   ￥' + this.totalPrice.toString())
-          .fontSize('17px')
+          .fontSize($r('app.float.distance_17'))
           .fontFamily('HarmonyOS_Sans_SC')
           Text('优惠   ￥0')
-          .fontSize('17px')
+          .fontSize($r('app.float.distance_17'))
           .fontColor('#f0494d')
           .fontFamily('HarmonyOS_Sans_SC')
         }
@@ -126,7 +126,7 @@ export struct FoodListDialog {
       .fontSize(15)
       .fontColor('#ffffff')
       .fontFamily('HarmonyOS_Sans_SC')
-      .borderRadius('25px')
+      .borderRadius($r('app.float.distance_25'))
       .textAlign(TextAlign.Center)
       .backgroundColor('#f0494d')
       .margin({ bottom: '30px' })

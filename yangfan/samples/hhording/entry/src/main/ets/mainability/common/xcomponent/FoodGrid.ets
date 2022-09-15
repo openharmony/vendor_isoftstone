@@ -120,6 +120,9 @@ struct FoodGridItem {
     }
   }
 
+  /**
+   * 增加餐品
+   */
   addFood() {
     this.totalNumber++
     this.totalPrice += Number(this.foodItem.price)
@@ -132,6 +135,9 @@ struct FoodGridItem {
     }
   }
 
+  /**
+   * 取消餐品
+   */
   onReduce() {
     if(this.totalNumber > 0) {
       let pow = this.orderList.indexOf(this.foodItem)
