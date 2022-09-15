@@ -14,11 +14,15 @@
 
 import dataStorage from '@ohos.data.storage'
 import ability_featureAbility from '@ohos.ability.featureAbility'
-import {Logger} from './Logger'
-let logger = new Logger('PreferenceUtil')
-class PreferenceUtil {
+import { Logger } from './Logger'
 
-  constructor() {}
+let logger = new Logger('PreferenceUtil')
+/**
+ * 数据存储工具类
+ */
+class PreferenceUtil {
+  constructor() {
+  }
 
   setStorageValue(key, value, ex?) {
     Preference.getInstance().then((preference) => {
@@ -73,7 +77,7 @@ export class Preference {
     return new Promise<Preference>((resolve, reject) => {
       if (!Preference.sInstance) {
         let preference = new Preference()
-        preference.initStorage((err) => {//
+        preference.initStorage((err) => { //
           if (err) {
             reject('initStorage failed.')
           } else {
@@ -116,7 +120,7 @@ export class Preference {
     }
   }
 
-  setStorageValue(key: string , value: number | string | boolean): Promise<void>{
+  setStorageValue(key: string, value: number | string | boolean): Promise<void>{
     return new Promise<void>((resolve, reject) => {
       logger.info(`setStorageValue, key: ${key}, value: ${value}`)
       if (self.storage) {
@@ -197,6 +201,7 @@ export class Preference {
     logger.log(`unRegisterDataChangedListener OnChangedListeners size = ${self.OnChangedListeners.size}`)
     if (self.OnChangedListeners.size == 0) {
       self.storage.off('change', (data) => {
+        console.log(JSON.stringify(data))
       })
     }
   }
