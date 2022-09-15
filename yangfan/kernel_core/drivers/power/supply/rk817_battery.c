@@ -664,9 +664,9 @@ static u32 interpolate(int value, u32 *table, int size)
 		d = i * ((MAX_INTERPOLATE + size / 2) / size);
 	}
 
-	if (d > 1000)
+	if (d > 1000) {
 		d = 1000;
-
+        }
 	return d;
 }
 
