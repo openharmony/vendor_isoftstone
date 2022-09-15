@@ -61,7 +61,6 @@ export class DailyForecast{
         commerciallicense:string
     ]
   }
-
 }
 
 export class DailyData{
@@ -118,7 +117,6 @@ export class HourlyForecast{
         commerciallicense:string
     ]
   }
-
 }
 
 export class HourlyData{
@@ -150,8 +148,6 @@ export class AirQuality{
     sources: string[],
     license:string[]
   }
-
-
 }
 export class NowQuality{
   pubTime: string;
@@ -206,9 +202,6 @@ export class CityInfo{
     sources: string[],
     license: string[]
   };
-
-
-
 }
 export class LocationInfo{
   name: string;
