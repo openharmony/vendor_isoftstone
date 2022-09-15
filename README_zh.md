@@ -23,9 +23,9 @@ vendor/isoftstone/    		       	# vendor_isoftstone 仓库路径
 
 ## 开发环境搭建
 
-扬帆使用参考 [使用教程](https://gitee.com/openharmony-sig/device_board_isoftstone/blob/master/yangfan/README_zh.md)
+扬帆使用参考 [使用教程](https://gitee.com/openharmony/device_board_isoftstone/blob/master/yangfan/README_zh.md)
 
-致远使用参考 [使用教程](https://gitee.com/openharmony-sig/device_board_isoftstone/blob/master/zhiyuan/README_zh.md)
+致远使用参考 [使用教程](https://gitee.com/openharmony/device_board_isoftstone/blob/master/zhiyuan/README_zh.md)
 
 
 ## 贡献
@@ -36,6 +36,6 @@ vendor/isoftstone/    		       	# vendor_isoftstone 仓库路径
 
 ## 相关仓
 
-* [device_board_isoftstone](https://gitee.com/openharmony-sig/device_board_isoftstone)
+* [device_board_isoftstone](https://gitee.com/openharmony/device_board_isoftstone)
 
 
