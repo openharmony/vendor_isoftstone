@@ -36,7 +36,6 @@ struct calendar {
   private visibility: Visibility = Visibility.None
   private defaultValue: string = ''
   private aaa: Array<string> = ['日', '一', '二', '三', '四', '五', '六']
-
   build() {
     Column() {
       Flex({ justifyContent: FlexAlign.SpaceBetween, alignItems: ItemAlign.Center }) {
@@ -73,7 +72,6 @@ struct calendar {
       .rowsTemplate('1fr')
       .margin({ top: 10, bottom: 10 })
       .height(30)
-
       Grid() {
         ForEach(this.blank, () => {
           GridItem() {
