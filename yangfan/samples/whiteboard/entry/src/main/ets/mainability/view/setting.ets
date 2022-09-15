@@ -46,7 +46,7 @@ export struct SettingView {
           this.callback.call(new LayerInfo(parseInt(this.width.toFixed(0)), color))
         })
       }
-      .width('100%')
+      .width('95%')
 
       Text('画笔宽度').fontSize(vp2px(18)).fontColor('#00278a').margin({ left: vp2px(14) })
       Row() {
@@ -68,7 +68,7 @@ export struct SettingView {
           })
         Text(this.width.toFixed(0)).fontSize(vp2px(16))
       }
-      .width('80%')
+      .width('95%')
 
       Row() {
         Text('画笔颜色').fontSize(vp2px(18)).fontColor('#000000')
@@ -98,7 +98,7 @@ export struct SettingView {
           })
 
       }
-      .width('80%')
+      .width('95%')
       .margin({ top: vp2px(14), left: vp2px(14) })
 
       Row() {
@@ -120,7 +120,7 @@ export struct SettingView {
           })
 
       }
-      .width('80%')
+      .width('95%')
       .margin({ top: vp2px(14), left: vp2px(14) })
 
       Row() {
@@ -142,7 +142,7 @@ export struct SettingView {
           })
 
       }
-      .width('80%')
+      .width('95%')
       .margin({ top: vp2px(14), left: vp2px(14) })
 
       Button(this.isClean ? '画笔' : '橡皮擦', { type: ButtonType.Normal, stateEffect: true })

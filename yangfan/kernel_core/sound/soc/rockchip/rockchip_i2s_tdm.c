@@ -1915,7 +1915,9 @@ static int rockchip_i2s_tdm_probe(struct platform_device *pdev)
     if (!pm_runtime_enabled(&pdev->dev)) {
         ret = i2s_tdm_runtime_resume(&pdev->dev);
         if (ret) {
-            goto err_pm_disable;
+            dev_err(&pdev->dev, "pm runtime is disabled.\n");
+            pm_runtime_disable(&pdev->dev);
+            return ret;
         }
     }
 
@@ -1936,7 +1938,11 @@ static int rockchip_i2s_tdm_probe(struct platform_device *pdev)
 
     if (ret) {
         dev_err(&pdev->dev, "Could not register DAI\n");
-        goto err_suspend;
+        if (!pm_runtime_status_suspended(&pdev->dev)) {
+            i2s_tdm_runtime_suspend(&pdev->dev);
+        }
+        pm_runtime_disable(&pdev->dev);
+        return ret;
     }
 
     if (of_property_read_bool(node, "rockchip,no-dmaengine")) {
@@ -1949,15 +1955,6 @@ static int rockchip_i2s_tdm_probe(struct platform_device *pdev)
     }
 
     return 0;
-
-err_suspend:
-    if (!pm_runtime_status_suspended(&pdev->dev)) {
-        i2s_tdm_runtime_suspend(&pdev->dev);
-    }
-err_pm_disable:
-    pm_runtime_disable(&pdev->dev);
-
-    return ret;
 }
 
 static int rockchip_i2s_tdm_remove(struct platform_device *pdev)

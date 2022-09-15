@@ -49,6 +49,14 @@
     {
       "name": "back",
       "value": "返回"
+    },
+    {
+      "name": "pollIndex",
+      "value": "污染指数"
+    },
+    {
+      "name": "more",
+      "value": "更多  >"
     }
 
   ]

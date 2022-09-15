@@ -664,9 +664,9 @@ static u32 interpolate(int value, u32 *table, int size)
 		d = i * ((MAX_INTERPOLATE + size / 2) / size);
 	}
 
-	if (d > 1000)
+	if (d > 1000) {
 		d = 1000;
-
+        }
 	return d;
 }
 
@@ -678,17 +678,19 @@ static int32_t ab_div_c(u32 a, u32 b, u32 c)
 	int tmp;
 
 	sign = ((((a ^ b) ^ c) & 0x80000000) != 0);
-	if (c != 0) {
-		if (sign)
-			c = -c;
+    if (c != 0) {
+        if (sign) {
+            c = -c;
+        }
 		tmp = (a * b + (c >> 1)) / c;
-		if (tmp < MAX_INT)
-			ans = tmp;
-	}
+        if (tmp < MAX_INT) {
+            ans = tmp;
+        }
+    }
 
-	if (sign)
-		ans = -ans;
-
+    if (sign) {
+        ans = -ans;
+    }
 	return ans;
 }
 

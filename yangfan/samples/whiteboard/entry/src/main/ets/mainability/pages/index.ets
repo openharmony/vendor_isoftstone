@@ -29,30 +29,30 @@ const CHANGE = 'changed'
 const EXIT = 'exit'
 
 async function requestPermission() {
-  Logger.info('requestPermission begin');
-  let array: Array<string> = ["ohos.permission.DISTRIBUTED_DATASYNC"];
-  let tokenID = undefined;
-  const appInfo = await bundle.getApplicationInfo('com.example.drawingboard', 0, 100);
-  tokenID = appInfo.accessTokenId;
-  const atManager = abilityAccessCtrl.createAtManager();
-  let requestPermissions: Array<string> = [];
+  Logger.info('requestPermission begin')
+  let array: Array<string> = ["ohos.permission.DISTRIBUTED_DATASYNC"]
+  let tokenID = undefined
+  const appInfo = await bundle.getApplicationInfo('com.example.drawingboard', 0, 100)
+  tokenID = appInfo.accessTokenId
+  const atManager = abilityAccessCtrl.createAtManager()
+  let requestPermissions: Array<string> = []
   for (let i = 0;i < array.length; i++) {
-    let result = await atManager.verifyAccessToken(tokenID, array[i]);
-    Logger.info("verifyAccessToken result:" + JSON.stringify(result));
+    let result = await atManager.verifyAccessToken(tokenID, array[i])
+    Logger.info("verifyAccessToken result:" + JSON.stringify(result))
     if (result == abilityAccessCtrl.GrantStatus.PERMISSION_GRANTED) {
     } else {
-      requestPermissions.push(array[i]);
+      requestPermissions.push(array[i])
     }
   }
   Logger.info("requestPermissions:" + JSON.stringify(requestPermissions));
   if (requestPermissions.length == 0 || requestPermissions == []) {
-    return;
+    return
   }
-  let context = featureAbility.getContext();
+  let context = featureAbility.getContext()
   context.requestPermissionsFromUser(requestPermissions, 1, (data) => {
-    Logger.info("data:" + JSON.stringify(data));
+    Logger.info("data:" + JSON.stringify(data))
   });
-  Logger.info('requestPermission end');
+  Logger.info('requestPermission end')
 }
 
 

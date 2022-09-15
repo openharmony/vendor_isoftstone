@@ -60,7 +60,6 @@ struct weatherListItem {
         .fontColor(Color.White)
         .width('15%')
         .textAlign(TextAlign.Center)
-
     }
     .layoutWeight(4)
     .padding({left:18,right:18})
