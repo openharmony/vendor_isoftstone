@@ -72,7 +72,5 @@ struct weatherGridItem {
     }
     .width(80)
     .margin({ left: 5, right: 5 })
-
-
   }
 }
