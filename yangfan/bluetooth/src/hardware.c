@@ -955,11 +955,10 @@ static void hw_sco_i2spcm_proc_int_param(void)
         *p++ = PCM_DATA_FORMAT_PARAM_SIZE;
         memcpy_s(p, &bt_pcm_data_fmt_param, PCM_DATA_FORMAT_PARAM_SIZE);
 
-        if ((ret = bt_vendor_cbacks->xmit_cb(HCI_VSC_WRITE_PCM_DATA_FORMAT_PARAM, p_buf)) == FALSE) {
-            bt_vendor_cbacks->dealloc(p_buf);
-        } else {
-            return;
+        if ((ret = bt_vendor_cbacks->xmit_cb(HCI_VSC_WRITE_PCM_DATA_FORMAT_PARAM, p_buf)) == TRUE) {
+            return ;
         }
+        bt_vendor_cbacks->dealloc(p_buf);
     }
     status = BTC_OP_RESULT_FAIL;
     
