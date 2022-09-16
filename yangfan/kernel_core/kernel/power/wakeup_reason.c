@@ -373,6 +373,7 @@ static struct attribute *attrs[] = {
     &suspend_time.attr,
     NULL,
 };
+
 static struct attribute_group attr_group = {
     .attrs = attrs,
 };
