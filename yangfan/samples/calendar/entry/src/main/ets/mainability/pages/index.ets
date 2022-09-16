@@ -39,7 +39,7 @@ struct calendar {
   build() {
     Column() {
       Flex({ justifyContent: FlexAlign.SpaceBetween, alignItems: ItemAlign.Center }) {
-        Image($r('app.media.left')).backgroundColor(Color.Red).height(24).width(24).onClick(() => {
+        Image($r('app.media.left')).backgroundColor(Color.Red).height($r("app.float.length_24")).width($r("app.float.length_24")).onClick(() => {
           if (this.month == 1) {
             this.month = 12
             --this.year
@@ -49,7 +49,7 @@ struct calendar {
           }
           this.month_days()
         })
-        Image($r('app.media.right')).height(24).width(24).onClick(() => {
+        Image($r('app.media.right')).height($r("app.float.length_24")).width($r("app.float.length_24")).onClick(() => {
           if (this.month == 12) {
             this.month = 1
             ++this.year
@@ -59,18 +59,18 @@ struct calendar {
           }
           this.month_days()
         })
-      }.width(LayoutConstant.WH_90_100).margin({ top: 10, bottom: 10 }).height(LayoutConstant.WH_5_100)
+      }.width(LayoutConstant.WH_90_100).margin({ top: $r("app.float.length_10"), bottom: $r("app.float.length_10") }).height(LayoutConstant.WH_5_100)
 
       Text(this.year + '年' + this.month + '月').fontSize(30)
       Grid() {
         ForEach(this.aaa, item => {
           GridItem() {
-            Text(item).fontSize(20).fontWeight(FontWeight.Bold)
+            Text(item).fontSize($r("app.float.length_20")).fontWeight(FontWeight.Bold)
           }
         })
       }.columnsTemplate('1fr 1fr 1fr 1fr 1fr 1fr 1fr')
       .rowsTemplate('1fr')
-      .margin({ top: 10, bottom: 10 })
+      .margin({ top: $r("app.float.length_10"), bottom: $r("app.float.length_10") })
       .height(30)
       Grid() {
         ForEach(this.blank, () => {
@@ -81,27 +81,27 @@ struct calendar {
           GridItem() {
             if (this.thisItem === item && this.thismonth === this.month && this.thisYear === this.year) {
               Text((item + 1).toString())
-                .fontSize(20)
-                .width(30)
-                .height(30)
+                .fontSize($r("app.float.length_20"))
+                .width($r("app.float.length_30"))
+                .height($r("app.float.length_30"))
                 .backgroundColor('#29bafe')
-                .borderRadius(10)
+                .borderRadius($r("app.float.length_10"))
                 .textAlign(TextAlign.Center)
             }
             else if (this.date.getDate() === new Date(this.year, this.month - 1, item + 1).getDate() && this.date.getFullYear() === new Date(this.year, this.month - 1, item + 1).getFullYear() && this.date.getMonth() === new Date(this.year, this.month - 1, item + 1).getMonth()) {
               Text((item + 1).toString())
-                .fontSize(20)
-                .width(30)
-                .height(30)
-                .borderRadius(10)
+                .fontSize($r("app.float.length_20"))
+                .width($r("app.float.length_30"))
+                .height($r("app.float.length_30"))
+                .borderRadius($r("app.float.length_10"))
                 .borderColor('#29bafe')
                 .borderWidth(2)
                 .textAlign(TextAlign.Center)
             }
             else {
-              Text((item + 1).toString()).fontSize(20)
-                .width(30)
-                .height(30)
+              Text((item + 1).toString()).fontSize($r("app.float.length_20"))
+                .width($r("app.float.length_30"))
+                .height($r("app.float.length_30"))
                 .textAlign(TextAlign.Center)
             }
           }.onClick(() => {
@@ -128,14 +128,14 @@ struct calendar {
       Panel(this.show) {
         Column() {
           Text(this.year + '年' + this.month + '月' + this.day + '日')
-            .fontSize(20)
+            .fontSize($r("app.float.length_20"))
             .textAlign(TextAlign.Center)
             .width(LayoutConstant.WH_95_100)
           Text(this.remark)
             .backgroundColor('')
-            .fontSize(20)
+            .fontSize($r("app.float.length_20"))
             .width(LayoutConstant.WH_95_100)
-            .height(60)
+            .height($r("app.float.length_60"))
             .borderRadius(15)
             .margin({ top: 5 })
             .textAlign(TextAlign.Center)
@@ -145,20 +145,20 @@ struct calendar {
             .placeholderFont({ size: 30, weight: 100, family: 'cursive', style: FontStyle.Italic })
             .textAlign(TextAlign.Center)
             .caretColor(Color.Blue)
-            .height(60)
-            .fontSize(20)
+            .height($r("app.float.length_60"))
+            .fontSize($r("app.float.length_20"))
             .fontWeight(FontWeight.Bold)
             .fontFamily("sans-serif")
             .fontStyle(FontStyle.Normal)
-            .margin({ left: 10, right: 10 })
+            .margin({ left: $r("app.float.length_10"), right: $r("app.float.length_10") })
             .onChange((value: string) => {
               this.defaultValue = value
             })
           Button() {
             Text($r('app.string.save'))
-              .fontSize(20)
-          }.width(80)
-          .margin({ top: 10 })
+              .fontSize($r("app.float.length_20"))
+          }.width($r("app.float.length_80"))
+          .margin({ top: $r("app.float.length_10") })
           .backgroundColor('#9f9f9f')
           .onClick(() => {
             StorageUtil.setValue(this.datastr, this.defaultValue)
