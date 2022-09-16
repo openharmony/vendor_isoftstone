@@ -103,7 +103,7 @@ static inline void rockchip_gpio_writel_bit(struct rockchip_pin_bank *bank,
 
 	if (bank->gpio_type == GPIO_TYPE_V2) {
 		if (value)
-			data = BIT(bit % 16) | BIT(bit % 16 + 16);
+            data = BIT(bit % 16) | BIT(bit % 16 + 16);
 		else
 			data = BIT(bit % 16 + 16);
 		writel(data, bit >= 16 ? reg + 0x4 : reg);
