@@ -17,6 +17,34 @@
     {
       "name": "wh_value_1",
       "value": "1vp"
-    }
+    },
+	{
+	  "name": "length_24",
+      "value": "24"
+	},
+	{
+	  "name": "length_30",
+      "value": "30"
+	},
+	{
+	  "name": "length_20",
+      "value": "20"
+	},
+	{
+	  "name": "length_60",
+      "value": "60"
+	},
+	{
+	  "name": "length_15",
+      "value": "15"
+	},
+	{
+	  "name": "length_80",
+      "value": "80"
+	},
+	{
+	  "name": "length_10",
+      "value": "10"
+	}
   ]
 }
