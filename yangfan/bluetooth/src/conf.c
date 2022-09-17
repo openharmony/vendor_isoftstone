@@ -100,7 +100,7 @@ void vnd_load_conf(const char *p_path)
 
     HILOGI("Attempt to load conf from %s", p_path);
     if ((p_file = fopen(p_path, "r")) == NULL) {
-        HILOGI("vnd_load_conf file >%s< not found", p_path);
+        HILOGE("vnd_load_conf file >%s< not found", p_path);
         return;
     }
 
