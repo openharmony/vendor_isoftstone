@@ -5,9 +5,9 @@
 该仓库托管isoftstone产品：扬帆开发板和致远开发板的配置参数。
 
 “扬帆”装载瑞芯微RK3399芯片，基于Big.Little架构，其丰富的扩展接口可实现LCD显示、触摸、多媒体、上网等基本特性，可广泛应用于互动广告机、互动数字标牌、智能自助终端、智能零售终端、工控主机、机器人设备等各类场景。
-https://gitee.com/openharmony/device_board_isoftstone/raw/master/yangfan/figures/yangfan_board.png
+
 “致远”搭载全志T507芯片，基于ARM架构，四核64位处理器，支持蓝牙、WIFI、音频、视频和摄像头等功能。拥有丰富的扩展接口，以及多种视频输入输出接口； 适用于工业控制、智能驾舱、智慧家居、智慧电力、在线教育等诸多行业需求。
-https://gitee.com/openharmony/device_board_isoftstone/raw/master/zhiyuan/figures/EVB_OH1.png
+
 ## 目录
 
 ```
