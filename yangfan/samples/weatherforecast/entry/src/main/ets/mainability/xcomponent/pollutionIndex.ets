@@ -32,7 +32,7 @@ export struct pollutionIndex {
           this.context.lineWidth = 18
           this.context.strokeStyle = '#edeede8e'
           this.context.arc(70, 75, 55, 4.71, (this.indexNum.aqi / 500) * 6.28 + 4.71)
-          this.context.stroke();
+          this.context.stroke()
         })
 
       Canvas(this.con) //画布2
@@ -42,7 +42,7 @@ export struct pollutionIndex {
           this.con.lineWidth = 15
           this.con.strokeStyle = '#ff70a2cd'
           this.con.arc(70, 75, 55, (this.indexNum.aqi / 500) * 6.28 + 4.71, 4.71) //起始位置是坐标轴y轴正半轴处
-          this.con.stroke();
+          this.con.stroke()
         })
         .opacity(0.3) //透明度
 
