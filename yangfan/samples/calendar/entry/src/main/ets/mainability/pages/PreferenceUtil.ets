@@ -14,7 +14,7 @@
 
 import dataStorage from '@ohos.data.storage'
 import ability_featureAbility from '@ohos.ability.featureAbility'
-import { Logger } from './Logger'
+import { Logger } from './logger'
 
 let logger = new Logger('PreferenceUtil')
 /**
@@ -82,7 +82,6 @@ export class Preference {
       if (!Preference.sInstance) {
         let preference = new Preference()
         preference.initStorage((err) => {
-          logger.error(`preference initStorage result: ${JSON.stringify(err)}`)
           if (err) {
             reject('initStorage failed.')
           } else {
@@ -168,7 +167,7 @@ export class Preference {
     return new Promise<void>((resolve, reject) => {
       logger.info(`deleteStorageKey, key: ${key}`)
       if (self.storage) {
-        self.storage.delete(key).then(() => {
+        self.storage.delete(key).then((data) => {
           logger.info(`deleteStorageKey key= ${key} result: ${JSON.stringify(data)}`)
           resolve()
         }).catch((err) => {

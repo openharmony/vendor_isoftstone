@@ -1,0 +1,24 @@
+{
+  "float": [
+    {
+      "name": "distance_17",
+      "value": "17px"
+    },
+    {
+      "name": "distance_51",
+      "value": "51px"
+    },
+	{
+	  "name": "distance_34",
+      "value": "34px"
+	},
+	{
+	  "name": "distance_25",
+      "value": "25px"
+	},
+	{
+	  "name": "distance_18",
+      "value": "18px"
+	}
+  ]
+}

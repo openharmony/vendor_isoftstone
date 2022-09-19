@@ -12,10 +12,13 @@
 # See the License for the specific language governing permissions and
 */
 
-import display from '@ohos.display';
+import display from '@ohos.display'
 
 class DisplayUtils{
 
+  /**
+   * 获取屏幕宽度
+   */
   getDisplayWidth() {
     display.getDefaultDisplay((err, data) => {
       if(err) {
@@ -26,6 +29,9 @@ class DisplayUtils{
     })
   }
 
+  /**
+   * 获取屏幕高度
+   */
   getDisplayHeight() {
     display.getDefaultDisplay((err, data) => {
       if(err) {

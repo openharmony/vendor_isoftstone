@@ -15,9 +15,8 @@
 
 
 import http from '@ohos.net.http'
-import prompt from '@system.prompt';
-//import router from '@ohos.router';
-import router from '@system.router';
+import prompt from '@system.prompt'
+import router from '@system.router'
 import { CurrentWeather, DailyForecast, HourlyForecast, AirQuality, NowQuality, NowData, HourlyData, DailyData,
   WeatherWarning, WarningData } from '../model/weatherData'
 import {weatherGrid} from '../componments/weatherGrid'
@@ -103,7 +102,7 @@ struct Index {
                 })
               })
           }
-          Text(this.nowData.temp+ '℃')
+          Text(`${this.nowData.temp}℃`)
             .fontSize(60)
             .fontColor(Color.White)
           Text(this.dailyData[0].tempMin + " / " + this.dailyData[0].tempMax + "℃")
@@ -121,7 +120,7 @@ struct Index {
                   .width(20)
                   .height(20)
                   .margin({ top: 2.5, left: 15, right: 10 })
-                Text(this.warningData[0].typeName + this.warningData[0].level + "预警")
+                Text(this.warningData[0].typeName + this.warningData[0].level + '预警')
                   .fontSize(15)
                   .fontColor(Color.White)
               }

@@ -20,11 +20,11 @@ export struct airQuality{
   build(){
     Column(){
       Flex(){
-        Text('空气质量')
+        Text($r("app.string.airQuality"))
           .fontSize(20)
           .fontColor(Color.White)
           .width('50%')
-        Text('更多  >')
+        Text($r("app.string.more"))
           .fontSize(20)
           .fontColor(Color.White)
           .width('50%')
@@ -33,7 +33,7 @@ export struct airQuality{
       .width('90%')
       Flex(){
         Column(){
-          Text('污染指数')
+          Text($r("app.string.pollIndex"))
             .fontSize(18)
             .margin({top:8})
             .fontColor(Color.White)

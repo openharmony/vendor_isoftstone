@@ -335,7 +335,7 @@ static ssize_t last_resume_reason_show(struct kobject *kobj, struct kobj_attribu
 }
 
 static ssize_t last_suspend_time_show(struct kobject *kobj,
-			struct kobj_attribute *attr, char *buf)
+    struct kobj_attribute *attr, char *buf)
 {
     struct timespec64 sleep_time;
     struct timespec64 total_time;
@@ -373,13 +373,14 @@ static struct attribute *attrs[] = {
     &suspend_time.attr,
     NULL,
 };
+
 static struct attribute_group attr_group = {
     .attrs = attrs,
 };
 
 /* Detects a suspend and clears all the previous wake up reasons */
 static int wakeup_reason_pm_event(struct notifier_block *notifier,
-		unsigned long pm_event, void *unused)
+    unsigned long pm_event, void *unused)
 {
     switch (pm_event) {
         case PM_SUSPEND_PREPARE:

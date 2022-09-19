@@ -14,7 +14,7 @@
 const MAIN_TAG = 'Log'
 //日志
 
-export class logger {
+export class Logger {
   tag =MAIN_TAG
 
   constructor(tag) {

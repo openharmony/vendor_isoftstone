@@ -35,7 +35,7 @@
             <filefilter name="defaultFilter" desc="Files not to check">
                 <filteritem type="filepath" name="yangfan/kernel_core/.*" desc="kernel_core"/>
             </filefilter>
-            <filefilter name="defaultPolicyFilter" desc="Filters for compatibility，license header policies">
+            <filefilter name="defaultPolicyFilter" desc="Filters for compatibility,license header policies">
                 <filteritem type="filepath" name="yangfan/bluetooth/BUILD.gn" desc=""/>
                 <filteritem type="filepath" name="zhiyuan/hdf_config/khdf/hdf_test/.modules.order.cmd" desc=""/>
                 <filteritem type="filepath" name="zhiyuan/power_config/power_mode_config.xml" desc=""/>

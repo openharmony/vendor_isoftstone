@@ -957,8 +957,9 @@ static void hw_sco_i2spcm_proc_int_param(void)
 
         if ((ret = bt_vendor_cbacks->xmit_cb(HCI_VSC_WRITE_PCM_DATA_FORMAT_PARAM, p_buf)) == FALSE) {
             bt_vendor_cbacks->dealloc(p_buf);
-        } else
+        } else {
             return;
+        }
     }
     status = BTC_OP_RESULT_FAIL;
     
@@ -1248,8 +1249,6 @@ static void hw_sco_i2spcm_config_from_command(void *p_mem, uint16_t codec)
 
     if (command_success) {
         hw_sco_i2spcm_config(codec);
-    } else if (bt_vendor_cbacks) {
-        // bt_vendor_cbacks->audio_state_cb(BT_VND_OP_RESULT_FAIL);
     }
 }
 
@@ -1502,8 +1501,8 @@ void hw_process_event(HC_BT_HDR *p_buf)
 #endif
         case HCI_READ_LOCAL_NAME:
         case HCI_VSC_DOWNLOAD_MINIDRV:
-    case HCI_VSC_WRITE_FIRMWARE:
-    case HCI_VSC_LAUNCH_RAM:
+        case HCI_VSC_WRITE_FIRMWARE:
+        case HCI_VSC_LAUNCH_RAM:
         case HCI_RESET:
         case HCI_VSC_WRITE_UART_CLOCK_SETTING:
         case HCI_VSC_UPDATE_BAUDRATE:

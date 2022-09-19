@@ -664,9 +664,9 @@ static u32 interpolate(int value, u32 *table, int size)
 		d = i * ((MAX_INTERPOLATE + size / 2) / size);
 	}
 
-	if (d > 1000)
+	if (d > 1000) {
 		d = 1000;
-
+        }
 	return d;
 }
 
@@ -678,17 +678,19 @@ static int32_t ab_div_c(u32 a, u32 b, u32 c)
 	int tmp;
 
 	sign = ((((a ^ b) ^ c) & 0x80000000) != 0);
-	if (c != 0) {
-		if (sign)
-			c = -c;
+    if (c != 0) {
+        if (sign) {
+            c = -c;
+        }
 		tmp = (a * b + (c >> 1)) / c;
-		if (tmp < MAX_INT)
-			ans = tmp;
-	}
+        if (tmp < MAX_INT) {
+            ans = tmp;
+        }
+    }
 
-	if (sign)
-		ans = -ans;
-
+    if (sign) {
+        ans = -ans;
+    }
 	return ans;
 }
 
@@ -699,9 +701,9 @@ static int rk817_bat_field_read(struct rk817_battery_device *battery,
 	int ret;
 
 	ret = regmap_field_read(battery->rmap_fields[field_id], &val);
-	if (ret < 0)
-		return ret;
-
+	if (ret < 0) {
+        return ret;
+    }
 	return val;
 }
 
@@ -3085,7 +3087,7 @@ static time64_t rk817_get_rtc_sec(void)
 	struct rtc_time tm;
 	struct rtc_device *rtc = rtc_class_open(CONFIG_RTC_HCTOSYS_DEVICE);
 
-	err = rtc_read_time(rtc, &tm);
+    err = rtc_read_time(rtc, &tm);
 	if (err) {
 		dev_err(rtc->dev.parent, "read hardware clk failed\n");
 		return 0;
@@ -3224,13 +3226,13 @@ static void rk817_bat_init_capacity(struct rk817_battery_device *battery,
 
 static void rk817_bat_relax_vol_calib(struct rk817_battery_device *battery)
 {
-	int soc, cap, vol;
+    int soc, cap, vol;
 
-	vol = battery->voltage_relax;
-	soc = rk817_bat_vol_to_soc(battery, vol);
-	cap = rk817_bat_vol_to_cap(battery, vol);
-	rk817_bat_init_capacity(battery, cap);
-	BAT_INFO("sleep ocv calib: rsoc=%d, cap=%d\n", soc, cap);
+    vol = battery->voltage_relax;
+    soc = rk817_bat_vol_to_soc(battery, vol);
+    cap = rk817_bat_vol_to_cap(battery, vol);
+    rk817_bat_init_capacity(battery, cap);
+    BAT_INFO("sleep ocv calib: rsoc=%d, cap=%d\n", soc, cap);
 }
 
 static int rk817_bat_sleep_dischrg(struct rk817_battery_device *battery)
