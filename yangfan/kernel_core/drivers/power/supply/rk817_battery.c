@@ -3226,13 +3226,13 @@ static void rk817_bat_init_capacity(struct rk817_battery_device *battery,
 
 static void rk817_bat_relax_vol_calib(struct rk817_battery_device *battery)
 {
-	int soc, cap, vol;
+    int soc, cap, vol;
 
-	vol = battery->voltage_relax;
-	soc = rk817_bat_vol_to_soc(battery, vol);
-	cap = rk817_bat_vol_to_cap(battery, vol);
-	rk817_bat_init_capacity(battery, cap);
-	BAT_INFO("sleep ocv calib: rsoc=%d, cap=%d\n", soc, cap);
+    vol = battery->voltage_relax;
+    soc = rk817_bat_vol_to_soc(battery, vol);
+    cap = rk817_bat_vol_to_cap(battery, vol);
+    rk817_bat_init_capacity(battery, cap);
+    BAT_INFO("sleep ocv calib: rsoc=%d, cap=%d\n", soc, cap);
 }
 
 static int rk817_bat_sleep_dischrg(struct rk817_battery_device *battery)
