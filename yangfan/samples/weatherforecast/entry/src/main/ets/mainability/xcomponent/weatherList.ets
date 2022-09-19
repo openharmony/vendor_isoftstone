@@ -42,7 +42,7 @@ struct weatherListItem {
         .width('15%')
         .textAlign(TextAlign.Center)
         .fontColor(Color.White)
-      Text(this.dailyDataItem.months+'月'+this.dailyDataItem.day+'日')
+      Text(`${this.dailyDataItem.months}月${this.dailyDataItem.day}日`)
         .fontSize(20)
         .width('15%')
         .textAlign(TextAlign.Center)
@@ -55,7 +55,7 @@ struct weatherListItem {
         .align(Alignment.Center)
         .flexGrow(1)
 
-      Text(this.dailyDataItem.tempMin + '/' + this.dailyDataItem.tempMax + "℃")
+      Text(this.dailyDataItem.tempMin + '/' + this.dailyDataItem.tempMax + '℃')
         .fontSize(20)
         .fontColor(Color.White)
         .width('15%')
