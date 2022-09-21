@@ -34,6 +34,7 @@
         <filefilterlist>
             <filefilter name="defaultFilter" desc="Files not to check">
                 <filteritem type="filepath" name="yangfan/kernel_core/.*" desc="kernel_core"/>
+                <filteritem type="filepath" name="yangfan/bluetooth/.*" desc="bluetooth"/>
             </filefilter>
             <filefilter name="defaultPolicyFilter" desc="Filters for compatibility,license header policies">
                 <filteritem type="filepath" name="yangfan/bluetooth/BUILD.gn" desc=""/>
