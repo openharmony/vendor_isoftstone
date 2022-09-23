@@ -25,6 +25,18 @@
     {
       "name": "gameOver",
       "value": "游戏结束"
-    }
+    },
+	 {
+      "name": "chess_white",
+      "value": "白棋"
+    },
+	 {
+      "name": "chess_black",
+      "value": "黑棋"
+    },
+	{
+      "name": "tip",
+      "value": "不能再悔棋了!"
+    },
   ]
 }

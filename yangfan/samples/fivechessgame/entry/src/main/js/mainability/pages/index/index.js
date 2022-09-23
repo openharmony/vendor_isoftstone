@@ -65,7 +65,7 @@ export default {
     },
     repentanceChess() { //悔棋
         if (this.allChessIndexArry.length===0){
-            this.tipsInfo="不能再悔棋了!";
+            this.tipsInfo='$r(app.string.tip)';
             this.gameState="gameOver";
             return;
         };
@@ -142,9 +142,9 @@ export default {
     gameOver(currentPlayer) {
         this.gameState = "gameOver";
         if (currentPlayer == '1') {
-            return '黑棋'
+            return '$r(app.string.chess_black)'
         } else {
-            return '白棋'
+            return '$r(app.string.chess_white)'
         }
         console.log("$string:gameOver")
     },
