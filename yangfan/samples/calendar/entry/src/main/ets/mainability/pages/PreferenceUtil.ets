@@ -14,7 +14,7 @@
 
 import dataStorage from '@ohos.data.storage'
 import ability_featureAbility from '@ohos.ability.featureAbility'
-import { Logger } from './Logger'
+import { Logger } from './logger'
 
 let logger = new Logger('PreferenceUtil')
 /**
@@ -28,6 +28,7 @@ class PreferenceUtil {
     Preference.getInstance().then((preference) => {
       return preference.setStorageValue(key, value)
     }).catch((err) => {
+      logger.error(`setStorageValue key = ${key}, value = ${value} error: ${JSON.stringify(err)}`)
       ex(err)
     })
   }
@@ -36,8 +37,10 @@ class PreferenceUtil {
     Preference.getInstance().then((preference) => {
       return preference.getStorageValue(key, defValue)
     }).then((data) => {
+      logger.info(`getStorageValue key = ${key} result: ${JSON.stringify(data)}`)
       callback(data)
     }).catch((err) => {
+      logger.error(`getStorageValue key = ${key} error: ${JSON.stringify(err)}`)
       ex(err)
     })
   }
@@ -46,6 +49,7 @@ class PreferenceUtil {
     Preference.getInstance().then((preference) => {
       return preference.deleteStorageKey(key)
     }).catch((err) => {
+      logger.error(`deleteStorageKey key = ${key} error: ${JSON.stringify(err)}`)
       ex(err)
     })
   }
@@ -77,7 +81,7 @@ export class Preference {
     return new Promise<Preference>((resolve, reject) => {
       if (!Preference.sInstance) {
         let preference = new Preference()
-        preference.initStorage((err) => { //
+        preference.initStorage((err) => {
           if (err) {
             reject('initStorage failed.')
           } else {
@@ -102,14 +106,14 @@ export class Preference {
     }
     let context = ability_featureAbility.getContext()
     context.getFilesDir().then((data) => {
-      logger.log(`initStorage getFilesDir, data = ${data}`)
+      logger.info(`initStorage getFilesDir result1: ${data}`)
       return dataStorage.getStorage(`${data}/mystore`)
     }).then((storage) => {
       self.storage = storage
-      logger.log(`initStorage getStorage success`)
+      logger.info(`initStorage getStorage result2: ${JSON.stringify(storage)}`)
       call(undefined)
     }).catch((err) => {
-      logger.error(`getFilesDir failed, err = ${err}`)
+      logger.error(`initStorage getFilesDir error: ${JSON.stringify(err)}`)
       call(`getFilesDir failed, err = ${err}`)
     })
   }
@@ -122,7 +126,7 @@ export class Preference {
 
   setStorageValue(key: string, value: number | string | boolean): Promise<void>{
     return new Promise<void>((resolve, reject) => {
-      logger.info(`setStorageValue, key: ${key}, value: ${value}`)
+      logger.info(`setStorageValue: key= ${key}, value= ${value}`)
       if (self.storage) {
         self.storage.put(key, value)
           .then(() => {
@@ -133,7 +137,7 @@ export class Preference {
             resolve()
           })
           .catch((err) => {
-            logger.error(`setStorageValue failed, err = ${err}`)
+            logger.error(`setStorageValue error: ${JSON.stringify(err)}`)
             reject(err)
           })
       } else {
@@ -147,10 +151,10 @@ export class Preference {
       logger.info(`getStorageValue, key: ${key}, defaultValue: ${defValue}`)
       if (self.storage) {
         self.storage.get(key, defValue).then((data) => {
-          logger.info(`getStorageValue success, data = ${data}`)
+          logger.info(`getStorageValue key= ${key} result: ${JSON.stringify(data)}`)
           resolve(data)
         }).catch((err) => {
-          logger.error(`getStorageValue failed, err = ${err}`)
+          logger.error(`getStorageValue error: ${JSON.stringify(err)}`)
           reject(err)
         })
       } else {
@@ -163,11 +167,11 @@ export class Preference {
     return new Promise<void>((resolve, reject) => {
       logger.info(`deleteStorageKey, key: ${key}`)
       if (self.storage) {
-        self.storage.delete(key).then(() => {
-          logger.log("deleteStorageKey success")
+        self.storage.delete(key).then((data) => {
+          logger.info(`deleteStorageKey key= ${key} result: ${JSON.stringify(data)}`)
           resolve()
         }).catch((err) => {
-          logger.error(`deleteStorageKey failed, err = ${err}`)
+          logger.error(`deleteStorageKey key= ${key} error: ${JSON.stringify(err)}`)
           reject(err)
         })
       } else {
@@ -186,7 +190,7 @@ export class Preference {
       logger.log(`registerDataChangedListener OnChangedListeners size = ${self.OnChangedListeners.size}`)
       if (self.OnChangedListeners.size == 1) {
         self.storage.on('change', (data) => {
-          logger.log(`registerDataChangedListener change data = ${data}`)
+          logger.info(`registerDataChangedListener change result: ${JSON.stringify(data)}`)
           self.storageObserver(data.key)
         })
       }
@@ -201,7 +205,7 @@ export class Preference {
     logger.log(`unRegisterDataChangedListener OnChangedListeners size = ${self.OnChangedListeners.size}`)
     if (self.OnChangedListeners.size == 0) {
       self.storage.off('change', (data) => {
-        console.log(JSON.stringify(data))
+        logger.info(`unRegisterDataChangedListener change result: ${JSON.stringify(data)}`)
       })
     }
   }

@@ -20,7 +20,7 @@ class StorageUtil {
 
     async initStorage() {
         if (!this.storage) {
-			let fileDir = await ability_featureAbility.getContext().getFilesDir()
+            let fileDir = await ability_featureAbility.getContext().getFilesDir()
             this.storage = await Storage.getStorage(fileDir + '/mystore')
         }
     }
