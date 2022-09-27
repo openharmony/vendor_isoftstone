@@ -2416,7 +2416,7 @@ static void rk817_bat_smooth_algorithm(struct rk817_battery_device *battery)
 
 	battery->remain_cap = rk817_bat_get_capacity_uah(battery);
 
-	old_cap = battery->sm_remain_cap;
+        old_cap = battery->sm_remain_cap;
 	DBG("smooth: smooth_soc = %d, dsoc = %d, battery->sm_linek = %d\n",
 	    battery->smooth_soc, battery->dsoc, battery->sm_linek);
 
