@@ -25,6 +25,7 @@
                 <policyitem type="copyright" name="Broadcom Corporation" path=".*" desc=""/>
                 <policyitem type="copyright" name="iSoftStone Device Co., Ltd." path=".*" desc=""/>        
                 <policyitem type="copyright" name="iSoftStone Information Technology (Group) Co.,Ltd." path=".*" desc=""/>  
+                <policyitem type="license" name="GPL" path=".*" desc="linux kernel adapter codes"/>
                 <policyitem type="copyright" name="Fuzhou Rockchip Electronics Co., Ltd." path=".*" desc=""/>
                 <policyitem type="copyright" name="ROCKCHIP CORPORATION. CO., Ltd." path=".*" desc=""/>
                 <policyitem type="copyright" name="Rockchip Electronics Co., Ltd." path=".*" desc=""/>
