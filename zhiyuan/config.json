@@ -6,28 +6,12 @@
   "type": "standard",
   "version": "3.0",
   "board": "zhiyuan",
+  "api_version": 8,
   "enable_ramdisk": false,
   "build_selinux": false,
+  "build_seccomp": false,
   "inherit": [ "productdefine/common/inherit/rich.json", "productdefine/common/inherit/chipset_common.json" ],
   "subsystems": [
-    {
-      "subsystem": "security",
-      "components": [
-        {
-          "component": "selinux",
-          "features": []
-        }
-      ]
-    },
-    {
-      "subsystem": "communication",
-      "components": [
-        {
-          "component": "netmanager_ext",
-          "features": []
-        }
-      ]
-    },
     {
       "subsystem": "graphic",
       "components": [
@@ -40,21 +24,38 @@
       ]
     },
     {
-      "subsystem": "hdf",
+      "subsystem": "communication",
       "components": [
         {
-          "component": "drivers_peripheral_audio",
+          "component": "netmanager_ext",
+          "features": []
+        },
+        {
+          "component": "wifi",
           "features": [
-            "drivers_peripheral_audio_policy_config = false"
+            "wifi_feature_with_p2p = false"
           ]
         }
       ]
     },
     {
-      "subsystem": "rockchip_products",
+      "subsystem": "hdf",
       "components": [
         {
-          "component": "rockchip_products",
+          "component": "drivers_interface_ril",
+          "features": []
+        },
+        {
+          "component": "drivers_peripheral_ril",
+          "features":[]
+        }
+      ]
+    },
+    {
+      "subsystem": "allwinner_products",
+      "components": [
+        {
+          "component": "allwinner_products",
           "features": []
         }
       ]
@@ -83,161 +84,38 @@
       ]
     },
     {
-      "subsystem": "xts",
+      "subsystem": "hdf",
       "components": [
         {
-          "component": "xts_acts",
+          "component": "drivers_interface_audio",
           "features": []
         },
         {
-          "component": "xts_hats",
-          "features": []
-        },
-        {
-          "component": "xts_dcts",
-          "features": []
+          "component": "drivers_peripheral_audio",
+          "features": [
+            "drivers_peripheral_audio_policy_config = false",
+            "drivers_peripheral_audio_hal_notsupport_pathselect = true"
+          ]
         }
       ]
     },
     {
-      "subsystem": "wukong",
+      "subsystem": "startup",
       "components": [
         {
-          "component": "wukong",
-          "features": []
+          "component": "init",
+          "features": [
+            "enable_ohos_startup_init_feature_ab_partition = false",
+            "enable_ohos_startup_init_feature_loader = true"
+          ]
         }
       ]
     },
     {
-      "subsystem": "arkXtest",
-      "components": [
+    "subsystem": "ai",
+    "components": [
         {
-          "component": "arkXtest",
-          "features": []
-        }
-      ]
-    },
-    {
-      "subsystem": "distributedhardware",
-      "components": [
-        {
-          "component": "device_manager",
-          "features": []
-        },
-        {
-          "component": "distributed_hardware_fwk",
-          "features": []
-        },
-        {
-          "component": "distributed_camera",
-          "features": []
-        },
-        {
-          "component": "distributed_screen",
-          "features": []
-        }
-      ]
-    },
-    {
-      "subsystem": "ark",
-      "components": [
-        {
-          "component": "ark",
-          "features": []
-        },
-        {
-          "component": "ark_js_runtime",
-          "features": []
-        },
-        {
-          "component": "ark_ts2abc",
-          "features": []
-        }
-      ]
-    },
-    {
-      "subsystem": "deviceprofile",
-      "components": [
-        {
-          "component": "device_profile_core",
-          "features": []
-        }
-      ]
-    },
-    {
-      "subsystem": "resourceschedule",
-      "components": [
-        {
-          "component": "resource_schedule_service",
-          "features": []
-        },
-        {
-          "component": "soc_perf",
-          "features": []
-        },
-        {
-          "component": "background_task_mgr",
-          "features": []
-        },
-        {
-          "component": "work_scheduler",
-          "features": []
-        },
-        {
-          "component": "memmgr",
-          "features": []
-        },
-        {
-          "component": "frame_aware_sched",
-          "features": []
-        },
-        {
-          "component": "device_usage_statistics",
-          "features": []
-        }
-      ]
-    },
-    {
-      "subsystem": "usb",
-      "components": [
-        {
-          "component": "usb_manager",
-          "features": []
-        }
-      ]
-    },
-    {
-      "subsystem": "securec",
-      "components": [
-        {
-          "component": "thirdparty_bounds_checking_function",
-          "features": []
-        }
-      ]
-    },
-    {
-      "subsystem": "msdp",
-      "components": [
-        {
-          "component": "device_status",
-          "features": []
-        }
-      ]
-    },
-    {
-      "subsystem": "web",
-      "components": [
-        {
-          "component": "webview",
-          "features": []
-        }
-      ]
-    },
-    {
-      "subsystem": "thirdparty",
-      "components": [
-        {
-          "component": "musl",
+          "component": "mindspore",
           "features": []
         }
       ]

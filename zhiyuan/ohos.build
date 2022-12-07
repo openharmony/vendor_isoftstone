@@ -1,0 +1,12 @@
+{
+  "parts": {
+    "product_zhiyuan": {
+      "module_list": [
+        "//vendor/isoftstone/zhiyuan/image_conf:custom_image_conf",
+        "//vendor/isoftstone/zhiyuan/preinstall-config:preinstall-config",
+        "//vendor/isoftstone/zhiyuan/resourceschedule:resourceschedule"
+      ]
+    }
+  },
+  "subsystem": "product_isoftstone"
+}
