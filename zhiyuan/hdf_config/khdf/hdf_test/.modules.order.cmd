@@ -1,1 +1,1 @@
-cmd_drivers/hdf/khdf/../../../../vendor/seed/T507/hdf_config/khdf/hdf_test/modules.order := {  :; } | awk '!x[$$0]++' - > drivers/hdf/khdf/../../../../vendor/seed/T507/hdf_config/khdf/hdf_test/modules.order
+cmd_drivers/hdf/khdf/../../../../../vendor/isoftstone/zhiyuan/hdf_config/khdf/hdf_test/modules.order := {  :; } | awk '!x[$$0]++' - > drivers/hdf/khdf/../../../../../vendor/isoftstone/zhiyuan/hdf_config/khdf/hdf_test/modules.order

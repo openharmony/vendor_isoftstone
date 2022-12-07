@@ -7,67 +7,28 @@ root {
                     inputAttr {
                         /* 0:touch 1:key 2:keyboard 3:mouse 4:button 5:crown 6:encoder */
                         inputType = 0;
-                        solutionX = 1024;
-                        solutionY = 600;
+                        solutionX = 800;
+                        solutionY = 1280;
                         devName = "main_touch";
                     }
 
-// Hi3516DV300-Runhe  gt911--5p5 & 4p0
                     busConfig {
                         // 0:i2c 1:spi
                         busType = 0;
-                        busNum = 3;
-                        clkGpio = 86;
-                        dataGpio = 87;
+                        busNum = 0;
+                        clkGpio = 1;
+                        dataGpio = 2;
                         i2cClkIomux = [0x114f0048, 0x403];
                         i2cDataIomux = [0x114f004c, 0x403];
                     }
 
                     pinConfig {
-                        rstGpio = 150;
-                        intGpio = 144;
+                        rstGpio = 5;
+                        intGpio = 4;
                         rstRegCfg = [0x112f0094, 0x400];
                         intRegCfg = [0x112f0098, 0x400];
                     }
 
-// Hi3516DV300-Ruishi gt911--7p0
-/*
-                    busConfig {
-                        // 0:i2c 1:spi
-                        busType = 0;
-                        busNum = 6;
-                        clkGpio = 26;
-                        dataGpio = 27;
-                        i2cClkIomux = [0x114f0048, 0x403];
-                        i2cDataIomux = [0x114f004c, 0x403];
-                    }
-
-                    pinConfig {
-                        rstGpio = 13;
-                        intGpio = 12;
-                        rstRegCfg = [0x10ff0030, 0x400];
-                        intRegCfg = [0x10ff002C, 0x400];
-                    }
-*/
-// Hi3516DV300-Demo board:  ft6336--2p35
-/*
-                    busConfig {
-                        // 0:i2c 1:spi
-                        busType = 0;
-                        busNum = 3;
-                        clkGpio = 2;
-                        dataGpio = 1;
-                        i2cClkIomux = [0x112f0090, 0x5f1];
-                        i2cDataIomux = [0x112f008c, 0x5f1];
-                    }
-
-                    pinConfig {
-                        rstGpio = 3;
-                        intGpio = 4;
-                        rstRegCfg = [0x0, 0x0];
-                        intRegCfg = [0x112f0098, 0x5f0];
-                    }
-*/
                     powerConfig {
                         /* 0:unused 1:ldo 2:gpio 3:pmic */
                         vccType = 2;
@@ -96,7 +57,7 @@ root {
                         chipInfo = "AAAA11222";  // 4-ProjectName, 2-TP IC, 3-TP Module
                         /* 0:i2c 1:spi*/
                         busType = 0;
-                        deviceAddr = 0x5D;
+                        deviceAddr = 0x5d;
                         /* 0:None 1:Rising 2:Failing 4:High-level 8:Low-level */
                         irqFlag = 2;
                         maxSpeed = 400;

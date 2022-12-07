@@ -26,7 +26,7 @@ CURRENT_DIR := $(abspath $(dir $(realpath $(lastword $(MAKEFILE_LIST)))))
 SOURCE_ROOT := $(abspath $(CURRENT_DIR)/../../../../../../)
 ${info ${SOURCE_ROOT}}
 
-HC_GEN_DIR := $(abspath $(SOURCE_ROOT)/drivers/framework/tools/hc-gen)
+HC_GEN_DIR := $(abspath $(SOURCE_ROOT)/drivers/hdf_core/framework/tools/hc-gen)
 HC_GEN := $(HC_GEN_DIR)/build/hc-gen
 LOCAL_HCS_ROOT := $(CURRENT_DIR)
 
@@ -51,7 +51,7 @@ HCS_OBJ_SRC := $(subst .o,.c,$(notdir $(HCS_OBJ)))
 CONFIG_GEN_HEX_SRC := $(addprefix $(LOCAL_HCS_ROOT)/, $(HCS_OBJ_SRC))
 CONFIG_HCS_SRC := $(subst _hcs_hex.o,.hcs,$(addprefix $(HCS_DIR)/, $(HCS_OBJ)))
 
-HDF_FRAMWORK_TEST_ROOT = $(abspath $(SOURCE_ROOT)/drivers/framework/test/unittest/utils/hcs_parser/unittest)
+HDF_FRAMWORK_TEST_ROOT = $(abspath $(SOURCE_ROOT)/drivers/hdf_core/framework/test/unittest/utils/hcs_parser/unittest)
 HCS_MACRO_OBJ := hcs_macro_cases.o
 HCS_MACRO_SRC := $(HDF_FRAMWORK_TEST_ROOT)/hcs_macro_cases.c
 HCS_DEP := $(HDF_FRAMWORK_TEST_ROOT)/hdf_macro_test.h
