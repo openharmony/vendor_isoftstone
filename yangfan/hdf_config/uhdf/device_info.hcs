@@ -72,8 +72,8 @@
                 }
             }
         }
-        usbfnMaster :: host {
-            hostName = "usbfnMaster_host";
+        usbfn :: host {
+            hostName = "usbfn_host";
             priority = 50;
             usb_pnp_manager_device :: device {
                 device0 :: deviceNode {
@@ -87,9 +87,9 @@
                 device0 :: deviceNode {
                     policy = 2;
                     priority = 80;
-                    moduleName = "libusbfn_master.z.so";
-                    serviceName = "usbfn_master";
-                    deviceMatchAttr = "usbfn_master_driver";
+                    moduleName = "libusbfn.z.so";
+                    serviceName = "usbfn";
+                    deviceMatchAttr = "usbfn_driver";
                 }
             }
             ecm_device :: device {
