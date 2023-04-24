@@ -172,9 +172,9 @@ pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple requests
 1. 代码下载
 
    			
-ssh方式：repo init -u ssh://git@gitee.com/openharmony-is/manifest.git -b master -m devboard_rk3399.xml --no-repo-verify
+ssh方式：repo init -u git@gitee.com:openharmony/manifest.git -b master --no-repo-verify
    			
-http方式：repo init -u  https://gitee.com/openharmony-is/manifest.git -b master -m devboard_rk3399.xml --no-repo-verify
+http方式：repo init -u https://gitee.com/openharmony/manifest.git -b master --no-repo-verify
    			
 repo sync -c
    			
@@ -182,16 +182,13 @@ repo forall -c 'git lfs pull'
    			
 bash build/prebuilts_download.sh
 
-2. 打patch
 
-bash device/rockchip/product/patch.sh
-
-3. 编译
+2. 编译
    			
 ./build.sh --product-name rk3399 –ccache
 
 
-4.编译结果
+3. 编译结果
 
 编译产生boot.img在目录out/KERNEL_OBJ/kernel/src_tmp/linux-4.19 中。 
 
@@ -199,7 +196,7 @@ bash device/rockchip/product/patch.sh
 
 out/rk3399/packages/phone/images 中。
 
-5.烧录
+4. 烧录
 
 1.系统环境
 
