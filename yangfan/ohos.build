@@ -1,0 +1,10 @@
+{
+  "parts": {
+    "product_yangfan": {
+      "module_list": [
+        "//vendor/isoftstone/yangfan/hdf_config/uhdf:hdf_config"
+      ]
+    }
+  },
+  "subsystem": "product_isoftstone"
+}
