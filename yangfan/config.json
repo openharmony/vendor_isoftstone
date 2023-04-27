@@ -45,7 +45,7 @@
         {
           "component": "drivers_peripheral_audio",
           "features": [
-            "drivers_peripheral_audio_policy_config = false"
+            "drivers_peripheral_audio_feature_policy_config = false"
           ]
         }
       ]
