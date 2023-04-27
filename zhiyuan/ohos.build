@@ -4,8 +4,9 @@
       "module_list": [
         "//vendor/isoftstone/zhiyuan/image_conf:custom_image_conf",
         "//vendor/isoftstone/zhiyuan/preinstall-config:preinstall-config",
-        "//vendor/isoftstone/zhiyuan/resourceschedule:resourceschedule"
+        "//vendor/isoftstone/zhiyuan/resourceschedule:resourceschedule",
         "//vendor/isoftstone/zhiyuan/hals/audio:hdf_audio_config",
+        "//vendor/isoftstone/zhiyuan/hdf_config/uhdf:hdf_config"
       ]
     }
   },
