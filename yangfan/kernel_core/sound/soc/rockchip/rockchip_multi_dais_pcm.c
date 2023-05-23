@@ -402,7 +402,7 @@ static int dmaengine_mpcm_hw_params(struct snd_pcm_substream *substream,
     num = pcm->mdais->num_dais;
 
     for (i = 0; i < num; i++) {
-        memset(&slave_config, 0, sizeof(slave_config));
+        memset_s(&slave_config, sizeof(slave_config), 0, sizeof(slave_config));
 		ret = snd_hwparams_to_dma_slave_config(substream, params,
 						       &slave_config);
         if (ret) {
@@ -467,7 +467,7 @@ static int dmaengine_mpcm_set_runtime_hwparams(struct snd_pcm_substream *substre
         return -EINVAL;
     }
 
-    memset(&hw, 0, sizeof(hw));
+    memset_s(&hw, sizeof(hw), 0, sizeof(hw));
     hw.info = SNDRV_PCM_INFO_MMAP | SNDRV_PCM_INFO_MMAP_VALID |
             SNDRV_PCM_INFO_INTERLEAVED;
     hw.periods_min = 2;

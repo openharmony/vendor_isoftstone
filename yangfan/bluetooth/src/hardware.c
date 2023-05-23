@@ -1123,10 +1123,10 @@ uint8_t hw_lpm_enable(uint8_t turn_on)
         *p++ = LPM_CMD_PARAM_SIZE; /* parameter length */
 
         if (turn_on) {
-            memcpy(p, &lpm_param, LPM_CMD_PARAM_SIZE);
+            memcpy_s(p, LPM_CMD_PARAM_SIZE, &lpm_param, LPM_CMD_PARAM_SIZE);
             upio_set(UPIO_LPM_MODE, UPIO_ASSERT, 0);
         } else {
-            memset(p, 0, LPM_CMD_PARAM_SIZE);
+            memset_s(p, LPM_CMD_PARAM_SIZE, 0, LPM_CMD_PARAM_SIZE);
             upio_set(UPIO_LPM_MODE, UPIO_DEASSERT, 0);
         }
 

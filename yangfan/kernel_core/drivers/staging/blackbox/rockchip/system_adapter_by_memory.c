@@ -63,8 +63,8 @@ static void dump_stacktrace(char *pbuf, size_t buf_size, bool is_panic)
 	if (unlikely(!pbuf || !buf_size))
 		return;
 
-	memset(pbuf, 0, buf_size);
-	memset(tmp_buf, 0, sizeof(tmp_buf));
+	memset_s(pbuf, buf_size, 0, buf_size);
+	memset_s(tmp_buf, sizeof(tmp_buf), 0, sizeof(tmp_buf));
 	nr_entries = stack_trace_save(entries, ARRAY_SIZE(entries), 0);
 	com_len = scnprintf(pbuf, buf_size, "Comm:%s,CPU:%d,Stack:",
 						current->comm, raw_smp_processor_id());
@@ -79,13 +79,22 @@ static void dump_stacktrace(char *pbuf, size_t buf_size, bool is_panic)
 			if (strncmp(tmp_buf, "panic", strlen("panic")) == 0)
 				find_panic = true;
 			else
-				(void)memset(tmp_buf, 0, sizeof(tmp_buf));
+				(void)memset_s(tmp_buf, sizeof(tmp_buf), 0, sizeof(tmp_buf));
 		}
 	}
 	if (com_len >= buf_size)
 		return;
 	stack_len = min(buf_size - com_len, strlen(tmp_buf));
-	memcpy(pbuf + com_len, tmp_buf, stack_len);
+
+    errno_t err = EOK;
+    if (pbuf + com_len == NULL || stack_len == 1) {
+        return;
+    }
+    err = memcpy_s(pbuf + com_len, stack_len, tmp_buf, stack_len);
+    if (err != EOK) {
+        return;
+    }
+
 	*(pbuf + buf_size - 1) = '\0';
 }
 
@@ -101,7 +110,7 @@ static int save_kmsg_from_buffer(const char *log_dir,
 		return -EINVAL;
 	}
 
-	memset(path, 0, sizeof(path));
+	memset_s(path, sizeof(path), 0, sizeof(path));
 	(void)scnprintf(path, sizeof(path) - 1, "%s/%s", log_dir, file_name);
 	down(&kmsg_sem);
 	if (kernel_log) {
@@ -110,7 +119,7 @@ static int save_kmsg_from_buffer(const char *log_dir,
 					min(KERNEL_LOG_MAX_SIZE - sizeof(*pinfo),
 						(size_t)pinfo->len), 0);
 		if (clean_buf)
-			memset(kernel_log, 0, KERNEL_LOG_MAX_SIZE);
+			memset_s(kernel_log, KERNEL_LOG_MAX_SIZE, 0, KERNEL_LOG_MAX_SIZE);
 	} else {
 		bbox_print_err("kernel_log: %p!\n", kernel_log);
 	}
@@ -137,8 +146,8 @@ static void dump(const char *log_dir, struct error_info *info)
 		}
 
 		if (kernel_log) {
-			memcpy(pinfo->flag, LOG_FLAG, strlen(LOG_FLAG));
-			memcpy(&pinfo->info, info, sizeof(*info));
+            memcpy_s(pinfo->flag, strlen(LOG_FLAG), LOG_FLAG, strlen(LOG_FLAG));
+            memcpy_s(&pinfo->info, sizeof(*info), info, sizeof(*info));
 
 #if  __BITS_PER_LONG == 64
 			__flush_dcache_area(kernel_log, KERNEL_LOG_MAX_SIZE);
@@ -183,7 +192,7 @@ static int get_last_log_info(struct error_info *info)
 
 	down(&kmsg_sem);
 	if (!memcmp(pinfo->flag, LOG_FLAG, strlen(LOG_FLAG))) {
-		memcpy(info, &pinfo->info, sizeof(*info));
+		memcpy_s(info, sizeof(*info), &pinfo->info, sizeof(*info));
 
 		up(&kmsg_sem);
 		return 0;
@@ -216,7 +225,7 @@ static int bbox_reboot_notify(struct notifier_block *nb,
 	char error_desc[ERROR_DESC_MAX_LEN];
 
 	/* notify blackbox to do dump */
-	memset(error_desc, 0, sizeof(error_desc));
+	memset_s(error_desc, sizeof(error_desc), 0, sizeof(error_desc));
 	dump_stacktrace(error_desc, sizeof(error_desc), false);
 	kmsg_dump(KMSG_DUMP_UNDEF);
 

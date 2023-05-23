@@ -237,7 +237,7 @@ static void __log_abort_or_abnormal_wake(bool abort, const char *fmt, va_list ar
         wakeup_reason = RESUME_ABNORMAL;
     }
 
-    vsnprintf(non_irq_wake_reason, MAX_SUSPEND_ABORT_LEN, fmt, args);
+    vsnprintf_s(non_irq_wake_reason, sizeof(non_irq_wake_reason), MAX_SUSPEND_ABORT_LEN, fmt, args);
 
     spin_unlock_irqrestore(&wakeup_reason_lock, flags);
 }
@@ -340,6 +340,7 @@ static ssize_t last_suspend_time_show(struct kobject *kobj,
     struct timespec64 sleep_time;
     struct timespec64 total_time;
     struct timespec64 suspend_resume_time;
+    size_t stack_len = 100;
 
     /*
      * total_time is calculated from monotonic bootoffsets because
@@ -358,11 +359,9 @@ static ssize_t last_suspend_time_show(struct kobject *kobj,
     sleep_time = timespec64_sub(total_time, suspend_resume_time);
 
     /* Export suspend_resume_time and sleep_time in pair here. */
-    return sprintf(buf, "%llu.%09lu %llu.%09lu\n",
-                   (unsigned long long)suspend_resume_time.tv_sec,
-                   suspend_resume_time.tv_nsec,
-                   (unsigned long long)sleep_time.tv_sec,
-                   sleep_time.tv_nsec);
+    return sprintf_s(buf, stack_len, "%llu.%09lu %llu.%09lu\n",
+        (unsigned long long)suspend_resume_time.tv_sec, suspend_resume_time.tv_nsec,
+        (unsigned long long)sleep_time.tv_sec, sleep_time.tv_nsec);
 }
 
 static struct kobj_attribute resume_reason = __ATTR_RO(last_resume_reason);
