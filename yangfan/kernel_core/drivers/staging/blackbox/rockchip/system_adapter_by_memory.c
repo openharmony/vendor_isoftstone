@@ -146,8 +146,8 @@ static void dump(const char *log_dir, struct error_info *info)
 		}
 
 		if (kernel_log) {
-			memcpy_s(pinfo->flag, strlen(LOG_FLAG), LOG_FLAG, strlen(LOG_FLAG));
-			memcpy_s(&pinfo->info, sizeof(*info), info, sizeof(*info));
+            memcpy_s(pinfo->flag, strlen(LOG_FLAG), LOG_FLAG, strlen(LOG_FLAG));
+            memcpy_s(&pinfo->info, sizeof(*info), info, sizeof(*info));
 
 #if  __BITS_PER_LONG == 64
 			__flush_dcache_area(kernel_log, KERNEL_LOG_MAX_SIZE);

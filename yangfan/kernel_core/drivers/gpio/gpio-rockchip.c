@@ -224,14 +224,14 @@ static int rockchip_gpio_set_debounce(struct gpio_chip *gc,
             if (cur_div_reg < div_reg)
                 writel(div_reg, bank->reg_base + reg->dbclk_div_con);
             rockchip_gpio_writel_bit(bank, offset, 1,
-                         reg->dbclk_div_en);
+                reg->dbclk_div_en);
         }
 
         rockchip_gpio_writel_bit(bank, offset, 1, reg->debounce);
     } else {
         if (div_debounce_support)
             rockchip_gpio_writel_bit(bank, offset, 0,
-                         reg->dbclk_div_en);
+                reg->dbclk_div_en);
 
         rockchip_gpio_writel_bit(bank, offset, 0, reg->debounce);
     }
@@ -262,24 +262,24 @@ static int rockchip_gpio_set_config(struct gpio_chip *gc, unsigned int offset,
     int ret = 0;
 
     switch (param) {
-    case PIN_CONFIG_INPUT_DEBOUNCE:
-        /*
-         * Rockchip's gpio could only support up to one period
-         * of the debounce clock(pclk), which is far away from
-         * satisftying the requirement, as pclk is usually near
-         * 100MHz shared by all peripherals. So the fact is it
-         * has crippled debounce capability could only be useful
-         * to prevent any spurious glitches from waking up the system
-         * if the gpio is conguired as wakeup interrupt source. Let's
-         * still return -ENOTSUPP as before, to make sure the caller
-         * of gpiod_set_debounce won't change its behaviour.
-         */
-        rockchip_gpio_set_debounce(gc, offset, debounce);
-        ret = -ENOTSUPP;
-        break;
-    default:
-        ret = -ENOTSUPP;
-        break;
+        case PIN_CONFIG_INPUT_DEBOUNCE:
+            /*
+             * Rockchip's gpio could only support up to one period
+             * of the debounce clock(pclk), which is far away from
+             * satisftying the requirement, as pclk is usually near
+             * 100MHz shared by all peripherals. So the fact is it
+             * has crippled debounce capability could only be useful
+             * to prevent any spurious glitches from waking up the system
+             * if the gpio is conguired as wakeup interrupt source. Let's
+             * still return -ENOTSUPP as before, to make sure the caller
+             * of gpiod_set_debounce won't change its behaviour.
+             */
+            rockchip_gpio_set_debounce(gc, offset, debounce);
+            ret = -ENOTSUPP;
+            break;
+        default:
+            ret = -ENOTSUPP;
+            break;
     }
 
     return ret;
@@ -391,7 +391,7 @@ static int rockchip_irq_set_type(struct irq_data *d, unsigned int type)
     raw_spin_lock_irqsave(&bank->slock, flags);
 
     rockchip_gpio_writel_bit(bank, d->hwirq, 0,
-                 bank->gpio_regs->port_ddr);
+        bank->gpio_regs->port_ddr);
 
     raw_spin_unlock_irqrestore(&bank->slock, flags);
 
@@ -406,50 +406,50 @@ static int rockchip_irq_set_type(struct irq_data *d, unsigned int type)
     polarity = rockchip_gpio_readl(bank, bank->gpio_regs->int_polarity);
 
     switch (type) {
-    case IRQ_TYPE_EDGE_BOTH:
-        if (bank->gpio_type == GPIO_TYPE_V2) {
-            bank->toggle_edge_mode &= ~mask;
-            rockchip_gpio_writel_bit(bank, d->hwirq, 1,
-                         bank->gpio_regs->int_bothedge);
-            goto out;
-        } else {
-            bank->toggle_edge_mode |= mask;
-            level |= mask;
+        case IRQ_TYPE_EDGE_BOTH:
+            if (bank->gpio_type == GPIO_TYPE_V2) {
+                bank->toggle_edge_mode &= ~mask;
+                rockchip_gpio_writel_bit(bank, d->hwirq, 1,
+                    bank->gpio_regs->int_bothedge);
+                goto out;
+            } else {
+                bank->toggle_edge_mode |= mask;
+                level |= mask;
 
-            /*
-             * Determine gpio state. If 1 next interrupt should be falling
-             * otherwise rising.
-             */
-            data = readl(bank->reg_base + bank->gpio_regs->ext_port);
-            if (data & mask)
-                polarity &= ~mask;
-            else
-                polarity |= mask;
-        }
-        break;
-    case IRQ_TYPE_EDGE_RISING:
-        bank->toggle_edge_mode &= ~mask;
-        level |= mask;
-        polarity |= mask;
-        break;
-    case IRQ_TYPE_EDGE_FALLING:
-        bank->toggle_edge_mode &= ~mask;
-        level |= mask;
-        polarity &= ~mask;
-        break;
-    case IRQ_TYPE_LEVEL_HIGH:
-        bank->toggle_edge_mode &= ~mask;
-        level &= ~mask;
-        polarity |= mask;
-        break;
-    case IRQ_TYPE_LEVEL_LOW:
-        bank->toggle_edge_mode &= ~mask;
-        level &= ~mask;
-        polarity &= ~mask;
-        break;
-    default:
-        ret = -EINVAL;
-        goto out;
+                /*
+                 * Determine gpio state. If 1 next interrupt should be falling
+                 * otherwise rising.
+                 */
+                data = readl(bank->reg_base + bank->gpio_regs->ext_port);
+                if (data & mask)
+                    polarity &= ~mask;
+                else
+                    polarity |= mask;
+            }
+            break;
+        case IRQ_TYPE_EDGE_RISING:
+            bank->toggle_edge_mode &= ~mask;
+            level |= mask;
+            polarity |= mask;
+            break;
+        case IRQ_TYPE_EDGE_FALLING:
+            bank->toggle_edge_mode &= ~mask;
+            level |= mask;
+            polarity &= ~mask;
+            break;
+        case IRQ_TYPE_LEVEL_HIGH:
+            bank->toggle_edge_mode &= ~mask;
+            level &= ~mask;
+            polarity |= mask;
+            break;
+        case IRQ_TYPE_LEVEL_LOW:
+            bank->toggle_edge_mode &= ~mask;
+            level &= ~mask;
+            polarity &= ~mask;
+            break;
+        default:
+            ret = -EINVAL;
+            goto out;
     }
 
     rockchip_gpio_writel(bank, level, bank->gpio_regs->int_type);

@@ -231,15 +231,15 @@ static int bbox_reboot_notify(struct notifier_block *nb,
     kmsg_dump(KMSG_DUMP_UNDEF);
 
     switch (code) {
-    case SYS_RESTART:
-        bbox_notify_error(EVENT_SYSREBOOT, MODULE_SYSTEM, error_desc, 1);
-        break;
-    case SYS_POWER_OFF:
-        bbox_notify_error(EVENT_POWEROFF, MODULE_SYSTEM, error_desc, 0);
-        break;
-    default:
-        bbox_print_err("Invalid event code: %lu!\n", code);
-        break;
+        case SYS_RESTART:
+            bbox_notify_error(EVENT_SYSREBOOT, MODULE_SYSTEM, error_desc, 1);
+            break;
+        case SYS_POWER_OFF:
+            bbox_notify_error(EVENT_POWEROFF, MODULE_SYSTEM, error_desc, 0);
+            break;
+        default:
+            bbox_print_err("Invalid event code: %lu!\n", code);
+            break;
     }
 
     return NOTIFY_DONE;

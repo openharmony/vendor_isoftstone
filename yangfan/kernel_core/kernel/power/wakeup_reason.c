@@ -342,7 +342,6 @@ static ssize_t last_suspend_time_show(struct kobject *kobj,
     struct timespec64 suspend_resume_time;
     size_t stack_len = 100;
 
-
     /*
      * total_time is calculated from monotonic bootoffsets because
      * unlike CLOCK_MONOTONIC it include the time spent in suspend state.
@@ -361,10 +360,8 @@ static ssize_t last_suspend_time_show(struct kobject *kobj,
 
     /* Export suspend_resume_time and sleep_time in pair here. */
     return sprintf_s(buf, stack_len, "%llu.%09lu %llu.%09lu\n",
-                   (unsigned long long)suspend_resume_time.tv_sec,
-                   suspend_resume_time.tv_nsec,
-                   (unsigned long long)sleep_time.tv_sec,
-                   sleep_time.tv_nsec);
+        (unsigned long long)suspend_resume_time.tv_sec, suspend_resume_time.tv_nsec,
+        (unsigned long long)sleep_time.tv_sec, sleep_time.tv_nsec);
 }
 
 static struct kobj_attribute resume_reason = __ATTR_RO(last_resume_reason);

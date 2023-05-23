@@ -775,7 +775,7 @@ static bool write_data(int offset_block, void *data, size_t len)
 	int left = len % BLOCK_SIZE;
 	if (left) {
 		char buf[BLOCK_SIZE] = "\0";
-        memcpy_s(buf, sizeof(buf), data + blocks * BLOCK_SIZE, left);
+        (void)memcpy_s(buf, sizeof(buf), data + blocks * BLOCK_SIZE, left);
 		if (!StorageWriteLba(offset_block + blocks, buf, 1))
 			goto end;
 	}
@@ -942,7 +942,7 @@ static int load_file(const char *file_path, int offset_block, int blocks)
 	}
 	bool ret = false;
 	resource_content content;
-	snprintf_s(content.path, sizeof(content.path), sizeof(content.path), "%s", file_path);
+    (void)snprintf_s(content.path, sizeof(content.path), sizeof(content.path), "%s", file_path);
 	content.load_addr = 0;
 	if (!get_content(&content)) {
 		goto end;
@@ -1018,7 +1018,7 @@ static int test_charge(int argc, char **argv)
 	}
 
 	resource_content content;
-	snprintf_s(content.path, sizeof(content.path), sizeof(content.path), "%s", desc);
+    (void)snprintf_s(content.path, sizeof(content.path), sizeof(content.path), "%s", desc);
 	content.load_addr = 0;
 	if (!get_content(&content)) {
 		goto end;
@@ -1118,7 +1118,7 @@ static int test_charge(int argc, char **argv)
 			}
 			if (level_confs[j].max_level > level_confs[i].max_level) {
 				anim_level_conf conf = level_confs[i];
-                memmove_s(level_confs + j + 1, i * sizeof(anim_level_conf), level_confs + j,
+                (void)memmove_s(level_confs + j + 1, i * sizeof(anim_level_conf), level_confs + j,
                     (i - j) * sizeof(anim_level_conf));
 				level_confs[j] = conf;
 			}
@@ -1209,9 +1209,9 @@ int main(int argc, char **argv)
 		} else if (!strcmp(OPT_TEST_CHARGE, arg)) {
 			action = ACTION_TEST_CHARGE;
 		} else if (!memcmp(OPT_IMAGE, arg, strlen(OPT_IMAGE))) {
-			snprintf_s(image_path, sizeof(image_path), sizeof(image_path), "%s", arg + strlen(OPT_IMAGE));
+            (void)snprintf_s(image_path, sizeof(image_path), sizeof(image_path), "%s", arg + strlen(OPT_IMAGE));
 		} else if (!memcmp(OPT_ROOT, arg, strlen(OPT_ROOT))) {
-			snprintf_s(root_path, sizeof(root_path), sizeof(root_path), "%s", arg + strlen(OPT_ROOT));
+            (void)snprintf_s(root_path, sizeof(root_path), sizeof(root_path), "%s", arg + strlen(OPT_ROOT));
 		} else {
 			LOGE("Unknown opt:%s", arg);
 			usage();
@@ -1256,7 +1256,7 @@ static bool mkdirs(char *path)
 	char buf[MAX_INDEX_ENTRY_PATH_LEN];
 	bool ret = true;
 	while ((pos = memchr(tmp, '/', strlen(tmp)))) {
-		strcpy_s(buf, sizeof(buf), path);
+        (void)strcpy_s(buf, sizeof(buf), path);
 		buf[pos - path] = '\0';
 		tmp = pos + 1;
 		LOGD("mkdir:%s", buf);
@@ -1283,7 +1283,7 @@ static bool dump_file(FILE *file, const char *unpack_dir,
 	}
 
 	pos = ftell(file);
-	snprintf_s(path, sizeof(path), sizeof(path), "%s/%s", unpack_dir, entry.path);
+    (void)snprintf_s(path, sizeof(path), sizeof(path), "%s/%s", unpack_dir, entry.path);
 	mkdirs(path);
 	out_file = fopen(path, "wb");
 	if (!out_file) {
@@ -1328,7 +1328,7 @@ static int unpack_image(const char *dir)
 	char unpack_dir[MAX_INDEX_ENTRY_PATH_LEN];
 	if (just_print)
 		dir = ".";
-	snprintf_s(unpack_dir, sizeof(unpack_dir), sizeof(unpack_dir), "%s", dir);
+    (void)snprintf_s(unpack_dir, sizeof(unpack_dir), sizeof(unpack_dir), "%s", dir);
 	if (!strlen(unpack_dir)) {
 		goto end;
 	} else if (unpack_dir[strlen(unpack_dir) - 1] == '/') {
@@ -1529,7 +1529,7 @@ static bool write_index_tbl(const int file_num, const char **files)
 				foundFdt = true;
 			}
 		}
-		snprintf_s(entry.path, sizeof(entry.path), sizeof(entry.path), "%s", path);
+        (void)snprintf_s(entry.path, sizeof(entry.path), sizeof(entry.path), "%s", path);
 		offset += fix_blocks(file_size);
 		if (!write_data(header.header_size + i * header.tbl_entry_size, &entry,
 		                sizeof(entry)))
