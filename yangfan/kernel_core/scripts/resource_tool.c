@@ -1256,7 +1256,6 @@ static bool mkdirs(char *path)
 	char buf[MAX_INDEX_ENTRY_PATH_LEN];
 	bool ret = true;
 	while ((pos = memchr(tmp, '/', strlen(tmp)))) {
-
         errno_t err = EOK;
         if (buf == NULL || sizeof(buf) == 1) {
             return;
@@ -1278,10 +1277,8 @@ static bool mkdirs(char *path)
 	return ret;
 }
 
-static bool dump_file(FILE *file, const char *unpack_dir,
-                      index_tbl_entry entry)
+static bool dump_file(FILE *file, const char *unpack_dir, index_tbl_entry entry)
 {
-	LOGD("try to dump entry:%s", entry.path);
 	bool ret = false;
 	FILE *out_file = NULL;
 	long int pos = 0;
@@ -1305,13 +1302,11 @@ static bool dump_file(FILE *file, const char *unpack_dir,
 	mkdirs(path);
 	out_file = fopen(path, "wb");
 	if (!out_file) {
-		LOGE("Failed to create:%s", path);
 		goto end;
 	}
 	long int offset = entry.content_offset * BLOCK_SIZE;
 	fseek(file, offset, SEEK_SET);
 	if (offset != ftell(file)) {
-		LOGE("Failed to read content:%s", entry.path);
 		goto end;
 	}
 	char buf[BLOCK_SIZE];
@@ -1355,8 +1350,6 @@ static int unpack_image(const char *dir)
     if (err != EOK) {
         return;
     }
-
-    (void)snprintf_s(unpack_dir, sizeof(unpack_dir), sizeof(unpack_dir), "%s", dir);
 	if (!strlen(unpack_dir)) {
 		goto end;
 	} else if (unpack_dir[strlen(unpack_dir) - 1] == '/') {
