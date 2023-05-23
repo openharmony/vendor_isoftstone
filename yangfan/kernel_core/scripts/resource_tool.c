@@ -775,7 +775,7 @@ static bool write_data(int offset_block, void *data, size_t len)
 	int left = len % BLOCK_SIZE;
 	if (left) {
 		char buf[BLOCK_SIZE] = "\0";
-		memcpy_s(buf, left, data + blocks * BLOCK_SIZE, left);
+        memcpy_s(buf, sizeof(buf), data + blocks * BLOCK_SIZE, left);
 		if (!StorageWriteLba(offset_block + blocks, buf, 1))
 			goto end;
 	}
@@ -1118,8 +1118,8 @@ static int test_charge(int argc, char **argv)
 			}
 			if (level_confs[j].max_level > level_confs[i].max_level) {
 				anim_level_conf conf = level_confs[i];
-				memmove_s(level_confs + j + 1, i * sizeof(anim_level_conf), level_confs + j,
-				        (i - j) * sizeof(anim_level_conf));
+                memmove_s(level_confs + j + 1, i * sizeof(anim_level_conf), level_confs + j,
+                    (i - j) * sizeof(anim_level_conf));
 				level_confs[j] = conf;
 			}
 		}
@@ -1220,7 +1220,7 @@ int main(int argc, char **argv)
 	}
 
 	if (!image_path[0]) {
-		snprintf_s(image_path, sizeof(image_path), sizeof(image_path), "%s", DEFAULT_IMAGE_PATH);
+        snprintf_s(image_path, sizeof(image_path), sizeof(image_path), "%s", DEFAULT_IMAGE_PATH);
 	}
 
 	switch (action) {
@@ -1504,7 +1504,7 @@ static bool write_index_tbl(const int file_num, const char **files)
 		if (write_file(offset, files[i], hash, sizeof(hash)) < 0)
 			goto end;
 
-		memcpy_s(entry.hash, sizeof(hash), hash, sizeof(hash));
+        memcpy_s(entry.hash, sizeof(entry.hash), hash, sizeof(hash));
 		entry.hash_size = sizeof(hash);
 
 		LOGE("try to write index entry(%s)...", files[i]);

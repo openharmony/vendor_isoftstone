@@ -79,13 +79,22 @@ static void dump_stacktrace(char *pbuf, size_t buf_size, bool is_panic)
 			if (strncmp(tmp_buf, "panic", strlen("panic")) == 0)
 				find_panic = true;
 			else
-				(void)memset(tmp_buf, sizeof(tmp_buf), 0, sizeof(tmp_buf));
+				(void)memset_s(tmp_buf, sizeof(tmp_buf), 0, sizeof(tmp_buf));
 		}
 	}
 	if (com_len >= buf_size)
 		return;
 	stack_len = min(buf_size - com_len, strlen(tmp_buf));
-	memcpy_s(pbuf + com_len, stack_len, tmp_buf, stack_len);
+
+    errno_t err = EOK;
+    if (pbuf + com_len == NULL || stack_len == 1) {
+        return;
+    }
+    err = memcpy_s(pbuf + com_len, stack_len, tmp_buf, stack_len);
+    if (err != EOK) {
+        return;
+    }
+
 	*(pbuf + buf_size - 1) = '\0';
 }
 
@@ -137,7 +146,7 @@ static void dump(const char *log_dir, struct error_info *info)
 		}
 
 		if (kernel_log) {
-			memcpy(pinfo->flag, strlen(LOG_FLAG), LOG_FLAG, strlen(LOG_FLAG));
+			memcpy_s(pinfo->flag, strlen(LOG_FLAG), LOG_FLAG, strlen(LOG_FLAG));
 			memcpy_s(&pinfo->info, sizeof(*info), info, sizeof(*info));
 
 #if  __BITS_PER_LONG == 64

@@ -535,10 +535,8 @@ snd_pcm_sframes_t snd_pcm_vad_memcpy(struct snd_pcm_substream *substream,
             int part2 = vbytes - part1;
             int offset = part1;
 
-            if (padding_sz) {
-                if (vframe_sz != 0&&frame_sz != 0) {
-                    offset = part1 / vframe_sz * frame_sz;
-                    }
+            if (padding_sz&&vframe_sz != 0) {
+                offset = part1 / vframe_sz * frame_sz;
             }
             vad_memcpy_fromio(buf, vbuf->pos, part1,
                 vframe_sz, padding_sz);
