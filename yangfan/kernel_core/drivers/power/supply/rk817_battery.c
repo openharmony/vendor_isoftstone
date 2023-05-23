@@ -660,8 +660,8 @@ static u32 interpolate(int value, u32 *table, int size)
 		d = (value - table[i - 1]) * (MAX_INTERPOLATE / (size - 1));
 		d /= table[i] - table[i - 1];
 		d = d + (i - 1) * (MAX_INTERPOLATE / (size - 1));
-	} else {
-		d = i * ((MAX_INTERPOLATE + size / 2) / size);
+	} else if (size != 0) {
+	    d = i * ((MAX_INTERPOLATE + size / 2) / size);
 	}
 
 	if (d > 1000) {
@@ -2502,9 +2502,9 @@ static void rk817_bat_calc_zero_linek(struct rk817_battery_device *battery)
 	voltage_avg = rk817_bat_get_battery_voltage(battery);
 	current_avg = rk817_bat_get_avg_current(battery);
 	vsys = voltage_avg + (current_avg * DEF_PWRPATH_RES) / 1000;
-
-	powerpatch_res = (voltage_avg - vsys) * 1000 / current_avg;
-
+    if (current_avg != 0) {
+        powerpatch_res = (voltage_avg - vsys) * 1000 / current_avg;
+    }
 	battery->zero_voltage_avg = voltage_avg;
 	battery->zero_current_avg = current_avg;
 	battery->zero_vsys = vsys;

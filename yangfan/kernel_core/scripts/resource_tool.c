@@ -250,7 +250,7 @@ void sha1_update(sha1_context *ctx, const unsigned char *input,
 		ctx->total[1]++;
 
 	if (left && ilen >= fill) {
-		memcpy ((void *) (ctx->buffer + left), (void *) input, fill);
+		memcpy_s((void *) (ctx->buffer + left), fill, (void *) input, fill);
 		sha1_process (ctx, ctx->buffer);
 		input += fill;
 		ilen -= fill;
@@ -264,7 +264,7 @@ void sha1_update(sha1_context *ctx, const unsigned char *input,
 	}
 
 	if (ilen > 0) {
-		memcpy ((void *) (ctx->buffer + left), (void *) input, ilen);
+		memcpy_s((void *) (ctx->buffer + left), ilen, (void *) input, ilen);
 	}
 }
 
@@ -501,7 +501,7 @@ void sha256_update(sha256_context *ctx, const uint8_t *input, uint32_t length)
 		ctx->total[1]++;
 
 	if (left && length >= fill) {
-		memcpy((void *) (ctx->buffer + left), (void *) input, fill);
+		memcpy_s((void *) (ctx->buffer + left), fill, (void *) input, fill);
 		sha256_process(ctx, ctx->buffer);
 		length -= fill;
 		input += fill;
@@ -515,7 +515,7 @@ void sha256_update(sha256_context *ctx, const uint8_t *input, uint32_t length)
 	}
 
 	if (length)
-		memcpy((void *) (ctx->buffer + left), (void *) input, length);
+		memcpy_s((void *) (ctx->buffer + left), length, (void *) input, length);
 }
 
 static uint8_t sha256_padding[64] = {
@@ -775,7 +775,7 @@ static bool write_data(int offset_block, void *data, size_t len)
 	int left = len % BLOCK_SIZE;
 	if (left) {
 		char buf[BLOCK_SIZE] = "\0";
-		memcpy(buf, data + blocks * BLOCK_SIZE, left);
+		memcpy_s(buf, left, data + blocks * BLOCK_SIZE, left);
 		if (!StorageWriteLba(offset_block + blocks, buf, 1))
 			goto end;
 	}
@@ -832,7 +832,9 @@ static bool load_content(resource_content *content)
 	if (content->load_addr)
 		return true;
 	int blocks = fix_blocks(content->content_size);
-	content->load_addr = malloc(blocks * BLOCK_SIZE);
+	if (blocks > 0) {
+        content->load_addr = malloc(blocks * BLOCK_SIZE);
+       }
 	if (!content->load_addr)
 		return false;
 	if (!StorageReadLba(get_ptn_offset() + content->content_offset,
@@ -865,7 +867,7 @@ static bool get_entry(const char *file_path, index_tbl_entry *entry)
 		LOGE("Failed to read header!");
 		goto end;
 	}
-	memcpy(&header, buf, sizeof(header));
+	memcpy_s(&header, sizeof(header), buf, sizeof(header));
 
 	if (memcmp(header.magic, RESOURCE_PTN_HDR_MAGIC, sizeof(header.magic))) {
 		LOGE("Not a resource image(%s)!", image_path);
@@ -892,7 +894,7 @@ static bool get_entry(const char *file_path, index_tbl_entry *entry)
 			LOGE("Failed to read index entry:%d!", i);
 			goto end;
 		}
-		memcpy(entry, buf, sizeof(*entry));
+		memcpy_s(entry, sizeof(*entry), buf, sizeof(*entry));
 
 		if (memcmp(entry->tag, INDEX_TBL_ENTR_TAG, sizeof(entry->tag))) {
 			LOGE("Something wrong with index entry:%d!", i);
@@ -940,7 +942,7 @@ static int load_file(const char *file_path, int offset_block, int blocks)
 	}
 	bool ret = false;
 	resource_content content;
-	snprintf(content.path, sizeof(content.path), "%s", file_path);
+	snprintf_s(content.path, sizeof(content.path), sizeof(content.path), "%s", file_path);
 	content.load_addr = 0;
 	if (!get_content(&content)) {
 		goto end;
@@ -949,7 +951,7 @@ static int load_file(const char *file_path, int offset_block, int blocks)
 		if (!load_content(&content)) {
 			goto end;
 		}
-	} else {
+	} else if (blocks > 0) {
 		void *data = malloc(blocks * BLOCK_SIZE);
 		if (!data)
 			goto end;
@@ -968,7 +970,7 @@ end:
 
 static bool parse_level_conf(const char *arg, anim_level_conf *level_conf)
 {
-	memset(level_conf, 0, sizeof(anim_level_conf));
+	memset_s(level_conf, sizeof(anim_level_conf), 0, sizeof(anim_level_conf));
 	char *buf = NULL;
 	buf = strstr(arg, OPT_CHARGE_ANIM_LEVEL_CONF);
 	if (buf) {
@@ -993,7 +995,7 @@ static bool parse_level_conf(const char *arg, anim_level_conf *level_conf)
 	}
 	buf = strstr(arg, OPT_CHARGE_ANIM_LEVEL_PFX);
 	if (buf) {
-		snprintf(level_conf->prefix, sizeof(level_conf->prefix), "%s",
+		snprintf_s(level_conf->prefix, sizeof(level_conf->prefix), sizeof(level_conf->prefix), "%s",
 		         buf + strlen(OPT_CHARGE_ANIM_LEVEL_PFX));
 	} else {
 		LOGE("Not found:%s", OPT_CHARGE_ANIM_LEVEL_PFX);
@@ -1016,7 +1018,7 @@ static int test_charge(int argc, char **argv)
 	}
 
 	resource_content content;
-	snprintf(content.path, sizeof(content.path), "%s", desc);
+	snprintf_s(content.path, sizeof(content.path), sizeof(content.path), "%s", desc);
 	content.load_addr = 0;
 	if (!get_content(&content)) {
 		goto end;
@@ -1116,7 +1118,7 @@ static int test_charge(int argc, char **argv)
 			}
 			if (level_confs[j].max_level > level_confs[i].max_level) {
 				anim_level_conf conf = level_confs[i];
-				memmove(level_confs + j + 1, level_confs + j,
+				memmove_s(level_confs + j + 1, i * sizeof(anim_level_conf), level_confs + j,
 				        (i - j) * sizeof(anim_level_conf));
 				level_confs[j] = conf;
 			}
@@ -1207,9 +1209,9 @@ int main(int argc, char **argv)
 		} else if (!strcmp(OPT_TEST_CHARGE, arg)) {
 			action = ACTION_TEST_CHARGE;
 		} else if (!memcmp(OPT_IMAGE, arg, strlen(OPT_IMAGE))) {
-			snprintf(image_path, sizeof(image_path), "%s", arg + strlen(OPT_IMAGE));
+			snprintf_s(image_path, sizeof(image_path), sizeof(image_path), "%s", arg + strlen(OPT_IMAGE));
 		} else if (!memcmp(OPT_ROOT, arg, strlen(OPT_ROOT))) {
-			snprintf(root_path, sizeof(root_path), "%s", arg + strlen(OPT_ROOT));
+			snprintf_s(root_path, sizeof(root_path), sizeof(root_path), "%s", arg + strlen(OPT_ROOT));
 		} else {
 			LOGE("Unknown opt:%s", arg);
 			usage();
@@ -1218,7 +1220,7 @@ int main(int argc, char **argv)
 	}
 
 	if (!image_path[0]) {
-		snprintf(image_path, sizeof(image_path), "%s", DEFAULT_IMAGE_PATH);
+		snprintf_s(image_path, sizeof(image_path), sizeof(image_path), "%s", DEFAULT_IMAGE_PATH);
 	}
 
 	switch (action) {
@@ -1254,7 +1256,7 @@ static bool mkdirs(char *path)
 	char buf[MAX_INDEX_ENTRY_PATH_LEN];
 	bool ret = true;
 	while ((pos = memchr(tmp, '/', strlen(tmp)))) {
-		strcpy(buf, path);
+		strcpy_s(buf, sizeof(buf), path);
 		buf[pos - path] = '\0';
 		tmp = pos + 1;
 		LOGD("mkdir:%s", buf);
@@ -1281,7 +1283,7 @@ static bool dump_file(FILE *file, const char *unpack_dir,
 	}
 
 	pos = ftell(file);
-	snprintf(path, sizeof(path), "%s/%s", unpack_dir, entry.path);
+	snprintf_s(path, sizeof(path), sizeof(path), "%s/%s", unpack_dir, entry.path);
 	mkdirs(path);
 	out_file = fopen(path, "wb");
 	if (!out_file) {
@@ -1326,7 +1328,7 @@ static int unpack_image(const char *dir)
 	char unpack_dir[MAX_INDEX_ENTRY_PATH_LEN];
 	if (just_print)
 		dir = ".";
-	snprintf(unpack_dir, sizeof(unpack_dir), "%s", dir);
+	snprintf_s(unpack_dir, sizeof(unpack_dir), sizeof(unpack_dir), "%s", dir);
 	if (!strlen(unpack_dir)) {
 		goto end;
 	} else if (unpack_dir[strlen(unpack_dir) - 1] == '/') {
@@ -1344,7 +1346,7 @@ static int unpack_image(const char *dir)
 		LOGE("Failed to read header!");
 		goto end;
 	}
-	memcpy(&header, buf, sizeof(header));
+	memcpy_s(&header, sizeof(header), buf, sizeof(header));
 
 	if (memcmp(header.magic, RESOURCE_PTN_HDR_MAGIC, sizeof(header.magic))) {
 		LOGE("Not a resource image(%s)!", image_path);
@@ -1378,7 +1380,7 @@ static int unpack_image(const char *dir)
 			LOGE("Failed to read index entry:%d!", i);
 			goto end;
 		}
-		memcpy(&entry, buf, sizeof(entry));
+		memcpy_s(&entry, sizeof(entry), buf, sizeof(entry));
 
 		if (memcmp(entry.tag, INDEX_TBL_ENTR_TAG, sizeof(entry.tag))) {
 			LOGE("Something wrong with index entry:%d!", i);
@@ -1466,7 +1468,7 @@ end:
 static bool write_header(const int file_num)
 {
 	LOGD("try to write header...");
-	memcpy(header.magic, RESOURCE_PTN_HDR_MAGIC, sizeof(header.magic));
+	memcpy_s(header.magic, sizeof(header.magic), RESOURCE_PTN_HDR_MAGIC, sizeof(header.magic));
 	header.resource_ptn_version = RESOURCE_PTN_VERSION;
 	header.index_tbl_version = INDEX_TBL_VERSION;
 	header.header_size = RESOURCE_PTN_HDR_SIZE;
@@ -1491,7 +1493,7 @@ static bool write_index_tbl(const int file_num, const char **files)
 	char hash[20];	/* sha1 */
 	int i;
         LOGE("write_index_tbl %d\n",file_num);
-	memcpy(entry.tag, INDEX_TBL_ENTR_TAG, sizeof(entry.tag));
+	memcpy_s(entry.tag, sizeof(entry.tag), INDEX_TBL_ENTR_TAG, sizeof(entry.tag));
 	for (i = 0; i < file_num; i++) {
 		size_t file_size = get_file_size(files[i]);
 		if (file_size < 0)
@@ -1502,14 +1504,14 @@ static bool write_index_tbl(const int file_num, const char **files)
 		if (write_file(offset, files[i], hash, sizeof(hash)) < 0)
 			goto end;
 
-		memcpy(entry.hash, hash, sizeof(hash));
+		memcpy_s(entry.hash, sizeof(hash), hash, sizeof(hash));
 		entry.hash_size = sizeof(hash);
 
 		LOGE("try to write index entry(%s)...", files[i]);
 
 		/* switch for le. */
 		fix_entry(&entry);
-		memset(entry.path, 0, sizeof(entry.path));
+		memset_s(entry.path, sizeof(entry.path), 0, sizeof(entry.path));
 		const char *path = files[i];
 		if (root_path[0]) {
 			if (!strncmp(path, root_path, strlen(root_path))) {
@@ -1527,7 +1529,7 @@ static bool write_index_tbl(const int file_num, const char **files)
 				foundFdt = true;
 			}
 		}
-		snprintf(entry.path, sizeof(entry.path), "%s", path);
+		snprintf_s(entry.path, sizeof(entry.path), sizeof(entry.path), "%s", path);
 		offset += fix_blocks(file_size);
 		if (!write_data(header.header_size + i * header.tbl_entry_size, &entry,
 		                sizeof(entry)))

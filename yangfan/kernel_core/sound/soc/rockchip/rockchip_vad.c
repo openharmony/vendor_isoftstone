@@ -299,7 +299,7 @@ snd_pcm_uframes_t snd_pcm_vad_avail(struct snd_pcm_substream *substream)
     }
 
     vframes = samples_to_bytes(runtime, vad->channels);
-    if (vframes) {
+    if (vframes != 0) {
         vframes = vbuf->size / vframes;
     }
     if (!vframes) {
@@ -520,7 +520,7 @@ snd_pcm_sframes_t snd_pcm_vad_memcpy(struct snd_pcm_substream *substream,
     padding_sz = frame_sz - vframe_sz;
     vbytes = vframe_sz * avail;
 
-    memset(buf, 0x0, bytes);
+    memset_s(buf, bytes, 0x0, bytes);
     if (!vbuf->loop) {
         vad_memcpy_fromio(buf, vbuf->pos, vbytes,
             vframe_sz, padding_sz);
@@ -536,7 +536,9 @@ snd_pcm_sframes_t snd_pcm_vad_memcpy(struct snd_pcm_substream *substream,
             int offset = part1;
 
             if (padding_sz) {
-                offset = part1 / vframe_sz * frame_sz;
+                if (vframe_sz != 0&&frame_sz != 0) {
+                    offset = part1 / vframe_sz * frame_sz;
+                    }
             }
             vad_memcpy_fromio(buf, vbuf->pos, part1,
                 vframe_sz, padding_sz);

@@ -245,7 +245,7 @@ static int mdais_read_prop_array(struct device_node *node,
 {
     int ret = 0;
 
-    memset(array, 0, sizeof(*array) * num);
+    memset_s(array, sizeof(*array) * num, 0, sizeof(*array) * num);
     if (of_property_read_bool(node, propname)) {
         ret = of_property_read_u32_array(node, propname, array, num);
         if (ret) {

@@ -193,15 +193,19 @@ static int rockchip_gpio_set_debounce(struct gpio_chip *gc,
 {
 	struct rockchip_pin_bank *bank = gpiochip_get_data(gc);
 	const struct rockchip_gpio_regs	*reg = bank->gpio_regs;
-	unsigned long flags, div_reg, freq, max_debounce;
+	unsigned long flags, div_reg, freq;
+	unsigned int max_debounce;
+
 	bool div_debounce_support;
-	unsigned int cur_div_reg;
+	unsigned long cur_div_reg;
 	u64 div;
 
 	if (!IS_ERR(bank->db_clk)) {
 		div_debounce_support = true;
 		freq = clk_get_rate(bank->db_clk);
-		max_debounce = (GENMASK(23, 0) + 1) * 2 * 1000000 / freq;
+		if (freq != 0) {
+            max_debounce = (GENMASK(23, 0) + 1) * 2 * 1000000 / freq;
+        }
 		if (debounce > max_debounce)
 			return -EINVAL;
 

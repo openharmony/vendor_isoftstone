@@ -237,7 +237,7 @@ static void __log_abort_or_abnormal_wake(bool abort, const char *fmt, va_list ar
         wakeup_reason = RESUME_ABNORMAL;
     }
 
-    vsnprintf(non_irq_wake_reason, MAX_SUSPEND_ABORT_LEN, fmt, args);
+    vsnprintf_s(non_irq_wake_reason, sizeof(non_irq_wake_reason), MAX_SUSPEND_ABORT_LEN, fmt, args);
 
     spin_unlock_irqrestore(&wakeup_reason_lock, flags);
 }
@@ -358,7 +358,7 @@ static ssize_t last_suspend_time_show(struct kobject *kobj,
     sleep_time = timespec64_sub(total_time, suspend_resume_time);
 
     /* Export suspend_resume_time and sleep_time in pair here. */
-    return sprintf(buf, "%llu.%09lu %llu.%09lu\n",
+    return sprintf_s(buf, sizeof(buf), "%llu.%09lu %llu.%09lu\n",
                    (unsigned long long)suspend_resume_time.tv_sec,
                    suspend_resume_time.tv_nsec,
                    (unsigned long long)sleep_time.tv_sec,
