@@ -1256,7 +1256,16 @@ static bool mkdirs(char *path)
 	char buf[MAX_INDEX_ENTRY_PATH_LEN];
 	bool ret = true;
 	while ((pos = memchr(tmp, '/', strlen(tmp)))) {
-        (void)strcpy_s(buf, sizeof(buf), path);
+
+        errno_t err = EOK;
+        if (buf == NULL || sizeof(buf) == 1) {
+            return;
+        }
+        err = strcpy_s(buf, sizeof(buf), path);
+        if (err != EOK) {
+            return;
+        }
+
 		buf[pos - path] = '\0';
 		tmp = pos + 1;
 		LOGD("mkdir:%s", buf);
@@ -1283,7 +1292,16 @@ static bool dump_file(FILE *file, const char *unpack_dir,
 	}
 
 	pos = ftell(file);
-    (void)snprintf_s(path, sizeof(path), sizeof(path), "%s/%s", unpack_dir, entry.path);
+
+    errno_t err = EOK;
+    if (path == NULL || sizeof(path) == 1) {
+        return;
+    }
+    err = snprintf_s(path, sizeof(path), sizeof(path), "%s/%s", unpack_dir, entry.path);
+    if (err != EOK) {
+        return;
+    }
+
 	mkdirs(path);
 	out_file = fopen(path, "wb");
 	if (!out_file) {
@@ -1328,6 +1346,16 @@ static int unpack_image(const char *dir)
 	char unpack_dir[MAX_INDEX_ENTRY_PATH_LEN];
 	if (just_print)
 		dir = ".";
+
+    errno_t err = EOK;
+    if (unpack_dir == NULL || sizeof(unpack_dir) == 1) {
+        return;
+    }
+    err = snprintf_s(unpack_dir, sizeof(unpack_dir), sizeof(unpack_dir), "%s", dir);
+    if (err != EOK) {
+        return;
+    }
+
     (void)snprintf_s(unpack_dir, sizeof(unpack_dir), sizeof(unpack_dir), "%s", dir);
 	if (!strlen(unpack_dir)) {
 		goto end;
