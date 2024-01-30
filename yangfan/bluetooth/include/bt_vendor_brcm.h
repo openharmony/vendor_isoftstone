@@ -437,7 +437,7 @@
 **  Extern variables and functions
 ******************************************************************************/
 
-extern bt_vendor_callbacks_t *bt_vendor_cbacks;
+extern BtVendorCallbacksT *bt_vendor_cbacks;
 /** audio (SCO) state changes triggering VS commands for configuration */
 typedef struct {
     uint16_t handle;

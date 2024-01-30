@@ -580,7 +580,7 @@ static int OsStartTimer(timer_t timerid, int msec, int mode)
 static timer_t localtimer = 0;
 static void local_timer_handler(union sigval sigev_value)
 {
-    bt_vendor_cbacks->init_cb(BTC_OP_RESULT_SUCCESS);
+    bt_vendor_cbacks->initCb(BTC_OP_RESULT_SUCCESS);
     OsFreeTimer(localtimer);
 }
 static void start_fwcfg_cbtimer(void)
@@ -628,7 +628,7 @@ void hw_config_cback(void *p_mem)
         p_buf->event = MSG_STACK_TO_HC_HCI_CMD;
         p_buf->offset = 0;
         p_buf->len = 0;
-        p_buf->layer_specific = 0;
+        p_buf->layerSpecific = 0;
 
         p = (uint8_t *)(p_buf + 1);
         switch (hw_cfg_cb.state) {
@@ -856,7 +856,7 @@ void hw_config_cback(void *p_mem)
             if (p_buf != NULL)
                 bt_vendor_cbacks->dealloc(p_buf);
 
-            bt_vendor_cbacks->init_cb(BTC_OP_RESULT_FAIL);
+            bt_vendor_cbacks->initCb(BTC_OP_RESULT_FAIL);
         }
 
         if (hw_cfg_cb.fw_fd != -1) {
@@ -884,7 +884,7 @@ void hw_config_cback(void *p_mem)
 void hw_lpm_ctrl_cback(void *p_mem)
 {
     HC_BT_HDR *p_evt_buf = (HC_BT_HDR *)p_mem;
-    bt_op_result_t status = BTC_OP_RESULT_FAIL;
+    BtOpResultT status = BTC_OP_RESULT_FAIL;
 
     if (*((uint8_t *)(p_evt_buf + 1) + HCI_EVT_CMD_CMPL_STATUS_RET_BYTE) == 0) {
         status = BTC_OP_RESULT_SUCCESS;
@@ -902,7 +902,7 @@ void hw_lpm_ctrl_cback(void *p_mem)
 
 static void hw_sco_i2spcm_proc_interface_param(void)
 {
-    bt_op_result_t status = BTC_OP_RESULT_FAIL;
+    BtOpResultT status = BTC_OP_RESULT_FAIL;
     uint8_t ret = FALSE;
     uint8_t *p;
     HC_BT_HDR *p_buf = NULL;
@@ -915,7 +915,7 @@ static void hw_sco_i2spcm_proc_interface_param(void)
     if (p_buf) {
         p_buf->event = MSG_STACK_TO_HC_HCI_CMD;
         p_buf->offset = 0;
-        p_buf->layer_specific = 0;
+        p_buf->layerSpecific = 0;
         p_buf->len = HCI_CMD_PREAMBLE_SIZE + SCO_PCM_PARAM_SIZE;
         p = (uint8_t *)(p_buf + 1);
 
@@ -935,7 +935,7 @@ static void hw_sco_i2spcm_proc_interface_param(void)
 
 static void hw_sco_i2spcm_proc_int_param(void)
 {
-    bt_op_result_t status = BTC_OP_RESULT_FAIL;
+    BtOpResultT status = BTC_OP_RESULT_FAIL;
     uint8_t ret = FALSE;
     uint8_t *p;
     HC_BT_HDR *p_buf = NULL;
@@ -947,7 +947,7 @@ static void hw_sco_i2spcm_proc_int_param(void)
     if (p_buf) {
         p_buf->event = MSG_STACK_TO_HC_HCI_CMD;
         p_buf->offset = 0;
-        p_buf->layer_specific = 0;
+        p_buf->layerSpecific = 0;
         p_buf->len = HCI_CMD_PREAMBLE_SIZE + PCM_DATA_FORMAT_PARAM_SIZE;
 
         p = (uint8_t *)(p_buf + 1);
@@ -980,7 +980,7 @@ static void hw_sco_i2spcm_cfg_cback(void *p_mem)
     uint8_t *p;
     uint16_t opcode;
     HC_BT_HDR *p_buf = NULL;
-    bt_op_result_t status = BTC_OP_RESULT_FAIL;
+    BtOpResultT status = BTC_OP_RESULT_FAIL;
 
     p = (uint8_t *)(p_evt_buf + 1) + HCI_EVT_CMD_CMPL_OPCODE;
     STREAM_TO_UINT16(opcode, p);
@@ -1063,7 +1063,6 @@ void hw_config_start(void)
     hw_cfg_cb.fw_fd = -1;
     hw_cfg_cb.f_set_baud_2 = FALSE;
 
-    // bt_vendor_cbacks->init_cb(BTC_OP_RESULT_SUCCESS);
     //    Start from sending HCI_RESET
 
     if (bt_vendor_cbacks) {
@@ -1074,7 +1073,7 @@ void hw_config_start(void)
     if (p_buf) {
         p_buf->event = MSG_STACK_TO_HC_HCI_CMD;
         p_buf->offset = 0;
-        p_buf->layer_specific = 0;
+        p_buf->layerSpecific = 0;
         p_buf->len = HCI_CMD_PREAMBLE_SIZE;
 
         p = (uint8_t *)(p_buf + 1);
@@ -1086,7 +1085,7 @@ void hw_config_start(void)
     } else {
         if (bt_vendor_cbacks) {
             HILOGE("vendor lib fw conf aborted [no buffer]");
-            bt_vendor_cbacks->init_cb(BTC_OP_RESULT_FAIL);
+            bt_vendor_cbacks->initCb(BTC_OP_RESULT_FAIL);
         }
     }
 }
@@ -1115,7 +1114,7 @@ uint8_t hw_lpm_enable(uint8_t turn_on)
     if (p_buf) {
         p_buf->event = MSG_STACK_TO_HC_HCI_CMD;
         p_buf->offset = 0;
-        p_buf->layer_specific = 0;
+        p_buf->layerSpecific = 0;
         p_buf->len = HCI_CMD_PREAMBLE_SIZE + LPM_CMD_PARAM_SIZE;
 
         p = (uint8_t *)(p_buf + 1);
@@ -1273,7 +1272,7 @@ static void hw_sco_i2spcm_config(uint16_t codec)
     if (p_buf) {
         p_buf->event = MSG_STACK_TO_HC_HCI_CMD;
         p_buf->offset = 0;
-        p_buf->layer_specific = 0;
+        p_buf->layerSpecific = 0;
         p_buf->len = cmd_u16;
 
         p = (uint8_t *)(p_buf + 1);
@@ -1469,7 +1468,7 @@ void hw_epilog_process(void)
     if (p_buf) {
         p_buf->event = MSG_STACK_TO_HC_HCI_CMD;
         p_buf->offset = 0;
-        p_buf->layer_specific = 0;
+        p_buf->layerSpecific = 0;
         p_buf->len = HCI_CMD_PREAMBLE_SIZE;
 
         p = (uint8_t *)(p_buf + 1);
