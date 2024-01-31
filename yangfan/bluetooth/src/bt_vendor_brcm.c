@@ -68,7 +68,7 @@ void hw_epilog_process(void);
 **  Variables
 ******************************************************************************/
 
-bt_vendor_callbacks_t *bt_vendor_cbacks = NULL;
+BtVendorCallbacksT *bt_vendor_cbacks = NULL;
 uint8_t vnd_local_bd_addr[BD_ADDR_LEN] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
 /******************************************************************************
@@ -99,10 +99,10 @@ typedef enum {
     BT_VND_LPM_ENABLE,
 } bt_vendor_lpm_mode_t;
 
-static int init(const bt_vendor_callbacks_t *p_cb, unsigned char *local_bdaddr)
+static int init(const BtVendorCallbacksT *p_cb, unsigned char *localBdAddr)
 {
-    HILOGI("init, bdaddr:%02x%02x:%02x%02x:%02x%02x", local_bdaddr[0], local_bdaddr[1], local_bdaddr[2],
-        local_bdaddr[3], local_bdaddr[4], local_bdaddr[5]);
+    HILOGI("init, bdaddr:%02x%02x:%02x%02x:%02x%02x", localBdAddr[0], localBdAddr[1], localBdAddr[2],   //输出初始化bd地址0,1,2
+        localBdAddr[3], localBdAddr[4], localBdAddr[5]);                                                //输出初始化bd地址3,4,5
 
     if (p_cb == NULL) {
         HILOGE("init failed with no user callbacks!");
@@ -128,18 +128,32 @@ static int init(const bt_vendor_callbacks_t *p_cb, unsigned char *local_bdaddr)
     vnd_load_conf(VENDOR_LIB_CONF_FILE);
 
     /* store reference to user callbacks */
-    bt_vendor_cbacks = (bt_vendor_callbacks_t *)p_cb;
+    bt_vendor_cbacks = (BtVendorCallbacksT *)p_cb;
 
 #if (BRCM_A2DP_OFFLOAD == TRUE)
     brcm_vnd_a2dp_init(bt_vendor_cbacks);
 #endif
 
     /* This is handed over from the stack */
-    return memcpy_s(vnd_local_bd_addr, BD_ADDR_LEN, local_bdaddr, BD_ADDR_LEN);
+    return memcpy_s(vnd_local_bd_addr, BD_ADDR_LEN, localBdAddr, BD_ADDR_LEN);
+}
+
+static int opHciChannelOpen(BtOpcodeT opcode, int retval)
+{
+    int(*fdArray)[] = (int(*)[])param;
+        int fd;
+        int idx;
+        fd = userial_vendor_open((tUSERIAL_CFG *)&userial_init_cfg);
+        if (fd != -1) {
+            for (idx = 0; idx < HCI_MAX_CHANNEL; idx++)
+                (*fdArray)[idx] = fd;
+            // retval contains numbers of open fd of HCI channels
+            retval = 1;
+        }
 }
 
 /** Requested operations */
-static int op(bt_opcode_t opcode, void *param)
+static int op(BtOpcodeT opcode, void *param)
 {
     int retval = 0;
     
@@ -148,48 +162,31 @@ static int op(bt_opcode_t opcode, void *param)
             upio_set_bluetooth_power(UPIO_BT_POWER_OFF);
             upio_set_bluetooth_power(UPIO_BT_POWER_ON);
             break;
-
         case BT_OP_POWER_OFF: // BT_VND_OP_POWER_CTRL
             upio_set_bluetooth_power(UPIO_BT_POWER_OFF);
             hw_lpm_set_wake_state(false);
             break;
-
         case BT_OP_HCI_CHANNEL_OPEN: { // BT_VND_OP_USERIAL_OPEN
-            int(*fd_array)[] = (int(*)[])param;
-            int fd, idx;
-            fd = userial_vendor_open((tUSERIAL_CFG *)&userial_init_cfg);
-            if (fd != -1) {
-                for (idx = 0; idx < HCI_MAX_CHANNEL; idx++)
-                    (*fd_array)[idx] = fd;
-
-                // retval contains numbers of open fd of HCI channels
-                retval = 1;
-            }
-            
+            opHciChannelOpen(opcode, retval);
             break;
         }
         case BT_OP_HCI_CHANNEL_CLOSE: // BT_VND_OP_USERIAL_CLOSE
             userial_vendor_close();
             break;
-
         case BT_OP_INIT: // BT_VND_OP_FW_CFG
             hw_config_start();
             break;
-
         case BT_OP_GET_LPM_TIMER: { // BT_VND_OP_GET_LPM_IDLE_TIMEOUT
             uint32_t *timeout_ms = (uint32_t *)param;
             *timeout_ms = hw_lpm_get_idle_timeout();
             break;
         }
-
         case BT_OP_LPM_ENABLE:
             retval = hw_lpm_enable(BT_VND_LPM_ENABLE);
             break;
-
         case BT_OP_LPM_DISABLE:
             retval = hw_lpm_enable(BT_VND_LPM_DISABLE);
             break;
-
         case BT_OP_WAKEUP_LOCK:
             hw_lpm_set_wake_state(TRUE);
             break;
@@ -200,7 +197,6 @@ static int op(bt_opcode_t opcode, void *param)
             hw_process_event((HC_BT_HDR *)param);
             break;
     }
-
     return retval;
 }
 
@@ -213,8 +209,8 @@ static void cleanup(void)
 }
 
 // Entry point of DLib
-const bt_vendor_interface_t BLUETOOTH_VENDOR_LIB_INTERFACE = {
-    sizeof(bt_vendor_interface_t),
+const BtVendorInterfaceT BLUETOOTH_VENDOR_LIB_INTERFACE = {
+    sizeof(BtVendorInterfaceT),
     init,
     op,
     cleanup};

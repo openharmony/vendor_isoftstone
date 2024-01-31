@@ -107,7 +107,7 @@ static int rk_emmc_wait_busy(void)
 
     busy = 0;
     do {
-        memset_s(&cmd, sizeof(struct mmc_command), 0, sizeof(struct mmc_command));
+        memset(&cmd, 0, sizeof(struct mmc_command));
 
         cmd.opcode = MMC_SEND_STATUS;
         cmd.arg = this_card->rca << 16;

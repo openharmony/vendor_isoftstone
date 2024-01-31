@@ -21,7 +21,7 @@ ohos_prebuilt_etc("BCM4343A1.hcd") {
   source = "//vendor/isoftstone/${product_name}/bluetooth/BCM4343A1.hcd"
   install_images = [ chipset_base_dir ]
   relative_install_dir = "firmware"
-  part_name = "rockchip_products"
+  part_name = "device_yangfan"
   install_enable = true
 }
 
@@ -38,6 +38,7 @@ ohos_shared_library("libbt_vendor") {
   include_dirs = [
     "include",
     "//base/hiviewdfx/hilog/interfaces/native/innerkits/include",
+    "//third_party/bounds_checking_function/include",
     "//foundation/communication/bluetooth/services/bluetooth/hardware/include",
   ]
 
@@ -67,6 +68,6 @@ ohos_shared_library("libbt_vendor") {
   install_enable = true
   install_images = [ "system" ]
 
-  part_name = "rockchip_products"
-  subsystem_name = "rockchip_products"
+  part_name = "device_yangfan"
+  subsystem_name = "device_yangfan"
 }
