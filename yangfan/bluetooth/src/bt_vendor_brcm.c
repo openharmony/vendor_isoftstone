@@ -99,12 +99,12 @@ typedef enum {
     BT_VND_LPM_ENABLE,
 } bt_vendor_lpm_mode_t;
 
-static int init(const BtVendorCallbacksT *p_cb, unsigned char *localBdAddr)
+static int init(const BtVendorCallbacksT *pCb, unsigned char *localBdAddr)
 {
     HILOGI("init, bdaddr:%02x%02x:%02x%02x:%02x%02x", localBdAddr[0], localBdAddr[1], localBdAddr[2],   //输出初始化bd地址0,1,2
         localBdAddr[3], localBdAddr[4], localBdAddr[5]);                                                //输出初始化bd地址3,4,5
 
-    if (p_cb == NULL) {
+    if (pCb == NULL) {
         HILOGE("init failed with no user callbacks!");
         return -1;
     }
@@ -128,7 +128,7 @@ static int init(const BtVendorCallbacksT *p_cb, unsigned char *localBdAddr)
     vnd_load_conf(VENDOR_LIB_CONF_FILE);
 
     /* store reference to user callbacks */
-    bt_vendor_cbacks = (BtVendorCallbacksT *)p_cb;
+    bt_vendor_cbacks = (BtVendorCallbacksT *)pCb;
 
 #if (BRCM_A2DP_OFFLOAD == TRUE)
     brcm_vnd_a2dp_init(bt_vendor_cbacks);
@@ -138,7 +138,7 @@ static int init(const BtVendorCallbacksT *p_cb, unsigned char *localBdAddr)
     return memcpy_s(vnd_local_bd_addr, BD_ADDR_LEN, localBdAddr, BD_ADDR_LEN);
 }
 
-static int opHciChannelOpen(BtOpcodeT opcode, int retval)
+static int opHciChannelOpen(BtOpcodeT opcode, int retval, void *param)
 {
     int(*fdArray)[] = (int(*)[])param;
         int fd;
@@ -150,6 +150,7 @@ static int opHciChannelOpen(BtOpcodeT opcode, int retval)
             // retval contains numbers of open fd of HCI channels
             retval = 1;
         }
+        return TRUE;
 }
 
 /** Requested operations */
@@ -167,7 +168,7 @@ static int op(BtOpcodeT opcode, void *param)
             hw_lpm_set_wake_state(false);
             break;
         case BT_OP_HCI_CHANNEL_OPEN: { // BT_VND_OP_USERIAL_OPEN
-            opHciChannelOpen(opcode, retval);
+            opHciChannelOpen(opcode, retval, param);
             break;
         }
         case BT_OP_HCI_CHANNEL_CLOSE: // BT_VND_OP_USERIAL_CLOSE
