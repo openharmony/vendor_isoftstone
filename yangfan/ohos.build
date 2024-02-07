@@ -2,7 +2,8 @@
   "parts": {
     "product_yangfan": {
       "module_list": [
-        "//vendor/isoftstone/yangfan/hdf_config/uhdf:hdf_config"
+        "//vendor/isoftstone/yangfan/hdf_config/uhdf:hdf_config",
+	"//vendor/isoftstone/yangfan/preinstall-config:preinstall-config"
       ]
     }
   },
