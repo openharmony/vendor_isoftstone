@@ -20,7 +20,7 @@
 	compatible = "rockchip,linux", "rockchip,rk3399";
 
 	chosen {
-		bootargs = "console=uart8250,mmio32,0xff1a0000 rw root=/dev/mmcblk2p5 rootfstype=ext4 rootwait coherent_pool=1m hardware=rk3399";
+		bootargs = "console=uart8250,mmio32,0xff1a0000 rw root=/dev/mmcblk2p5 rootfstype=ext4 hardware=rk3399 rootwait coherent_pool=1m";
 	};
 
 	reserved-memory {
