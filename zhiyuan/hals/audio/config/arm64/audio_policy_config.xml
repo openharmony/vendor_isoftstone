@@ -75,32 +75,6 @@
                 <device name="Distributed_In" type="DEVICE_TYPE_MIC" pin="PIN_IN_DAUDIO_DEFAULT" role="input" supportPipes="distributed_input"/>
             </devices>
         </adapter>
-        <adapter name="file">
-            <pipes>
-                <pipe name="file_output" role="output">
-                    <paProp lib="libmodule-hdi-sink.z.so" role="sink" moduleName="fifo_output"/>
-                    <streamProps>
-                        <streamProp format="s16le" sampleRates="48000" channelLayout="CH_LAYOUT_7POINT1"  buffer_size="15360"/>
-                    </streamProps>
-                    <attributes>
-                        <attribute name="filePath" value="/data/data/.pulse_dir/file_sink.pcm"/>
-                    </attributes>
-                </pipe>
-                <pipe name="file_input" role="input">
-                    <paProp lib="libmodule-hdi-source.z.so" role="source" moduleName="fifo_input"/>
-                    <streamProps>
-                        <streamProp format="s16le" sampleRates="48000" channelLayout="CH_LAYOUT_5POINT1" buffer_size="11520"/>
-                    </streamProps>
-                    <attributes>
-                        <attribute name="filePath" value="/data/data/.pulse_dir/file_source.pcm"/>
-                    </attributes>
-                </pipe>
-            </pipes>
-            <devices>
-                <device name="File_Out" type="DEVICE_TYPE_FILE_SINK" role="output" supportPipes="file_output"/>
-                <device name="File_In" type="DEVICE_TYPE_FILE_SOURCE" role="input" supportPipes="file_input"/>
-            </devices>
-        </adapter>
     </adapters>
     <volumeGroups>
         <groups>
@@ -130,12 +104,10 @@
         <maxConcurrentInstances>
             <output>
                 <attribute name="normal" flag="AUDIO_FLAG_NORMAL" value="128"/>
-                <attribute name="fast" flag="AUDIO_FLAG_MMAP" value="6"/>
             </output>
             <!-- Actually, max input concurrent instances is also influenced by audio focus.-->
             <input>
                 <attribute name="normal" flag="AUDIO_FLAG_NORMAL" value="16"/>
-                <attribute name="fast" flag="AUDIO_FLAG_MMAP" value="1"/>
             </input>
         </maxConcurrentInstances>
     </globalConfigs>
